@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { generateJWT } = require("../helpers/generar-jwt.js");
 let router = Router();
+const bcrypt  = require('bcrypt');
 
 
 const Users = require("../models/user.js");
@@ -15,6 +16,9 @@ router.post("/login", async (req, res) => {
         
         if (user) {
             // User found, serialize the user data
+
+            //const password_cryp = bcrypt.hashSync(username,10);
+
             const validaContrasenia = bcrypt.compareSync(
                 password,
                 user.password
@@ -22,20 +26,16 @@ router.post("/login", async (req, res) => {
 
             if (validaContrasenia) {
                 const token = await generateJWT({
-                    usuario_id: usuario.usuario_id,
-                    username: usuario.username,
-                    nombre: usuario.nombre,
-                    apellido: usuario.apellido,
-                    // email: usuario.email,
-                    // rol: usuario.rol,
+                    usuario_id: user.usuario_id,
+                    username: user.username,
+                    // email: user.email,
+                    // rol: user.rol,
+                    actualizar:false,
                 },);
                 res.status(200).json({ codigo: 1, mensaje: "OK", contenido: token });
             }else{
                 res.status(404).json({ codigo: 0, mensaje: "Usuario no encontrado", contenido: "" });   
             }
-        
-            const serializedUser = serialize(user);
-            res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedUser });
         } else {
             // User not found or inactive
             res.status(404).json({ codigo: 0, mensaje: "Usuario no encontrado", contenido: "" });
@@ -44,8 +44,6 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
     }
 });
-
-
 
 
 module.exports = router;

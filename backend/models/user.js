@@ -55,7 +55,7 @@ User.init({
 }, {
   // Other model options go here
   sequelize, // We need to pass the connection instance
-  modelName: 'User', // We need to choose the model name
+  modelName: 'users', // We need to choose the model name
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 });

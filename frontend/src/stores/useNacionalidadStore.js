@@ -1,0 +1,34 @@
+import {defineStore} from 'pinia'
+export const useNacionalidadStore=defineStore('nacionalidad',{
+    state:()=>({
+        id_nacionalidad:0,
+        cod_nacionalidad:'',
+        nombre_pais:'',
+        cod_clasificador:0,
+        grupo:0
+    }),
+    actions:{
+        addIDNacionalidad(payload){
+            this.id_nacionalidad=payload
+        },
+        addCodNacionalidad(payload){
+            this.cod_nacionalidad=payload
+        },
+        addNombrePais(payload){
+            this.nombre_pais=payload
+        },
+        addCodClasificador(payload){
+            this.cod_clasificador=payload
+        },
+        addGrupo(payload){
+            this.grupo=payload
+        }
+    },
+    getters:{
+        getIDNacionalidad:(state)=>state.id_nacionalidad,
+        getCodNacionalidad:(state)=>state.cod_nacionalidad,
+        getNombrePais:(state)=>state.nombre_pais,
+        getCodClasificador:(state)=>state.cod_clasificador,
+        getGrupo:(state)=>state.grupo
+    }
+});
