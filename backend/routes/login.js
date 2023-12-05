@@ -26,22 +26,22 @@ router.post("/login", async (req, res) => {
 
             if (validaContrasenia) {
                 const token = await generateJWT({
-                    usuario_id: user.usuario_id,
+                    user_id: user.user_id,
                     username: user.username,
                     // email: user.email,
                     // rol: user.rol,
                     actualizar:false,
                 },);
-                res.status(200).json({ codigo: 1, mensaje: "OK", contenido: token });
+                res.status(200).json({ code: 1, message: "OK", content: token });
             }else{
-                res.status(404).json({ codigo: 0, mensaje: "Usuario no encontrado", contenido: "" });   
+                res.status(404).json({ code: 0, message: "Usuario no encontrado", content: "" });   
             }
         } else {
             // User not found or inactive
-            res.status(404).json({ codigo: 0, mensaje: "Usuario no encontrado", contenido: "" });
+            res.status(404).json({ code: 0, message: "Usuario no encontrado", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 

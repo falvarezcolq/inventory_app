@@ -57,11 +57,22 @@ const routes = [
     meta: { layout: 'default', requiresAuth: true }
   },
 
- 
   {
-    path: '/mistramites',
-    name: 'mistramites',
-    component: () => import("@/inicio/pages/MisTramites.vue"),
+    path: '/categories',
+    name: 'categories',
+    component: () => import("@/page/categories/Categories.vue"),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
+    path: '/roles',
+    name: 'roles',
+    component: () => import("@/page/roles/Roles.vue"),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
+    path: '/suppliers',
+    name: 'suppliers',
+    component: () => import("@/page/suppliers/Suppliers.vue"),
     meta: { layout: 'default', requiresAuth: true }
   },
   {

@@ -277,19 +277,19 @@ export default {
     };
 
     let fetchGenero = () => api.get('/getParametro/PAR_GENERO').then((response) => {
-      generoList.value = response.data.contenido
+      generoList.value = response.data.content
     })
   
     let fetchDocumento = () => api.get('/getParametro/PAR_TIPO_DOCUMENTO').then((response) => {
-      documentoList.value = response.data.contenido
+      documentoList.value = response.data.content
     })
 
     let fetchNacionalidad = () => api.get('/getNacionalidad').then((response) => {
-      nacionalidadList.value = response.data.contenido
+      nacionalidadList.value = response.data.content
     })
 
     let verificar_email = () => api.get(`/getEmail/${persona.value.email}`).then((response) => {
-      if (persona.value.email === response.data.contenido) {
+      if (persona.value.email === response.data.content) {
         Email.value = "El Correo Electronico ya existe cambie porfavor";
 
       }
@@ -335,10 +335,10 @@ export default {
       try {
         if (!personaModule.value) {
           let result = await api.post('/setPersona', persona.value)
-          if (result.status === 201 && result.data.codigo === 1) {
+          if (result.status === 201 && result.data.code === 1) {
             personaModule.value = true;
             sInicio.addPersona(persona.value)
-            sInicio.addIDPersona(Number(result.data.contenido.id_persona))
+            sInicio.addIDPersona(Number(result.data.content.id_persona))
             router.push({ path: '/tramites' })
           }
         }
@@ -348,9 +348,9 @@ export default {
           persona.value.id_proceso = sInicio.getIDProcesoInicio;
      
           let result = await api.put("/setUpPersona", persona.value)
-          if (result.status === 201 && result.data.codigo === 1) {
+          if (result.status === 201 && result.data.code === 1) {
             sInicio.addPersona(persona.value)
-            sInicio.addIDPersona(Number(result.data.contenido.id_persona))
+            sInicio.addIDPersona(Number(result.data.content.id_persona))
             router.push({ path: '/tramites' })
           }
         }
@@ -372,9 +372,9 @@ export default {
         await schemaForm.validate(persona.value, { abortEarly: false });
         try {
           let result = await api.post('/setPersona', persona.value)
-          if (result.status === 201 && result.data.codigo === 1) {
+          if (result.status === 201 && result.data.code === 1) {
             sInicio.addPersona(persona.value)
-            sInicio.addIDPersona(Number(result.data.contenido.id_persona))
+            sInicio.addIDPersona(Number(result.data.content.id_persona))
             router.push({ path: '/multas' })
           } else {
             Mensaje.error("Error, datos no registrados.");

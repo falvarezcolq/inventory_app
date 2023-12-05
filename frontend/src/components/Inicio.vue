@@ -50,8 +50,8 @@ export default {
       isLoading.value = true;
       mensaje.value = "";
       await api.get('/imagen_actualizado').then((response) => {
-        if (response.data.contenido) {
-          let fotos = response.data.contenido;
+        if (response.data.content) {
+          let fotos = response.data.content;
           if(!fotos.foto_perfil){
             mensaje.value += " FOTO DE PERFIL,"
           }

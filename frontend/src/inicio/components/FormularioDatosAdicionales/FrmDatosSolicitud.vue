@@ -106,12 +106,12 @@ export default {
   },
   methods: {
     async fetchTipoIngresoInst () {  api.get("/getTipoIngEco").then(response => {
-        this.tipoTipoIngresoList = response.data.contenido;
+        this.tipoTipoIngresoList = response.data.content;
       });
     },
     async fetchMotivoSolicitud(){
       api.get("/getMotivoSolicitud" , { params: this.params} ).then(response => {
-        this.motivoSolicitud = response.data.contenido;
+        this.motivoSolicitud = response.data.content;
       });
     }
   },

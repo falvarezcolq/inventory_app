@@ -211,10 +211,10 @@ export default {
     let formError = ref({})
 
     let fetchRequisitos = () => api.get(`/proceso_inicio/getRequisito/${sInicio.getIDProcesoInicio}`).then((response) => {
-      requisitosList.value = response.data.contenido;
+      requisitosList.value = response.data.content;
     });
     let fetchLugar = () => api.get(`/proceso_inicio/lugares`).then(res=>{
-      lugares.value = res.data.contenido;
+      lugares.value = res.data.content;
     })
 
     let lugarSeleccionado=()=>{
@@ -319,7 +319,7 @@ export default {
         isLoading.value=true;
         let result = await api.post('/subirarchivo', formData)
         isLoading.value=false;
-        if (result.status == 200 && result.data.codigo == 1) {
+        if (result.status == 200 && result.data.code == 1) {
           Mensaje.success("¡Archivo subido con éxito!")
           await fetchRequisitos();
         } else {
@@ -403,8 +403,8 @@ export default {
         isLoading.value = true;
         let result = await api.post("/proceso_inicio", datos);
         isLoading.value = false;
-        if (result.status === 201 && result.data.codigo === 1) {
-          sInicio.addIDProceso(Number(result.data.contenido.id_proceso_inicio));
+        if (result.status === 201 && result.data.code === 1) {
+          sInicio.addIDProceso(Number(result.data.content.id_proceso_inicio));
           return true;
         }
         return false;
@@ -429,10 +429,10 @@ export default {
           let result = await api.post('/proceso_inicio/requisitos_id', data);
           isLoading.value = false;
 
-          if (result.status == 200 && result.data.codigo == 1) {
+          if (result.status == 200 && result.data.code == 1) {
             let i = requisitosList.value.findIndex(x => x.id_requisito == id_requisito)
-            requisitosList.value[i].id_cumplimiento = result.data.contenido;
-            return result.data.contenido
+            requisitosList.value[i].id_cumplimiento = result.data.content;
+            return result.data.content
           }
         }
         return null;
@@ -477,13 +477,13 @@ export default {
             isLoading.value = true;
             let result = await api.post(`/proceso_inicio/solicitar_aprobacion_tramite/${sInicio.getIDProcesoInicio}`,data)
             isLoading.value = false;
-            if (result.status == 200 && result.data.codigo == 1) {
-              Mensaje.success(result.data.mensaje);
+            if (result.status == 200 && result.data.code == 1) {
+              Mensaje.success(result.data.message);
               // proceso_inicio.id_estado = 1;
               sInicio.reset();
               router.push("/mistramites");
-            } else if (result.status == 200 && result.data.codigo == 0) {
-              Mensaje.success(result.data.mensaje);
+            } else if (result.status == 200 && result.data.code == 0) {
+              Mensaje.success(result.data.message);
             } else {
               Mensaje.error("Error")
             }
@@ -501,12 +501,12 @@ export default {
       Mensaje.Confirmar("Desea solicitar a DIGEMIG, nueva revisión del inicio del trámite", async () => {
         try {
           let result = await api.post(`/proceso_inicio/solicitar_aprobacion_tramite_subsanado/${sInicio.getIDProcesoInicio}`)
-          if (result.status == 200 && result.data.codigo == 1) {
-            Mensaje.success(result.data.mensaje);
+          if (result.status == 200 && result.data.code == 1) {
+            Mensaje.success(result.data.message);
             proceso_inicio.id_estado = 3;
             router.push("/mistramites");
-          } else if (result.status == 200 && result.data.codigo == 0) {
-            Mensaje.success(result.data.mensaje);
+          } else if (result.status == 200 && result.data.code == 0) {
+            Mensaje.success(result.data.message);
           } else {
             Mensaje.error("Error")
           }

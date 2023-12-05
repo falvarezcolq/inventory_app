@@ -15,9 +15,9 @@
         <div class="row form-group">
           <div class="col-md-12">
             <label for="">Código de activación:</label>
-            <span class="lb-error" v-if="formError.codigo">{{ formError.codigo }}</span>
-            <input type="text" class="form-control" v-model='persona.codigo' :class="{ error: formError.codigo }"
-              @input="persona.codigo = $event.target.value.toLowerCase()" />
+            <span class="lb-error" v-if="formError.code">{{ formError.code }}</span>
+            <input type="text" class="form-control" v-model='persona.code' :class="{ error: formError.code }"
+              @input="persona.code = $event.target.value.toLowerCase()" />
           </div>
          
           <div class="col-md-12 mt-4"  style="text-align:right">
@@ -57,7 +57,7 @@ export default {
         let isLoading = ref(false);
         let sUsuario = useUsuarioStore();
         let schemaForm = yup.object().shape({
-            codigo: yup.string().min(8).max(8).required(),
+            code: yup.string().min(8).max(8).required(),
         });
         const Validar = async () => {
             mensaje.value ="";
@@ -82,16 +82,16 @@ export default {
         let Registrar = async () => {
             if (await Validar()) {
                 isLoading.value=true;
-                let result = await api.post('/setAcountActivation', { codigo: persona.value.codigo }).then(response => {
+                let result = await api.post('/setAcountActivation', { code: persona.value.code }).then(response => {
                   isLoading.value=false;  
-                  if (response.data.codigo == 1) {
-                        mensaje.value = response.data.mensaje;
+                  if (response.data.code == 1) {
+                        mensaje.value = response.data.message;
                         console.log("**Cuenta activada**");
                         Mensaje.success_action("Cuenta Activada",()=>{refresh() } );
                     }
 
-                    if (response.data.codigo == 0) {
-                        mensaje.value = response.data.mensaje;
+                    if (response.data.code == 0) {
+                        mensaje.value = response.data.message;
                     }
                 }).catch(error => {
                   isLoading.value=false;  
@@ -104,7 +104,7 @@ export default {
             isLoading.value=true;
             let result = await api.post(`/refresh`);
             isLoading.value=false;
-            if (result.status === 200 && result.data.codigo === 1) {
+            if (result.status === 200 && result.data.code === 1) {
               sUsuario.addToken(result.data.token)
               router.push({ path: '/inicio' });
             }

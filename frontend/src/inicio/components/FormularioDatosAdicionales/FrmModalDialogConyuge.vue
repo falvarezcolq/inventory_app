@@ -235,32 +235,32 @@ export default {
 
     let fetchGenero = () =>
       api.get("/getParametro/PAR_GENERO").then(response => {
-        generoList.value = response.data.contenido;
+        generoList.value = response.data.content;
       });
 
     let fetchTipoGradoInst = () =>
       api.get("/getGrado").then(response => {
-        tipoGradoInsList.value = response.data.contenido;
+        tipoGradoInsList.value = response.data.content;
       });
 
     let fetchProfesionInst = () =>
       api.get("/getProfesion").then(response => {
-        tipoProfesionList.value = response.data.contenido;
+        tipoProfesionList.value = response.data.content;
       });
 
     let fetchPermananciaInst = () =>
       api.get("/getTiempoPermanencia").then(response => {
-        tipoPermanenciaList.value = response.data.contenido;
+        tipoPermanenciaList.value = response.data.content;
       });
 
     let fetchNacionalidad = () =>
       api.get("/getNacionalidad").then(response => {
-        nacionalidadList.value = response.data.contenido;
+        nacionalidadList.value = response.data.content;
       });
 
     let fetchTipoDocumento = () =>
       api.get("/getTipoDoc").then(response => {
-        tipoDocumentoList.value = response.data.contenido;
+        tipoDocumentoList.value = response.data.content;
       });
 
     let Guardar = async () => {
@@ -277,7 +277,7 @@ export default {
 
         // let result = await api.post("/datosAdicionalesDConyugue", datosDC);
 
-        // if (result.status === 201 && result.data.codigo === 1) {
+        // if (result.status === 201 && result.data.code === 1) {
           Swal.fire({ text: "Registro de conyugue correctamente.", icon: "success", confirmButtonText: "ACEPTAR", confirmButtonColor: "#198754", allowOutsideClick: false })
           datosAdicionalesDConyugue.value = '';
           inicio.addDatosAdicionalesDConyugue(datosDC);

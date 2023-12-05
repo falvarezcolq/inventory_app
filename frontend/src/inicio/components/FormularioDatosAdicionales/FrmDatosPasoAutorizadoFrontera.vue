@@ -50,7 +50,7 @@ export default {
 
     async fetchPasoAutorizado(){
       api.get("/getpasosautorizados" , { params: this.params} ).then(response => {
-        this.pasos = response.data.contenido;
+        this.pasos = response.data.content;
       });
     }
   },

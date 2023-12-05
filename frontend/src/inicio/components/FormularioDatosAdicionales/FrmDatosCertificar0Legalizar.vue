@@ -174,11 +174,11 @@ export default {
 
       if (this.tramites_anteriores) {
         let result = await api.get(`/getTipoTramite0CertificacionAnterior`, { params: this.params }).then((response) => {
-          this.tipoTramiteList = response.data.contenido;
+          this.tipoTramiteList = response.data.content;
         });
       } else {
         let result = await api.get(`/getTipoTramite0Certificacion`, { params: this.params }).then((response) => {
-          this.tipoTramiteList = response.data.contenido;
+          this.tipoTramiteList = response.data.content;
         });
       }
     }

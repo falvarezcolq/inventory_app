@@ -8,9 +8,9 @@ router.get("/payments", async (req, res) => {
   try {
     const payments = await Payments.findAll({ where: { active: true } });
     const serializedPayments = payments.map(payment => serialize(payment));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedPayments });
+    res.status(200).json({ code: 1, message: "OK", content: serializedPayments });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -35,12 +35,12 @@ router.get("/payments/:id", async (req, res) => {
       }
     });
     if (payment) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: payment });
+      res.status(200).json({ code: 1, message: "OK", content: payment });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Payment not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Payment not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -52,9 +52,9 @@ router.post("/payments", async (req, res) => {
       amount,
       date,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Payment created successfully", contenido: newPayment });
+    res.status(201).json({ code: 1, message: "Payment created successfully", content: newPayment });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -72,12 +72,12 @@ router.put("/payments/:id", async (req, res) => {
       }
     );
     if (updatedPayment[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Payment updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Payment updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Payment not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Payment not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.delete("/payments/:id", async (req, res) => {
       }
     });
     if (deletedPayment === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Payment deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Payment deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Payment not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Payment not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

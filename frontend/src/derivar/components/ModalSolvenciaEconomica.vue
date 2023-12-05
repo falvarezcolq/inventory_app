@@ -64,7 +64,7 @@ export default {
       
         let requisitosList=ref([])
         let fetchDocumentos = () => api.get(`/getSolvenciaEconomica/${idDocumento}/${id_proceso}/${id_tramite}/${id_persona}`).then((response) => {
-            requisitosList.value = response.data.contenido;
+            requisitosList.value = response.data.content;
             console.log(requisitosList.value);
         });
         onMounted(fetchDocumentos);

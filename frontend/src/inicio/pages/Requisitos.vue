@@ -166,8 +166,8 @@ export default {
       
       isLoading.value = true;
       await api.get(`/getRequisitos/${cod_tramite.value}`).then((response) => {
-      if(response.data.contenido.length > 0){
-        requisitosList.value = response.data.contenido;
+      if(response.data.content.length > 0){
+        requisitosList.value = response.data.content;
       }
         isLoading.value = false;
     })

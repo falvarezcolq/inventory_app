@@ -7,7 +7,7 @@ let errorMessage = ref(null)
 
 let getTipoDocumento = async () => {
   let result = await api.get('/getParametro/PAR_TIPO_DOCUMENTO')
-  return result.data.contenido
+  return result.data.content
 }
 
 const useTipoDocumento = () => {

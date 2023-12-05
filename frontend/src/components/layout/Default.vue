@@ -152,7 +152,7 @@ export default {
     let getNotificacionesNoVistos = async () => { 
       if(service.tokenConfirmado()){
         await api.get('/notificaciones/count').then( res => {
-          contador.value = res.data.contenido;
+          contador.value = res.data.content;
         }).catch(err => {
           console.log(err);
         });

@@ -31,9 +31,9 @@ describe("Categories API", () => {
       );
       const res = await request(app).get("/api/v1/categories");
       expect(res.status).to.equal(200);
-      expect(res.body.codigo).to.equal(1);
-      expect(res.body.mensaje).to.equal("OK");
-      expect(res.body.contenido).to.deep.equal([
+      expect(res.body.code).to.equal(1);
+      expect(res.body.message).to.equal("OK");
+      expect(res.body.content).to.deep.equal([
         {
           "category_id": 1,
           "name": "category1",
@@ -52,9 +52,9 @@ describe("Categories API", () => {
       const findAllStub = sinon.stub(Categories, "findAll").rejects(new Error("Database error"));
       const res = await request(app).get("/api/v1/categories");
       expect(res.status).to.equal(500);
-      expect(res.body.codigo).to.equal(0);
-      expect(res.body.mensaje).to.equal("Error en consulta");
-      expect(res.body.contenido).to.equal("");
+      expect(res.body.code).to.equal(0);
+      expect(res.body.message).to.equal("Error en consulta");
+      expect(res.body.content).to.equal("");
       findAllStub.restore();
     });
   });
@@ -64,9 +64,9 @@ describe("Categories API", () => {
       const findOneStub = sinon.stub(Categories, "findOne").resolves("category1");
       const res = await request(app).get("/api/v1/categories/1");
       expect(res.status).to.equal(200);
-      expect(res.body.codigo).to.equal(1);
-      expect(res.body.mensaje).to.equal("OK");
-      expect(res.body.contenido).to.equal("category1");
+      expect(res.body.code).to.equal(1);
+      expect(res.body.message).to.equal("OK");
+      expect(res.body.content).to.equal("category1");
       findOneStub.restore();
 
     });
@@ -77,9 +77,9 @@ describe("Categories API", () => {
       const res = await request(app).get("/api/v1/categories/1");
 
       expect(res.status).to.equal(500);
-      expect(res.body.codigo).to.equal(0);
-      expect(res.body.mensaje).to.equal("Error en consulta");
-      expect(res.body.contenido).to.equal("");
+      expect(res.body.code).to.equal(0);
+      expect(res.body.message).to.equal("Error en consulta");
+      expect(res.body.content).to.equal("");
 
       findOneStub.restore();
     });
@@ -90,9 +90,9 @@ describe("Categories API", () => {
       const res = await request(app).get("/api/v1/categories/1");
 
       expect(res.status).to.equal(404);
-      expect(res.body.codigo).to.equal(0);
-      expect(res.body.mensaje).to.equal("Category not found");
-      expect(res.body.contenido).to.equal("");
+      expect(res.body.code).to.equal(0);
+      expect(res.body.message).to.equal("Category not found");
+      expect(res.body.content).to.equal("");
 
       findOneStub.restore();
     });
@@ -109,9 +109,9 @@ describe("Categories API", () => {
         });
 
       expect(res.status).to.equal(201);
-      expect(res.body.codigo).to.equal(1);
-      expect(res.body.mensaje).to.equal("Category created successfully");
-      expect(res.body.contenido).to.equal("newCategory");
+      expect(res.body.code).to.equal(1);
+      expect(res.body.message).to.equal("Category created successfully");
+      expect(res.body.content).to.equal("newCategory");
 
       createStub.restore();
     });
@@ -129,9 +129,9 @@ describe("Categories API", () => {
         });
 
       expect(res.status).to.equal(500);
-      expect(res.body.codigo).to.equal(0);
-      expect(res.body.mensaje).to.equal("Error en consulta");
-      expect(res.body.contenido).to.equal("");
+      expect(res.body.code).to.equal(0);
+      expect(res.body.message).to.equal("Error en consulta");
+      expect(res.body.content).to.equal("");
 
       createStub.restore();
     });
@@ -150,9 +150,9 @@ describe("Categories API", () => {
   //       });
 
   //     expect(res.status).to.equal(200);
-  //     expect(res.body.codigo).to.equal(1);
-  //     expect(res.body.mensaje).to.equal("Category updated successfully");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(1);
+  //     expect(res.body.message).to.equal("Category updated successfully");
+  //     expect(res.body.content).to.equal("");
 
   //     updateStub.restore();
   //   });
@@ -169,9 +169,9 @@ describe("Categories API", () => {
   //       });
 
   //     expect(res.status).to.equal(500);
-  //     expect(res.body.codigo).to.equal(0);
-  //     expect(res.body.mensaje).to.equal("Error en consulta");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(0);
+  //     expect(res.body.message).to.equal("Error en consulta");
+  //     expect(res.body.content).to.equal("");
 
   //     updateStub.restore();
   //   });
@@ -188,9 +188,9 @@ describe("Categories API", () => {
   //       });
 
   //     expect(res.status).to.equal(404);
-  //     expect(res.body.codigo).to.equal(0);
-  //     expect(res.body.mensaje).to.equal("Category not found");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(0);
+  //     expect(res.body.message).to.equal("Category not found");
+  //     expect(res.body.content).to.equal("");
 
   //     updateStub.restore();
   //   });
@@ -203,9 +203,9 @@ describe("Categories API", () => {
   //     const res = await request(app).delete("/categories/1");
 
   //     expect(res.status).to.equal(200);
-  //     expect(res.body.codigo).to.equal(1);
-  //     expect(res.body.mensaje).to.equal("Category deleted successfully");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(1);
+  //     expect(res.body.message).to.equal("Category deleted successfully");
+  //     expect(res.body.content).to.equal("");
 
   //     destroyStub.restore();
   //   });
@@ -216,9 +216,9 @@ describe("Categories API", () => {
   //     const res = await request(app).delete("/categories/1");
 
   //     expect(res.status).to.equal(500);
-  //     expect(res.body.codigo).to.equal(0);
-  //     expect(res.body.mensaje).to.equal("Error en consulta");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(0);
+  //     expect(res.body.message).to.equal("Error en consulta");
+  //     expect(res.body.content).to.equal("");
 
   //     destroyStub.restore();
   //   });
@@ -229,9 +229,9 @@ describe("Categories API", () => {
   //     const res = await request(app).delete("/categories/1");
 
   //     expect(res.status).to.equal(404);
-  //     expect(res.body.codigo).to.equal(0);
-  //     expect(res.body.mensaje).to.equal("Category not found");
-  //     expect(res.body.contenido).to.equal("");
+  //     expect(res.body.code).to.equal(0);
+  //     expect(res.body.message).to.equal("Category not found");
+  //     expect(res.body.content).to.equal("");
 
   //     destroyStub.restore();
   //   });

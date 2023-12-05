@@ -2,6 +2,7 @@ const { Router } = require("express");
 const conexionPG = require("../config/config_pg.js");
 
 const sequelize = require("../config/config_sequelize.js");
+const { Op } = require("sequelize");
 let router = Router();
 
 const Suppliers = require("../models/supplier.js");
@@ -9,11 +10,30 @@ const Suppliers = require("../models/supplier.js");
 // GET all suppliers
 router.get("/suppliers", async (req, res) => {
     try {
-        const suppliers = await Suppliers.findAll({ where: { active: true } });
-        const serializedSuppliers = suppliers.map(supplier => serialize(supplier));
-        res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedSuppliers });
+        const { page, limit, name } = req.query;
+        if (!page || !limit) {
+           page = 1;
+           limit = 10000;   
+        }
+        const offset = (page - 1) * limit;
+        const whereClause = {
+            active: true
+        };
+        if (name) {
+            whereClause.supplier_name = {
+                [Op.like]: `%${name}%`
+            };
+        }
+        const suppliers = await Suppliers.findAndCountAll({
+            where: whereClause,
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            order: [["supplier_name", "ASC"]]
+        });
+        const serializedSuppliers = suppliers.rows.map(supplier => serialize(supplier));
+        res.status(200).json({ code: 1, message: "OK", content: serializedSuppliers, total: suppliers.count });
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -39,12 +59,12 @@ router.get("/suppliers/:id", async (req, res) => {
             }
         });
         if (supplier) {
-            res.status(200).json({ codigo: 1, mensaje: "OK", contenido: supplier });
+            res.status(200).json({ code: 1, message: "OK", content: supplier });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Supplier not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Supplier not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -59,9 +79,9 @@ router.post("/suppliers", async (req, res) => {
             contact_phone,
             address
         });
-        res.status(201).json({ codigo: 1, mensaje: "Supplier created successfully", contenido: newSupplier });
+        res.status(201).json({ code: 1, message: "Supplier created successfully", content: newSupplier });
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -79,12 +99,12 @@ router.put("/suppliers/:id", async (req, res) => {
             }
         );
         if (updatedSupplier[0] === 1) {
-            res.status(200).json({ codigo: 1, mensaje: "Supplier updated successfully", contenido: "" });
+            res.status(200).json({ code: 1, message: "Supplier updated successfully", content: "" });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Supplier not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Supplier not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -98,12 +118,12 @@ router.delete("/suppliers/:id", async (req, res) => {
             }
         });
         if (deletedSupplier === 1) {
-            res.status(200).json({ codigo: 1, mensaje: "Supplier deleted successfully", contenido: "" });
+            res.status(200).json({ code: 1, message: "Supplier deleted successfully", content: "" });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Supplier not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Supplier not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 

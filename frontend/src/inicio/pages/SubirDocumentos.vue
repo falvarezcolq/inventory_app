@@ -264,10 +264,10 @@ export default {
     let formError = ref({})
 
     let fetchRequisitos = () => api.get(`/proceso_inicio/getRequisitoRegistro/${id_proceso_inicio}`).then((response) => {
-      requisitosList.value = response.data.contenido;
+      requisitosList.value = response.data.content;
     });
     let fetchLugar = () => api.get(`/proceso_inicio/lugares`).then(res=>{
-      lugares.value = res.data.contenido;
+      lugares.value = res.data.content;
     })
 
     let lugarSeleccionado=()=>{
@@ -290,7 +290,7 @@ export default {
     
       if (!proceso_inicio.value) {
         await api.get(`/proceso_inicio/get/${id_proceso_inicio}`).then((response) => {
-          proceso_inicio.value = response.data.contenido;
+          proceso_inicio.value = response.data.content;
           lugar.value = proceso_inicio.value.cod_oficina_destino
           lugarSeleccionado()
           sRegistro.addProcesoInicio(proceso_inicio.value);
@@ -387,7 +387,7 @@ export default {
         isLoading.value=true;
         let result = await api.post('/subirarchivo', formData)
         isLoading.value=false;
-        if (result.status == 200 && result.data.codigo == 1) {
+        if (result.status == 200 && result.data.code == 1) {
           Mensaje.success("¡Archivo subido con éxito!")
           await fetchRequisitos();
         } else {
@@ -454,12 +454,12 @@ export default {
           try {
             let data = {lugar:lugar.value}
             let result = await api.post(`/proceso_inicio/solicitar_aprobacion_tramite/${id_proceso_inicio}`,data)
-            if (result.status == 200 && result.data.codigo == 1) {
-              Mensaje.success(result.data.mensaje);
+            if (result.status == 200 && result.data.code == 1) {
+              Mensaje.success(result.data.message);
               proceso_inicio.id_estado = 1;
               router.push("/mistramites");
-            } else if (result.status == 200 && result.data.codigo == 0) {
-              Mensaje.success(result.data.mensaje);
+            } else if (result.status == 200 && result.data.code == 0) {
+              Mensaje.success(result.data.message);
             } else {
               Mensaje.error("Error")
             }
@@ -476,12 +476,12 @@ export default {
       Mensaje.Confirmar("Desea solicitar a DIGEMIG, nueva revisión del inicio del trámite", async () => {
         try {
           let result = await api.post(`/proceso_inicio/solicitar_aprobacion_tramite_subsanado/${id_proceso_inicio}`)
-          if (result.status == 200 && result.data.codigo == 1) {
-            Mensaje.success(result.data.mensaje);
+          if (result.status == 200 && result.data.code == 1) {
+            Mensaje.success(result.data.message);
             proceso_inicio.id_estado = 3;
             router.push("/mistramites");
-          } else if (result.status == 200 && result.data.codigo == 0) {
-            Mensaje.success(result.data.mensaje);
+          } else if (result.status == 200 && result.data.code == 0) {
+            Mensaje.success(result.data.message);
           } else {
             Mensaje.error("Error")
           }

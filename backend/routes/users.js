@@ -11,9 +11,9 @@ router.get("/users", async (req, res) => {
   try {
     const users = await Users.findAll({ where: { active: true } });
     const serializedUsers = users.map(user => serialize(user));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedUsers });
+    res.status(200).json({ code: 1, message: "OK", content: serializedUsers });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -38,12 +38,12 @@ router.get("/users/:id", async (req, res) => {
       }
     });
     if (user) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: user });
+      res.status(200).json({ code: 1, message: "OK", content: user });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "User not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "User not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -61,9 +61,9 @@ router.post("/users", async (req, res) => {
         phone,
         role_id,
     });
-    res.status(201).json({ codigo: 1, mensaje: "User created successfully", contenido: newUser });
+    res.status(201).json({ code: 1, message: "User created successfully", content: newUser });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -81,12 +81,12 @@ router.put("/users/:id", async (req, res) => {
       }
     );
     if (updatedUser[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "User updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "User updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "User not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "User not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -100,12 +100,12 @@ router.delete("/users/:id", async (req, res) => {
       }
     });
     if (deletedUser === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "User deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "User deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "User not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "User not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

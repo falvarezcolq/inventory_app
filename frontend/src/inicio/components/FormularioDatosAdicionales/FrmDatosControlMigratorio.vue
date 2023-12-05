@@ -51,7 +51,7 @@ export default {
   methods: {
     async fetchPuntoControlInst() {
       api.get("/getPuestoControl").then(response => {
-        this.tipoPuntoControlList = response.data.contenido;
+        this.tipoPuntoControlList = response.data.content;
       });
     },
 

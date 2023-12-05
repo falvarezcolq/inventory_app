@@ -140,13 +140,13 @@ export default {
 
     const Actualizar = async ()=> {      
       await api.get(`/getImagenes/${id_proceso}`).then(response => {
-        fotosImagenes.value = response.data.contenido;
+        fotosImagenes.value = response.data.content;
       });
     }
 
     let getTramite = async () =>{
       let result = await api.get(`/getTramiteProceso/${id_proceso}`).then((response) => {
-        tramite.value = response.data.contenido;
+        tramite.value = response.data.content;
       });
     } 
     

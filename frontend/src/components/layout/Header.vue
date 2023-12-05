@@ -74,7 +74,7 @@ export default {
     let contador = ref(0);
     let getNotificacionesNoVistos = async ()=>{ 
       await api.get('/notificaciones/count').then(res=>{
-        contador.value=res.data.contenido;
+        contador.value=res.data.content;
       }).catch(err=>{
         console.log(err);
       })

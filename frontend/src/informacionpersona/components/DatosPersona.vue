@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-12 mt-3 text-end">
         <LanguageChanger/>
       </div>
-    </div>
+    </div> -->
     <div class="busqueda">
       <div class="busqueda_seccion">
         <p class="title">{{ $t('info_personal') }}</p>
@@ -12,65 +12,22 @@
           <!-- <div class="col-12 col-md-3 form-group">
             <DatoFoto />
           </div> -->
-          <div class="col-12 col-md-12  form-group persona" v-if="persona">
+          <div class="col-12 col-md-12  form-group persona" v-if="userauth">
             <div class="row form-group">
               <div class="col-4 col-md-4">
                 <label class="lbPersona">{{ $t('nombre') }}:</label>
-                {{ persona.nombres }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('primer_apellido') }}</label>
-                {{ persona.primer_apellido }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('segundo_apellido') }}</label>
-                {{ persona.segundo_apellido }}
-              </div>
-            </div>
-
-            <div class="row form-group">
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('fecha_nacimiento') }}</label>
-                {{ persona.fecha_nacimiento ? moment(persona.fecha_nacimiento).format("DD/MM/YYYY") : "" }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('tipo_documento') }}</label>
-                {{ persona.tipo_doc_nombre }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('nro_documento') }}</label>
-                {{ persona.nro_documento }}
-              </div>
-            </div>
-
-            <div class="row form-group">
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('nacionalidad') }}</label>
-                {{ persona.nacionalidad_nombre }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('pais_nacimiento') }}</label>
-                {{ persona.pais_nacimiento_nombre }}
-              </div>
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('genero') }}</label>
-                {{ persona.genero_nombre }}
-              </div>
-            </div>
-            <div class="row form-group">
-              <div class="col-4 col-md-4">
-                <label class="lbPersona">{{ $t('telefono') }}</label>
-                {{ persona.telefono }}
+                {{ userauth.username }}
               </div>
               <div class="col-4 col-md-4">
                 <label class="lbPersona">{{ $t('correo') }}</label>
-                {{ persona.email }}
+                {{ userauth.email }}
               </div>
               <div class="col-4 col-md-4">
                 <label class="lbPersona">{{ $t('direccion') }}</label>
-                {{ persona.direccion }}
+                {{ userauth.address }}
               </div>
             </div>
+
 
           </div>
         </div>
@@ -100,16 +57,16 @@ export default {
     LanguageChanger
   },
   setup() {
-    let persona = ref(null);
+    let userauth = ref(null);
     let isLoading = ref( false );
     let getUsuario = async () => {
       isLoading.value = true;
-      persona.value = await ws.getUsuario();
+      userauth.value = await ws.getUsuario();
       isLoading.value = false;
     }
     onMounted(getUsuario)
     return {
-      persona,
+      userauth,
       moment,
     }
   },

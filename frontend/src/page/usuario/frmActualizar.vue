@@ -100,8 +100,8 @@ export default {
                 isLoading.value=true;
                 let result = await api.post('/setPassword', { new_password: persona.value.new_password }).then(response => {
                   isLoading.value=false;  
-                  if (response.data.codigo == 1) {
-                        mensaje.value = response.data.mensaje;
+                  if (response.data.code == 1) {
+                        mensaje.value = response.data.message;
                         console.log("**Contraseña actualizada**");
                         Mensaje.success_action("Actualzado correctamente",()=>{Login(persona.value.new_password) } );
                     }
@@ -124,7 +124,7 @@ export default {
               }
             }
             let result = await axios.post(`${process.env.VUE_APP_URL_APP}/login`, data, config);
-            if (result.status === 200 && result.data.codigo === 1) {
+            if (result.status === 200 && result.data.code === 1) {
               sUsuario.addToken(result.data.token)
               router.push({ path: '/inicio' });
             }

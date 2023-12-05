@@ -150,10 +150,10 @@ export default {
         
         isLoading.value = false;
         errorlogin.value = null;
-        if(result.status === 200 && result.data.codigo === 1){
+        if(result.status === 200 && result.data.code === 1){
 
-          sUsuario.addToken(result.data.contenido)
-          let data= decode(result.data.contenido)
+          sUsuario.addToken(result.data.content)
+          let data= decode(result.data.content)
   
           if(data.actualizar){
             router.push({path:'/frmactualizar'})
@@ -161,8 +161,8 @@ export default {
             router.push({path: '/home'});
           }
         
-        }else if( result.status ===404  && result.data.codigo ===0){
-          errorlogin.value = result.data.mensaje;
+        }else if( result.status ===404  && result.data.code ===0){
+          errorlogin.value = result.data.message;
         }
         
       } catch (error) {

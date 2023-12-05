@@ -16,7 +16,7 @@ export default {
     setup(){
         let tramite = ref(null)
         let getTramite = ()=>api.get(`/proceso_inicio/gettramite/${this.id_tramite}`).then((response)=>{
-            tramite.value = response.data.contenido
+            tramite.value = response.data.content
         })
         onMounted(getTramite())
         return {

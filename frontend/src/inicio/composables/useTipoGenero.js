@@ -7,7 +7,7 @@ let errorMessage = ref(null);
 
 let getTipoGenero = async () => {
   let result = await api.get('/getParametro/PAR_GENERO')
-  return result.data.contenido;
+  return result.data.content;
 }
 
 const useTipoGenero = () => {

@@ -76,7 +76,7 @@ export default {
         let id_proceso_inicio = props.id_proceso_inicio;
         let tramite = ref(null)
         let getTramite = () => api.get(`/proceso_inicio/gettramite/${id_proceso_inicio}`).then((response) => {
-            tramite.value = response.data.contenido
+            tramite.value = response.data.content
         })
         onMounted(async () => {
             await getTramite();

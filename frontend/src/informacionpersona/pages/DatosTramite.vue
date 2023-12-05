@@ -256,7 +256,7 @@ export default {
     let pdfDataUrl = ref(null);
     
     let fetchDocumentos = async () => api.get(`/getDocumentosGeneradosTramite/${id_proceso}`).then((response) => {
-      objDocumentos.value = response.data.contenido
+      objDocumentos.value = response.data.content
     })
 
 
@@ -268,12 +268,12 @@ export default {
       return requisitosList.value.filter((x) => x.nro_padre == hijo);
     };
     let fetchRequisitos = () => api.get(`/getRequisitoRegistro/${id_proceso}`).then((response) => {
-      requisitosList.value = response.data.contenido;
+      requisitosList.value = response.data.content;
     });
 
     let getTramite = () => api.get(`/getTramiteData/${idTramite}`).then((response)=>{
-      if(response.data.codigo==1){
-        tramite.value =response.data.contenido;
+      if(response.data.code==1){
+        tramite.value =response.data.content;
       }else{
         tramite.value = null 
       }
@@ -304,7 +304,7 @@ export default {
         }    
         let id_documento = 25
         let result = await api.put("/EstadoObservacion", datos)
-        if(result.status === 200 && result.data.codigo == 1){
+        if(result.status === 200 && result.data.code == 1){
           GenerarPDF(id_documento)
         }
         habilitar.value = true;
@@ -322,7 +322,7 @@ export default {
             }    
             let result = await api.put("/EstadoSubsanacion", datos)
           
-            // if(result.status === 200 && result.data.codigo == 1){
+            // if(result.status === 200 && result.data.code == 1){
             // //   GenerarPDF(documentosList.value[0].id_documento)
             // }
           } catch (error) {

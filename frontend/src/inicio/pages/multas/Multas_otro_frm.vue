@@ -284,28 +284,28 @@
       }
 
       let fetchMultas = () => api.get('/getCausaMultas').then((response) => {
-        CausaMultas.value = response.data.contenido
+        CausaMultas.value = response.data.content
       })
 
       let fetchMonto = () => api.get('/getTipoMonto').then((response) => {
-        listaMonto.value = response.data.contenido
+        listaMonto.value = response.data.content
       })
 
       let PersonaMulta = async () => {
         let result = await api.get(`/PersonaMulta/${id_persona}`).then((response) => {
-          datosPersonaMulta.value = response.data.contenido;
+          datosPersonaMulta.value = response.data.content;
         });
       }
       let fetchUfvs = async () => {
         let fecha_app = moment().format('YYYY-MM-DD') 
         let result = await api.get(`/getUfvs/${fecha_app}`).then((response) => {
-          datosUfvs.value = response.data.contenido;
+          datosUfvs.value = response.data.content;
         });
       }
 
       let Calcular = async () => {
         let result = await api.get(`/getBuscarMultas/${id_multa.value}`).then((response) => {
-          buscaMulta.value = response.data.contenido;
+          buscaMulta.value = response.data.content;
           totalBs.value = Math.round(Number(buscaMulta.value[0].monto) * Number(datosUfvs.value.ufv_redondeado))-1 
           totalUfvs.value = buscaMulta.value[0].monto
         });
@@ -366,9 +366,9 @@
             pago: 'S',
           }
           let result = await api.post('/setPersonaMulta', data)
-          sInicio.addIDProceso(Number(result.data.contenido.o_descripcion))
+          sInicio.addIDProceso(Number(result.data.content.o_descripcion))
           let id_documento = 27
-          GenerarPDF(id_documento, result.data.contenido.o_descripcion)
+          GenerarPDF(id_documento, result.data.content.o_descripcion)
 
           Swal.fire({
               html: "Trámite <b>registrado</b> correctamente",

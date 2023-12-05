@@ -193,11 +193,11 @@ export default {
     }
 
     let fetchMultas = () => api.get('/getCausaMultas').then((response) => {
-      CausaMultas.value = response.data.contenido
+      CausaMultas.value = response.data.content
     })
 
     let fetchMonto = () => api.get('/getTipoMonto').then((response) => {
-      listaMonto.value = response.data.contenido
+      listaMonto.value = response.data.content
     })
 
     let PersonaMulta = async () => {
@@ -206,13 +206,13 @@ export default {
       }
 
       let result = await api.get(`/PersonaMulta/${id_persona}`).then((response) => {
-        datosPersonaMulta.value = response.data.contenido;
+        datosPersonaMulta.value = response.data.content;
       });
     }
     let fetchUfvs = async () => {
       let fecha_app = moment().format('YYYY-MM-DD') 
       let result = await api.get(`/getUfvs/${fecha_app}`).then((response) => {
-        datosUfvs.value = response.data.contenido;
+        datosUfvs.value = response.data.content;
       });
     }
     let calcPersonas;
@@ -223,7 +223,7 @@ export default {
         
         let id_multa = multa.value.id_multa;
         await api.get(`/getBuscarMultas/${id_multa}`).then((response) => {
-          buscaMulta.value = response.data.contenido;
+          buscaMulta.value = response.data.content;
           //calculo de días por permanencia en territorio boliviano
           if(id_multa == 5){
             cantDias = moment(datosPersonaMulta.value.fecha_cobroMulta).diff(moment(datosPersonaMulta.value.fecha_vencimientoPermanencia), 'days')
@@ -277,9 +277,9 @@ export default {
 
         let result = await api.post('/setPersonaMulta', data);
 
-        sInicio.addIDProceso(Number(result.data.contenido.o_descripcion))
+        sInicio.addIDProceso(Number(result.data.content.o_descripcion))
         let id_documento = 27
-        GenerarPDF(id_documento, result.data.contenido.o_descripcion)
+        GenerarPDF(id_documento, result.data.content.o_descripcion)
 
       //   Swal.fire({
       //       html: "Trámite <b>registrado</b> correctamente",
@@ -319,11 +319,11 @@ export default {
       }
       let result = await api.post('/setPersonaMulta', data);
 
-      sInicio.addIDProceso(Number(result.data.contenido.o_descripcion))
+      sInicio.addIDProceso(Number(result.data.content.o_descripcion))
 
       let id_documento = 27
-     // GenerarPDF(id_documento, result.data.contenido.o_descripcion)    
-    if(result.status === 200 && result.data.codigo === 1){       
+     // GenerarPDF(id_documento, result.data.content.o_descripcion)    
+    if(result.status === 200 && result.data.code === 1){       
       sInicio.reset();
       Swal.fire({text: "Trámite iniciado correctamente", icon: "success", confirmButtonText: "Aceptar", confirmButtonColor: "#198754", allowOutsideClick: false })
       .then((response) => {
@@ -331,7 +331,7 @@ export default {
         let tipo_tramite = 'M'
         let id_tramite=0;
         sInicio.addIDPersona(id_persona);
-        sInicio.addIDProceso(Number(result.data.contenido.o_descripcion));
+        sInicio.addIDProceso(Number(result.data.content.o_descripcion));
         sInicio.addIDTramite(id_tramite);
         sInicio.addTipoTramite(tipo_tramite);
           router.push({path: "/recaudacionesinicio"}) }

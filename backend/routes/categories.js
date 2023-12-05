@@ -3,18 +3,34 @@ const conexionPG = require("../config/config_pg.js");
 
 const sequelize = require("../config/config_sequelize.js");
 let router = Router();
+const { Op } = require("sequelize");
 
 const Categories = require("../models/category.js");
 
 
-// GET all categories
+// GET all categories with pagination
 router.get("/categories", async (req, res) => {
     try {
-        const categories = await Categories.findAll({ where: {active: true}});
-        const serializedCategories = categories.map(category => serialize(category));
-        res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedCategories });
+        const { page, limit, name } = req.query;
+        const offset = (page - 1) * limit;
+        const whereClause = {
+            active: true
+        };
+        if (name) {
+            whereClause.name = {
+                [Op.like]: `%${name}%`
+            };
+        }
+        const categories = await Categories.findAndCountAll({
+            where: whereClause,
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            order: [["name", "ASC"]]
+        });
+        const serializedCategories = categories.rows.map(category => serialize(category));
+        res.status(200).json({ code: 1, message: "OK", content: serializedCategories, total: categories.count });
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -22,7 +38,7 @@ router.get("/categories", async (req, res) => {
 function serialize(category) {
     return {
         category_id: category.category_id,
-        name: category.name
+        name: category.name,
     };
 }
 
@@ -36,12 +52,12 @@ router.get("/categories/:id", async (req, res) => {
             }
         }); 
         if (category) {
-            res.status(200).json({ codigo: 1, mensaje: "OK", contenido: category });
+            res.status(200).json({ code: 1, message: "OK", content: category });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Category not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Category not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -53,9 +69,9 @@ router.post("/categories", async (req, res) => {
         const newCategory = await Categories.create({ 
             name,
         });
-        res.status(201).json({ codigo: 1, mensaje: "Category created successfully", contenido: newCategory });
+        res.status(201).json({ code: 1, message: "Category created successfully", content: newCategory });
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -73,12 +89,12 @@ router.put("/categories/:id", async (req, res) => {
             }
         );
         if (updatedCategory[0] === 1) {
-            res.status(200).json({ codigo: 1, mensaje: "Category updated successfully", contenido: "" });
+            res.status(200).json({ code: 1, message: "Category updated successfully", content: "" });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Category not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Category not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 
@@ -92,12 +108,12 @@ router.delete("/categories/:id", async (req, res) => {
             }
         });
         if (deletedCategory === 1) {
-            res.status(200).json({ codigo: 1, mensaje: "Category deleted successfully", contenido: "" });
+            res.status(200).json({ code: 1, message: "Category deleted successfully", content: "" });
         } else {
-            res.status(404).json({ codigo: 0, mensaje: "Category not found", contenido: "" });
+            res.status(404).json({ code: 0, message: "Category not found", content: "" });
         }
     } catch (error) {
-        res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
 

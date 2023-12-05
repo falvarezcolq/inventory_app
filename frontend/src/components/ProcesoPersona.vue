@@ -41,7 +41,7 @@ export default {
 
     let fetchDatosTramite = async () => {
       let result = await api.get(`/getProceso/${id_proceso}`).then((response) => {
-        datosTramite.value = response.data.contenido;
+        datosTramite.value = response.data.content;
       });
     }
 

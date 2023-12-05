@@ -174,7 +174,7 @@ export default {
         },
         async fetchReprTutor() {
             api.get("/getRepreTutor").then(response => {
-                this.tipoReprTutorList = response.data.contenido;
+                this.tipoReprTutorList = response.data.content;
             });
         },
     },

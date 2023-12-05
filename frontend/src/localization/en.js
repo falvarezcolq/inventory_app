@@ -72,7 +72,7 @@ export default {
     info_lugar: 'The place you select is important for',
     info_entrega: 'The delivery of the procedure',
     info_docuemntos: 'Where you must present the original documents',
-    tipo: 'TYPE',
+    type: 'TYPE',
     horarios: 'SCHEDULES',
     ubicacion: 'View location',
     solicitud: 'REQUEST START OF PROCESS',

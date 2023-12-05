@@ -35,7 +35,7 @@
                   <br>
                   <br>Mensaje:
                   <span>
-                  {{ item.contenido }}
+                  {{ item.content }}
                   </span>
               </p>
               <div class="fecha">
@@ -72,7 +72,7 @@ export default {
       isLoading.value = true;
       await api.get('/notificaciones').then(res=>{
         isLoading.value = false;
-        notificaciones.value=res.data.contenido;
+        notificaciones.value=res.data.content;
       }).catch(err=>{
         console.log(err);
         isLoading.value=false;

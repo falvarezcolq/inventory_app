@@ -152,7 +152,7 @@ export default {
       cod_motivo: '',
       id_tramite: '',
       cod_tramite: '',
-      codigo: ''
+      code: ''
     })
     let isLoading = ref(false);
     let persona = ref({});
@@ -188,7 +188,7 @@ export default {
       tramite.value.cod_tiempo = '';
       tramite.value.cod_motivo = '';
       tramite.value.id_tramite = '';
-      tramite.value.codigo = '';
+      tramite.value.code = '';
     }
 
     let retornar = ()=>{

@@ -22,7 +22,7 @@
         <li>
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/informacionpersonal">
+              <router-link to="/about_me">
                 <i class="fa fa-chevron-right"></i> 
                 <!-- {{item.nombre_menu}}  -->
                 DATOS PERSONALES
@@ -34,7 +34,7 @@
         <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/roles">
                 <i class="fa fa-chevron-right"></i> 
                 ROLES
               </router-link>
@@ -45,7 +45,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/categories">
                 <i class="fa fa-chevron-right"></i> 
                 CATEGORIES
               </router-link>
@@ -55,7 +55,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/suppliers">
                 <i class="fa fa-chevron-right"></i> 
                 SUPPLIERS
               </router-link>
@@ -65,7 +65,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/users">
                 <i class="fa fa-chevron-right"></i> 
                 USERS
               </router-link>
@@ -75,7 +75,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/products">
                 <i class="fa fa-chevron-right"></i> 
                 PRODUCTS
               </router-link>
@@ -85,7 +85,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/movements">
                 <i class="fa fa-chevron-right"></i> 
                 MOVEMENTS
               </router-link>
@@ -95,7 +95,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/orders">
                 <i class="fa fa-chevron-right"></i> 
                 ORDERS
               </router-link>
@@ -106,7 +106,7 @@
         <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/customers">
                 <i class="fa fa-chevron-right"></i> 
                 CUSTOMERS
               </router-link>
@@ -117,7 +117,7 @@
         <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/payments">
                 <i class="fa fa-chevron-right"></i> 
                 PAYMENTS
               </router-link>
@@ -127,7 +127,7 @@
          <li >
           <div class="row">
             <div class="col-md-12" >
-              <router-link to="/mistramites">
+              <router-link to="/reviews">
                 <i class="fa fa-chevron-right"></i> 
                 REVIEWS
               </router-link>
@@ -183,8 +183,8 @@ export default {
       }
       let result = await axios.get(`${process.env.VUE_APP_URL_APP}/usuarioModuloRol/${id_usuario}/${id_sistema}`, config);
 
-      if(result.data?.contenido && result.data.contenido.length > 0){
-        arrModules.value = result.data.contenido;
+      if(result.data?.content && result.data.content.length > 0){
+        arrModules.value = result.data.content;
       }
       else{
         console.log("SIN MODULOS ASIGNADOS");

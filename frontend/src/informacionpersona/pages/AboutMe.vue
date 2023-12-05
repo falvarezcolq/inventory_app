@@ -8,17 +8,7 @@
     <div class="row">
       <div class="col-md-12 form-group">
         <DatosPersona/>
-        <div class="mt-3">
-          <div v-if="user.confirmado" >
-            <i class="fa fa-check green"></i> &nbsp; 
-            <label for=""><h3>{{ $t('correo_confirmado')}} {{ $t('cuenta_activa') }}</h3></label>
-          </div>
-        </div>
       </div>
-      <!-- <div class="col-md-5 form-group">
-        <DatosDocumento />  
-      </div> -->
-
     </div>
   </div>
 </template>

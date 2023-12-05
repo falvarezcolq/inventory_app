@@ -754,17 +754,17 @@ export default {
 
     let fetchDocumento = () =>
       api.get("/getParametro/PAR_TIPO_DOCUMENTO").then((response) => {
-        documentoList.value = response.data.contenido;
+        documentoList.value = response.data.content;
       });
 
     let fetchGenero = () =>
       api.get("/getParametro/PAR_GENERO").then((response) => {
-        generoList.value = response.data.contenido;
+        generoList.value = response.data.content;
       });
 
     let fetchNacionalidad = () =>
       api.get("/getNacionalidad").then((response) => {
-        nacionalidadList.value = response.data.contenido;
+        nacionalidadList.value = response.data.content;
       });
 
     const cambioPaisEmision = () => {
@@ -872,7 +872,7 @@ export default {
             api
               .post("/setUsuario", persona.value)
               .then((result) => {
-                if (result.status === 201 && result.data.codigo === 1) {
+                if (result.status === 201 && result.data.code === 1) {
                   console.log("**Usuario Creado**");
                   isLoading.value = false;
                   Mensaje.success_action("Registrado correctamente", () => {
@@ -905,7 +905,7 @@ export default {
             api
               .post("/setUsuario", persona.value)
               .then((result) => {
-                if (result.status === 201 && result.data.codigo === 1) {
+                if (result.status === 201 && result.data.code === 1) {
                   console.log("**Usuario Creado**");
                   isLoading.value = false;
                   Mensaje.success_action("Registrado correctamente", () => {
@@ -947,7 +947,7 @@ export default {
           config
         );
 
-        if (result.status === 200 && result.data.codigo === 1) {
+        if (result.status === 200 && result.data.code === 1) {
           sUsuario.addToken(result.data.token);
           router.push({ path: "/inicio" });
         }
@@ -970,7 +970,7 @@ export default {
 
     let verificar_email = async () =>
       api.get(`/getEmail/${persona.value.email}`).then((response) => {
-        if (response.data.codigo == 1) {
+        if (response.data.code == 1) {
           formError.value.email = "¡El Correo Electrónico ya esta registrado! ";
         }
         isLoading.value = false;

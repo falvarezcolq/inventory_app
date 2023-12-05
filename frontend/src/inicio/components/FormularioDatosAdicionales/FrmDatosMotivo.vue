@@ -108,7 +108,7 @@ export default {
   methods: {
 
     async fetchMotivoPasaporte () {  api.get("/getMotivoPasaporte").then(response => {
-        this.motivoSolicitud = response.data.contenido;
+        this.motivoSolicitud = response.data.content;
       });
     }
   },

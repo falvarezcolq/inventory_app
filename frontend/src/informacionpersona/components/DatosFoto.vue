@@ -132,7 +132,7 @@
           const formData = new FormData();
           formData.append('archivo', archivo, name);
           let result = await api.post(url,formData)
-          if (result.status == 200 && result.data.codigo ==1){
+          if (result.status == 200 && result.data.code ==1){
             callback()
           }else{
             Mensaje.error("Error")

@@ -84,12 +84,12 @@ export default {
     //   doc = persona.value.tipo_documento
     //   console.log("doc", doc);
     //   api.get(`/getDocumento/${'PER'}`).then(response => {
-    //   Documento.value = response.data.contenido;
+    //   Documento.value = response.data.content;
     //   console.log('Documento',Documento.value);
     // }); 
     // let fetchNacionalidad= ()  =>
     // api.get(`/getNacionalidad/${persona.value[0].nacionalidad}`).then(response => {
-    // Nacionalidad.value = response.data.contenido;
+    // Nacionalidad.value = response.data.content;
     // console.log('Nacionalidad',Nacionalidad.value);
     // }); 
 

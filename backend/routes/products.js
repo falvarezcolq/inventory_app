@@ -8,9 +8,9 @@ router.get("/products", async (req, res) => {
   try {
     const products = await Products.findAll({ where: { active: true } });
     const serializedProducts = products.map(product => serialize(product));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedProducts });
+    res.status(200).json({ code: 1, message: "OK", content: serializedProducts });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -45,12 +45,12 @@ router.get("/products/:id", async (req, res) => {
       }
     });
     if (product) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: product });
+      res.status(200).json({ code: 1, message: "OK", content: product });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -71,9 +71,9 @@ router.post("/products", async (req, res) => {
       product_code,
       weight,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Product created successfully", contenido: newProduct });
+    res.status(201).json({ code: 1, message: "Product created successfully", content: newProduct });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.put("/products/:id", async (req, res) => {
       }
     );
     if (updatedProduct[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Product updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Product updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -110,12 +110,12 @@ router.delete("/products/:id", async (req, res) => {
       }
     });
     if (deletedProduct === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Product deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Product deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

@@ -42,7 +42,7 @@ export default {
 
     let fetchDatosTramite = async () => {
       await api.get(`/getRegistroTramite_/${id_proceso}`).then((response) => {
-        datosTramite.value = response.data.contenido
+        datosTramite.value = response.data.content
       });
     }
 

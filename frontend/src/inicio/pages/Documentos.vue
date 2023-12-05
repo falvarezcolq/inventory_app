@@ -150,7 +150,7 @@ export default {
           id_estado: 2
         };
       let result_recep = await api.put(`/recibirTramite`, data_recep)      
-      if(result_recep.status === 200 && result_recep.data.codigo === 1){       
+      if(result_recep.status === 200 && result_recep.data.code === 1){       
         sInicio.reset();
         Swal.fire({text: "Trámite iniciado correctamente", icon: "success", confirmButtonText: "Aceptar", confirmButtonColor: "#198754", allowOutsideClick: false })
         .then((response) => {
@@ -180,14 +180,14 @@ export default {
       let tipo = tipo_tramite.substring(0,3);
       let excepcion = arrRequisitos.data.toString();
       api.get(`/getDocumentos/${id_tramite.value}/${excepcion}/${tipo}`).then((response) => {
-        documentosList.value = response.data.contenido 
+        documentosList.value = response.data.content 
       })
     }
 
 
     let getProceso = () => {
       api.get(`/getProceso/${sInicio.getIDProcesoInicio}`).then((response) => {
-        proceso.value = response.data.contenido 
+        proceso.value = response.data.content 
       })
     }
 
@@ -202,7 +202,7 @@ export default {
         id_estado: 1
         }
         let result = await api.put(`/tramiteConcluido/`, data)      
-        if(result.status === 200 && result.data.codigo === 1){ 
+        if(result.status === 200 && result.data.code === 1){ 
           
           if ( esPersonaJuridica.value && Number( proceso.value.costo_total_bs) == 0 ){
             registrarProceso();

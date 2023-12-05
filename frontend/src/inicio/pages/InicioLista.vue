@@ -238,7 +238,7 @@ export default{
         }
   
         let result = await api.get(`/getInicio/${nro_documento}/${nacionalidad}/${id_tramite}/${fecha_inicio}/${fecha_fin}`).then((response) => {
-          inicioLista.value = response.data.contenido;
+          inicioLista.value = response.data.content;
         }); 
       } catch (error) {
         console.log('**[ERROR GENERACION DE LISTA]**');        
@@ -289,7 +289,7 @@ export default{
           motivo: descripcion.value.motivo
         }
         let result = await api.put('/cancelarTramite', data);  
-        if(result.status === 200 && result.data.codigo == 1){
+        if(result.status === 200 && result.data.code == 1){
           Swal.fire({text: "Trámite fue dado de baja correctamente.", icon: "success", confirmButtonText: "ACEPTAR", confirmButtonColor: "#198754", allowOutsideClick: false })
           descripcion.value.motivo = ''
           Modal.getInstance(modalCancelar.value).hide()
@@ -322,7 +322,7 @@ export default{
           nro_documento = '-';
         }
         await api.get(`/getInicioTramite/${nro_documento}/${nacionalidad}/${id_tramite}/${fecha_inicio}/${fecha_fin}`).then((response) => {
-          inicioLista.value = response.data.contenido;
+          inicioLista.value = response.data.content;
           if(inicioLista.value.length == 0){
             msgShow.value = true;
           }
@@ -342,7 +342,7 @@ export default{
     }
     
     let fetchNacionalidad = () => api.get('/getNacionalidad').then((response) => {
-      nacionalidadList.value = response.data.contenido
+      nacionalidadList.value = response.data.content
     })
 
     onMounted(() => {

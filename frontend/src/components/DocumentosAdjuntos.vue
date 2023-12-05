@@ -58,7 +58,7 @@ export default {
     let objDocumentos = ref([]);
     let pdfDataUrl = ref(null);
     let fetchDocumentos = async () => api.get(`/getDocumentosGeneradosTramite/${props.id_proceso}`).then((response) => {
-      objDocumentos.value = response.data.contenido
+      objDocumentos.value = response.data.content
     })
 
     let cargarArchivoVistaPrevia = async (id) => {

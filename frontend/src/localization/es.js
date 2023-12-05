@@ -72,7 +72,7 @@ export default {
     info_lugar: 'El lugar que seleccione es importante para',
     info_entrega: 'La entrega del trámite',
     info_docuemntos: 'Donde debe presentar los documentos originales',
-    tipo: 'TIPO',
+    type: 'TIPO',
     horarios: 'HORARIOS',
     ubicacion: 'Ver ubicación',
     solicitud:'SOLICITAR INICIO DE TRÁMITE',

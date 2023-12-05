@@ -334,7 +334,7 @@ export default{
           descripcion: descripcion.value.motivo
         }
         let result = await api.post('/proceso_inicio/cancelar', data);  
-        if(result.status === 200 && result.data.codigo == 1){
+        if(result.status === 200 && result.data.code == 1){
           Swal.fire({text: "Trámite fue dado de baja correctamente.", icon: "success", confirmButtonText: "ACEPTAR", confirmButtonColor: "#198754", allowOutsideClick: false })
           descripcion.value.motivo = ''
           Modal.getInstance(modalCancelar.value).hide()
@@ -382,7 +382,7 @@ export default{
               fecha_fin : datos.value.fecha_fin,        
           }
           await api.post(`/proceso_inicio/buscar`,data).then((response) => {
-            inicioLista.value = response.data.contenido;
+            inicioLista.value = response.data.content;
             if(inicioLista.value.length == 0){
               msgShow.value = true;
             }
@@ -404,7 +404,7 @@ export default{
     let estadoBtnNuevoTramite = async () => {
       try {
           await api.get(`/proceso_inicio/permiso_tramite`).then((response) => {
-            permitirTramite.value = (response.data.contenido == 1);
+            permitirTramite.value = (response.data.content == 1);
           });        
       } catch (error) {
         console.log(error.message);

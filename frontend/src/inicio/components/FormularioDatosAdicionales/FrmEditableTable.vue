@@ -238,7 +238,7 @@ export default {
       };
 
       let fetchProcedencia = () =>   api.get('/getProcedencia').then((response) => {
-        procedenciaList.value = response.data.contenido
+        procedenciaList.value = response.data.content
       })
 
     onMounted(() => {

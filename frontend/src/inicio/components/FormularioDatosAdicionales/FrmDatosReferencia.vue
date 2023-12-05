@@ -73,7 +73,7 @@ export default {
   methods: {
     async fetchTipoRefInst() {
       api.get("/getTipoRef").then(response => {
-        this.tipoTipoRefList = response.data.contenido;
+        this.tipoTipoRefList = response.data.content;
       });
     },
 

@@ -133,7 +133,7 @@ export default {
       try {      
         await api.get(`/getHistorial/${datos}`)
           .then((response) => {
-            datosMostrar.value = response.data.contenido;            
+            datosMostrar.value = response.data.content;            
         })  
       } catch (err) {
         err.inner.forEach((error) => {
@@ -151,7 +151,7 @@ export default {
         }      
         await api.get(`/getSeguimiento/${buscarPalabra.value}`)
           .then((response) => {
-            procesoLista.value = response.data.contenido;            
+            procesoLista.value = response.data.content;            
         })  
       } catch (err) {
         err.inner.forEach((error) => {

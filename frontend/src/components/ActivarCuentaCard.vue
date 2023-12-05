@@ -79,7 +79,7 @@ export default {
         isLoading.value=true;
         await api.post(`/correoactivacion`).then((res)=>{
           isLoading.value=false;
-          Mensaje.success(res.data.mensaje);
+          Mensaje.success(res.data.message);
         }).catch(err=>{
           isLoading.value=false;
           Mensaje.error(err.message)

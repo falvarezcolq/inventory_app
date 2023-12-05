@@ -151,22 +151,22 @@ export default {
     },
     async fetchTipoGradoInst () {
       api.get("/getGrado").then(response => {
-        this.tipoGradoInsList = response.data.contenido;
+        this.tipoGradoInsList = response.data.content;
       });
     },
     async fetchTipoEstadoCivil() {
       api.get("/getEstadoCivil").then(response => {
-        this.tipoEstadoCivilList = response.data.contenido;
+        this.tipoEstadoCivilList = response.data.content;
       });
     },
     async fetchPermananciaInst () {
       api.get("/getTiempoPermanencia").then(response => {
-        this.tipoPermanenciaList = response.data.contenido;
+        this.tipoPermanenciaList = response.data.content;
       });
     },
     async fetchProfesionInst() {     
        api.get("/getProfesion").then(response => {
-        this.tipoProfesionList = response.data.contenido;
+        this.tipoProfesionList = response.data.content;
       });
     }
   },

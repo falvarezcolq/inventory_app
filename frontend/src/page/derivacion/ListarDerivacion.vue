@@ -158,7 +158,7 @@ export default {
                 nombre_completo.value='-'
             }
             let result = await api.get(`/buscarDatos/${area.value}/${cod_inicio.value}/${nro_documento.value}/${lugar.value}/${cod_registro.value}/${nombre_completo.value}/`).then((response) => {
-                datosTramites.value = response.data.contenido;  
+                datosTramites.value = response.data.content;  
             });
         }
         let formatDate = (fecha) => {
@@ -166,7 +166,7 @@ export default {
         };
 
         let getLugares=()=>api.get('/getAreasDerivacion/D').then((response)=>{
-            listarLugares.value=response.data.contenido;            
+            listarLugares.value=response.data.content;            
         });
         let funSeleccionado=()=>{
             console.log(seleccionado.value);

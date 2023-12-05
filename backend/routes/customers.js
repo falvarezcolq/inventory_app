@@ -8,9 +8,9 @@ router.get("/customers", async (req, res) => {
   try {
     const customers = await Customers.findAll({ where: { active: true } });
     const serializedCustomers = customers.map(customer => serialize(customer));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedCustomers });
+    res.status(200).json({ code: 1, message: "OK", content: serializedCustomers });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -35,12 +35,12 @@ router.get("/customers/:id", async (req, res) => {
       }
     });
     if (customer) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: customer });
+      res.status(200).json({ code: 1, message: "OK", content: customer });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Customer not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Customer not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -52,9 +52,9 @@ router.post("/customers", async (req, res) => {
       name,
       email,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Customer created successfully", contenido: newCustomer });
+    res.status(201).json({ code: 1, message: "Customer created successfully", content: newCustomer });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -72,12 +72,12 @@ router.put("/customers/:id", async (req, res) => {
       }
     );
     if (updatedCustomer[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Customer updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Customer updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Customer not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Customer not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.delete("/customers/:id", async (req, res) => {
       }
     });
     if (deletedCustomer === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Customer deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Customer deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Customer not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Customer not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

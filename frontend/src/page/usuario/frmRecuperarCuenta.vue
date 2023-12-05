@@ -103,8 +103,8 @@ export default {
                 isLoading.value = true;
                 // let result = await api.post('/recuperar_contrasenha', { email: persona.value.email }).then(response => {
                 //   isLoading.value = false;  
-                //   if (response.data.codigo == 1) {
-                //     mensaje.value = response.data.mensaje;
+                //   if (response.data.code == 1) {
+                //     mensaje.value = response.data.message;
                 //     //console.log('mesaje: ', mensaje.value);
                 //   }
                 // }).catch(error => {
@@ -113,7 +113,7 @@ export default {
                 // });
                 
                 let result = await api.post('/recuperar_contrasenha', { email: persona.value.email });
-                if(result.data.codigo == 1){
+                if(result.data.code == 1){
                   isLoading.value = false; 
                   Mensaje.success_action('Se envío un email a su correo electrónico,<br> para restablecer su contraseña', () => {
                     router.push({path: '/'});

@@ -163,23 +163,23 @@ export default {
     },
     async fetchDepartamentoInst() {
       api.get("/getCiudad").then(response => {
-        this.tipoDepartamentoList = response.data.contenido;
+        this.tipoDepartamentoList = response.data.content;
       });
     },
     async fetchProvinciaInst( ciudad ){
       api.get(`/getProvincias/${ciudad}`).then(response => {
-        this.tipoProvinciaList = response.data.contenido;
+        this.tipoProvinciaList = response.data.content;
       });
     },
     async fetchLocalidadInst ( provincia ){
       api.get(`/getLocalidad/${provincia}`).then(response => {
-        this.tipoLocalidadList = response.data.contenido;
+        this.tipoLocalidadList = response.data.content;
       });
     },
 
     // async fetchHospedajeInst (){
     //   api.get("/getTipoRef").then(response => {
-    //     this.tipoHospedaje = response.data.contenido;
+    //     this.tipoHospedaje = response.data.content;
     //   });
     // }
   },

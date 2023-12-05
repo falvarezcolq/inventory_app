@@ -255,55 +255,55 @@ export default {
 
         let fetchTipoOrganización = () =>
             api.get("/getParametro/PAR_TIPOEMPRESA").then((response) => {
-                tipoTipoOrganizaciónList.value = response.data.contenido;
+                tipoTipoOrganizaciónList.value = response.data.content;
             });
 
         let fetchTipoGradoInst = () =>
             api.get("/getGrado").then((response) => {
-                tipoGradoInsList.value = response.data.contenido;
+                tipoGradoInsList.value = response.data.content;
             });
         let fetchProfesionInst = () =>
             api.get("/getParametro/PAR_PROFESION").then((response) => {
-                tipoProfesionList.value = response.data.contenido;
+                tipoProfesionList.value = response.data.content;
             });
         let fetchPermananciaInst = () =>
             api.get("/getParametro/PAR_TIEMPO").then((response) => {
-                tipoPermanenciaList.value = response.data.contenido;
+                tipoPermanenciaList.value = response.data.content;
             });
 
         let fetchDepartamentoInst = () =>
             api.get("/getCiudad").then((response) => {
-                tipoDepartamentoList.value = response.data.contenido;
+                tipoDepartamentoList.value = response.data.content;
             });
         let fetchNacionalidad = () =>
             api.get("/getNacionalidad").then((response) => {
-                nacionalidadList.value = response.data.contenido;
+                nacionalidadList.value = response.data.content;
             });
         let fetchProvinciaInst = (ciudad) =>
             api.get(`/getProvincias/${ciudad}`).then((response) => {
-                tipoProvinciaList.value = response.data.contenido;
+                tipoProvinciaList.value = response.data.content;
             });
 
         let fetchLocalidadInst = (provincia) =>
             api.get(`/getLocalidad/${provincia}`).then((response) => {
-                tipoLocalidadList.value = response.data.contenido;
+                tipoLocalidadList.value = response.data.content;
             });
 
         let fetchMoneda = () =>
             api.get("/getParametro/PAR_MONEDA").then((response) => {
-                tipoMonedaList.value = response.data.contenido;
+                tipoMonedaList.value = response.data.content;
             });
         let fetchGenero = () =>
             api.get("/getParametro/PAR_GENERO").then((response) => {
-                generoList.value = response.data.contenido;
+                generoList.value = response.data.content;
             });
         let fetchTipoDocumento = () =>
             api.get("/getParametro/PAR_TIPO_DOCUMENTO").then((response) => {
-                tipoDocumentoList.value = response.data.contenido;
+                tipoDocumentoList.value = response.data.content;
             });
         let fetchTipoContrato = () =>
             api.get("/getParametro/PAR_TIPOCONTRATO").then((response) => {
-                tipoContratoList.value = response.data.contenido;
+                tipoContratoList.value = response.data.content;
             });
 
 
@@ -335,7 +335,7 @@ export default {
                     //     idTramiteData: idTramiteData.value,
                     // }
                     // let result = await api.post("/proceso_inicio/datosAdicionalesCR", datosCR);
-                    // if (result.status === 201 && result.data.codigo === 1) {
+                    // if (result.status === 201 && result.data.code === 1) {
                     //     let procesoInicio  = await ws.getProcesoInicio(idDefinitivaData.value)
                         inicio.addDatosAdicionalesCR(datosAdicionalesCR.value);
                         inicio.reset()

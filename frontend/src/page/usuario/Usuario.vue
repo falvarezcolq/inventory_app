@@ -78,7 +78,7 @@ export default {
 
     let fetchUsuarios = () => {
       api.get("/getUsuarios").then((response) => {
-        usuarioLista.value = response.data.contenido
+        usuarioLista.value = response.data.content
       })
     }
 

@@ -9,7 +9,7 @@ let errorMessage = ref(null)
 
 let getNacionalidad = async() => {
   let result = await api.get('/getNacionalidad')
-  return result.data.contenido
+  return result.data.content
 }
 
 const useNacionalidad = () => {

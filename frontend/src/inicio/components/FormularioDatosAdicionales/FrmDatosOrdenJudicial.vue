@@ -184,12 +184,12 @@ export default {
     },
     async fetchInstitucionesQueOrdenan() {
       api.get("/getInstituciones").then(response => {
-        this.institucionList = response.data.contenido;
+        this.institucionList = response.data.content;
       });
     },
     async fetchCiudades() {
       api.get("/getCiudad").then(response => {
-        this.ciudadList = response.data.contenido;
+        this.ciudadList = response.data.content;
       });
     },
     calcularDiferencia() {

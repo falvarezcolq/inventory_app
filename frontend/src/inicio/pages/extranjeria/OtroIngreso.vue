@@ -118,11 +118,11 @@
             })
 
             let fetchMoneda = () => api.get('/getParametro/PAR_MONEDA').then((response) => {
-            tipoMonedaList.value = response.data.contenido
+            tipoMonedaList.value = response.data.content
             })
 
             let fetchOtroIngr = () => api.get('/getParametro/PAR_INGRESO').then((response) => {
-            tipoOtroIngrList.value = response.data.contenido
+            tipoOtroIngrList.value = response.data.content
             })
 
             let validar = async () =>{
@@ -151,7 +151,7 @@
 
                    
                         // let result = await api.post('/proceso_inicio/datosAdicionalesOtroIng', datosOI);
-                        // if (result.status === 201 && result.data.codigo === 1) {
+                        // if (result.status === 201 && result.data.code === 1) {
                         //     let procesoInicio  = await ws.getProcesoInicio(idDefinitivaData.value)
                         
                         sInicio.addDatosAdicionalesOtroIng(datosAdicionalesOtroIng.value)

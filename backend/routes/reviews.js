@@ -8,9 +8,9 @@ router.get("/reviews", async (req, res) => {
   try {
     const reviews = await Reviews.findAll({ where: { active: true } });
     const serializedReviews = reviews.map(review => serialize(review));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedReviews });
+    res.status(200).json({ code: 1, message: "OK", content: serializedReviews });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -35,12 +35,12 @@ router.get("/reviews/:id", async (req, res) => {
       }
     });
     if (review) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: review });
+      res.status(200).json({ code: 1, message: "OK", content: review });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Review not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Review not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -52,9 +52,9 @@ router.post("/reviews", async (req, res) => {
       title,
       content,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Review created successfully", contenido: newReview });
+    res.status(201).json({ code: 1, message: "Review created successfully", content: newReview });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -72,12 +72,12 @@ router.put("/reviews/:id", async (req, res) => {
       }
     );
     if (updatedReview[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Review updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Review updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Review not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Review not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.delete("/reviews/:id", async (req, res) => {
       }
     });
     if (deletedReview === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Review deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Review deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Review not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Review not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

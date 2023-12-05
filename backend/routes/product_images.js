@@ -8,9 +8,9 @@ router.get("/product_images", async (req, res) => {
   try {
     const productImages = await ProductImages.findAll({ where: { active: true } });
     const serializedProductImages = productImages.map(productImage => serialize(productImage));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedProductImages });
+    res.status(200).json({ code: 1, message: "OK", content: serializedProductImages });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -35,12 +35,12 @@ router.get("/product_images/:id", async (req, res) => {
       }
     });
     if (productImage) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: productImage });
+      res.status(200).json({ code: 1, message: "OK", content: productImage });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product image not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product image not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -52,9 +52,9 @@ router.post("/product_images", async (req, res) => {
       product_id,
       image_url,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Product image created successfully", contenido: newProductImage });
+    res.status(201).json({ code: 1, message: "Product image created successfully", content: newProductImage });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -72,12 +72,12 @@ router.put("/product_images/:id", async (req, res) => {
       }
     );
     if (updatedProductImage[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Product image updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Product image updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product image not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product image not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.delete("/product_images/:id", async (req, res) => {
       }
     });
     if (deletedProductImage === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Product image deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Product image deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Product image not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Product image not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

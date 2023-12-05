@@ -14,7 +14,7 @@ let id_proceso = sRegistro.getIDProceso
 
 let getDatosTramite = async () => {
   let { data } =  await api.get(`/getRegistroTramite/${id_proceso}`)
-  return data.contenido
+  return data.content
 }
 
 let loadedTramite = (data) => {

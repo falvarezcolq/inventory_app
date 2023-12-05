@@ -304,7 +304,7 @@ export default {
           let nro_documento = busqueda.value.nro_documento != "" ? busqueda.value.nro_documento : "-";
 
           await api.get(`/getDerivacionTramites/${lugar}/${area}/${cod_inicio}/${fecha}/${nombre}/${nro_documento}`).then((response) => {
-            registroLista.value = response.data.contenido;
+            registroLista.value = response.data.content;
           });
 
           if (registroLista.value &&  Array.isArray(registroLista.value) && registroLista.value.length == 0)
@@ -415,7 +415,7 @@ export default {
                 };
 
                 let result = await api.put("/setDerivacionTramite", data);
-                if (result.status === 200 && result.data.codigo == 1 && result.data.contenido != '') {
+                if (result.status === 200 && result.data.code == 1 && result.data.content != '') {
                   Mensaje.success_action("Trámite derivado(s) correctamente",()=>{
                     registroLista.value = [];
                     objRegistro.value = [];
@@ -433,15 +433,15 @@ export default {
     }
 
     let fetchOficinasLista = () => api.get('/getOficinas').then((response) => {
-      oficinasLista.value = response.data.contenido
+      oficinasLista.value = response.data.content
     })
 
     let fetchAreaLista = () => api.get('/getAreas/D').then((response) => {
-      areasLista.value = response.data.contenido
+      areasLista.value = response.data.content
     })
 
     let obtenerAreaDerivacion = () => api.get('/obtenerAreasDerivacion').then((response) => {
-      areasDerivacion.value = response.data.contenido
+      areasDerivacion.value = response.data.content
     });
 
 

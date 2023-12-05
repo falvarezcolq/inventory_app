@@ -62,7 +62,7 @@
             let data = {params:this.params};
 
             let result = await api.get(`/getTiempoTramite/${this.tramite.cod_tipo_tramite}`,data).then((response) => {
-                this.tiempoTramitesList = response.data.contenido;
+                this.tiempoTramitesList = response.data.content;
             });
         },
         async MotivoTramite() {
@@ -71,21 +71,21 @@
             let data ={ params:{...this.params,clas1:this.tramite.cod_tipo_tramite,clas2:this.tramite.cod_tiempo}}
             let result = await api.get(`/getCertMotivoPermanencia/${this.tramite.cod_tiempo}`, data)
             .then((response) => {
-                this.motivoTramitesList = response.data.contenido
+                this.motivoTramitesList = response.data.content
             })
         },
         async ObtenerTramite(){     
             this.tramite.id_tramite = '';
             let data ={ params:{...this.params,clas1:this.tramite.cod_tipo_tramite,clas2:this.tramite.cod_tiempo,clas3:this.tramite.cod_motivo}}
             let result = await api.get(`/getCertTramitePermanencia`,data).then((response) => {
-                this.tramitesList = response.data.contenido;        
+                this.tramitesList = response.data.content;        
             });
         },
         async SetCodTramite(){
             let id_tramite = Number(this.tramite.id_tramite);
             if(id_tramite != ''){
                 this.tramite.cod_tramite = this.tramitesList.find(x => x.id_tramite == id_tramite).cod_tramite;
-                this.tramite.codigo = this.tramitesList.find(x => x.id_tramite == id_tramite).codigo;
+                this.tramite.code = this.tramitesList.find(x => x.id_tramite == id_tramite).code;
             }
         }, 
         

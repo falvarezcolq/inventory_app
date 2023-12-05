@@ -101,7 +101,7 @@ export default {
   methods: {
 
     async getGrupoSanguineo () {  api.get("/getGrupoSanguineo").then(response => {
-        this.tiposangreList = response.data.contenido;
+        this.tiposangreList = response.data.content;
       });
     }
   },

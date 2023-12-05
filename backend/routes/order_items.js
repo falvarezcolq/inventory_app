@@ -8,9 +8,9 @@ router.get("/order_items", async (req, res) => {
   try {
     const orderItems = await OrderItem.findAll({ where: { active: true } });
     const serializedOrderItems = orderItems.map(orderItem => serialize(orderItem));
-    res.status(200).json({ codigo: 1, mensaje: "OK", contenido: serializedOrderItems });
+    res.status(200).json({ code: 1, message: "OK", content: serializedOrderItems });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -35,12 +35,12 @@ router.get("/order_items/:id", async (req, res) => {
       }
     });
     if (orderItem) {
-      res.status(200).json({ codigo: 1, mensaje: "OK", contenido: orderItem });
+      res.status(200).json({ code: 1, message: "OK", content: orderItem });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Order item not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Order item not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -52,9 +52,9 @@ router.post("/order_items", async (req, res) => {
       product_id,
       quantity,
     });
-    res.status(201).json({ codigo: 1, mensaje: "Order item created successfully", contenido: newOrderItem });
+    res.status(201).json({ code: 1, message: "Order item created successfully", content: newOrderItem });
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -72,12 +72,12 @@ router.put("/order_items/:id", async (req, res) => {
       }
     );
     if (updatedOrderItem[0] === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Order item updated successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Order item updated successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Order item not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Order item not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 
@@ -91,12 +91,12 @@ router.delete("/order_items/:id", async (req, res) => {
       }
     });
     if (deletedOrderItem === 1) {
-      res.status(200).json({ codigo: 1, mensaje: "Order item deleted successfully", contenido: "" });
+      res.status(200).json({ code: 1, message: "Order item deleted successfully", content: "" });
     } else {
-      res.status(404).json({ codigo: 0, mensaje: "Order item not found", contenido: "" });
+      res.status(404).json({ code: 0, message: "Order item not found", content: "" });
     }
   } catch (error) {
-    res.status(500).json({ codigo: 0, mensaje: "Error en consulta", contenido: "" });
+    res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
   }
 });
 

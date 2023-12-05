@@ -216,22 +216,22 @@ export default {
 
     let fetchNacionalidad = () =>
       api.get("/getNacionalidad").then(response => {
-        nacionalidadList.value = response.data.contenido;
+        nacionalidadList.value = response.data.content;
       });
 
     let fetchTipoDocumento = () =>
       api.get("/getParametro/PAR_TIPO_DOCUMENTO").then(response => {
-        tipoDocumentoList.value = response.data.contenido;
+        tipoDocumentoList.value = response.data.content;
       });
 
     let fetchProfesionInst = () =>
       api.get("/getProfesion").then(response => {
-        tipoProfesionList.value = response.data.contenido;
+        tipoProfesionList.value = response.data.content;
       });
 
     let fetchPermanenciaInst = () =>
       api.get("/getTiempoPermanencia").then(response => {
-        tipoPermanenciaList.value = response.data.contenido;
+        tipoPermanenciaList.value = response.data.content;
       });
 
 
@@ -286,8 +286,8 @@ export default {
         // };
         // isLoading.value = true;
         // let result = await api.post("/proceso_inicio", datos);
-        // if (result.status === 201 && result.data.codigo === 1) {
-        //   id_proceso = Number(result.data.contenido.id_proceso_inicio);
+        // if (result.status === 201 && result.data.code === 1) {
+        //   id_proceso = Number(result.data.content.id_proceso_inicio);
 
         sInicio.addDatosAdicionales(datosAdicionales.value)
         await guardarRequisitos();

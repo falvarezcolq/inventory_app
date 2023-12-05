@@ -278,7 +278,7 @@ export default {
     let fetchUfvs = async () => {
       let fecha_app = moment().format('YYYY-MM-DD') 
       let result = await api.get(`/getUfvs/${fecha_app}`).then((response) => {
-        datosUfvs.value = response.data.contenido;
+        datosUfvs.value = response.data.content;
       });
     }
     let fetchDatosCostos = async () => {
@@ -286,7 +286,7 @@ export default {
         router.push({ path: "/registrolista" });
       }
       await api.get(`/getRegistroTramiteDatos/${id_proceso}/${tipo_tramite}`).then((response) => {
-        datosCostos.value = response.data.contenido;
+        datosCostos.value = response.data.content;
         cod_inicio.value = datosCostos.value.cod_inicio;
         if(Number(datosCostos.value.costo)==0){
           registrodeposito.value.tipo_deposito = 'SIN COSTO'
@@ -301,7 +301,7 @@ export default {
     }
     let getTramite = async () =>{
       let result = await api.get(`/getTramiteProceso/${id_proceso}`).then((response) => {
-        tramite.value = response.data.contenido;
+        tramite.value = response.data.content;
       });
     } 
     let validarFormulario = async()=>{
@@ -422,7 +422,7 @@ export default {
         }
     }
     let tipoDepositos = async () => {
-      try{let resultado = await api.get(`/getTipoDepositoRegistro`).then((response) => { select_tipo_deposito.value = response.data.contenido;});
+      try{let resultado = await api.get(`/getTipoDepositoRegistro`).then((response) => { select_tipo_deposito.value = response.data.content;});
     } catch (error) {return error;}
     };
     let Limpiar = () => {
