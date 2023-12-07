@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Suppliers</h2>
+        <h2 class="text-center">Users</h2>
       </div>
     </div>
 
@@ -19,7 +19,7 @@
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S SUPPLIER"
+                    placeholder="NAME'S CATEGORY"
                     v-model="search.name"
                   />
                 </div>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  NEW SUPPLIER <i class="fa fa-plus"></i>
+                  ADD NEW USER <i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -70,12 +70,11 @@
       <table class="table table-sm table-hover">
         <thead class="thead-dark">
           <tr class="text-center">
-            <th>ID</th>
-            <th>NAME</th>
-            <th>CONTACT PERSON</th>
-            <th>CONTACT EMAIL</th>
-            <th>CONTACT PHONE</th>
+            <th>USERNAME</th>
+            <th>EMAIL</th>
             <th>ADDRESS</th>
+            <th>PHONE</th>
+            <th>ROLE</th>
             <th>CREATED AT</th>
             <th></th>
           </tr>
@@ -89,18 +88,18 @@
               'table-info': item.updated,
             }"
           >
-            <td class="text-center">{{ item.supplier_id }}</td>
-            <td>{{ item.supplier_name}} </td>
-            <td>{{ item.contact_person}} </td>
-            <td>{{ item.contact_email}} </td>
-            <td>{{ item.contact_phone}} </td>
+            <!-- <td class="text-center">{{ item.user_id }}</td> -->
+            <td>{{ item.username}} </td>
+            <td>{{ item.email}} </td>
             <td>{{ item.address}} </td>
+            <td>{{ item.phone}} </td>
+            <td>{{ item.role}} </td>
 
             <td class="text-center">{{ formatDate(item.created_at) }}</td>
             <td class="text-center">
               <button
                 class="btn btn-link"
-                @click="getObject(item.supplier_id)"
+                @click="getObject(item.user_id)"
                 data-bs-toggle="modal"
                 data-bs-target="#modalSaveForm"
               >
@@ -108,7 +107,7 @@
               </button>
               <button
                 class="btn btn-link red"
-                @click="deleteObject(item.supplier_id)"
+                @click="deleteObject(item.user_id)"
               >
                 <i class="fa fa-trash"></i>
               </button>
@@ -127,7 +126,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">ADD SUPPLIER</div>
+            <div class="modal-title">FORM USER</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -139,55 +138,29 @@
               <div class="offset-md-2 col-md-8">
                 <div class="row">
                   <div class="col-md-12">
-                    <label class="frm-label">NAME'S SUPPLIER:</label>
-                    <span class="lb-error" v-if="saveFormError.supplier_name">{{
-                      saveFormError.supplier_name
+                    <label class="frm-label">USERNAME:</label>
+                    <span class="lb-error" v-if="saveFormError.username">{{
+                      saveFormError.username
                     }}</span>
                     <input
                       class="form-control"
                       type="text"
-                      v-model="object.supplier_name"
-                      :class="{ error: saveFormError.supplier_name }"
-                      @input="object.supplier_name = $event.target.value.toUpperCase()"
+                      v-model="object.username"
+                      :class="{ error: saveFormError.username }"
+                      @input="object.username = $event.target.value.toUpperCase()"
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">CONTACT PERSON:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_person">{{
-                      saveFormError.contact_person
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.contact_person"
-                      :class="{ error: saveFormError.contact_person }"
-                      @input="object.contact_person = $event.target.value"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CONTACT EMAIL:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_email">{{
-                      saveFormError.contact_email
+                    <label class="frm-label">EMAIL:</label>
+                    <span class="lb-error" v-if="saveFormError.email">{{
+                      saveFormError.email
                     }}</span>
                     <input
                       class="form-control"
                       type="email"
-                      v-model="object.contact_email"
-                      :class="{ error: saveFormError.contact_email }"
-                      @input="object.contact_email = $event.target.value"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CONTACT PHONE:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_phone">{{
-                      saveFormError.contact_phone
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.contact_phone"
-                      :class="{ error: saveFormError.contact_phone }"
-                      @input="object.contact_phone = $event.target.value"
+                      v-model="object.email"
+                      :class="{ error: saveFormError.email }"
+                      @input="object.email = $event.target.value"
                     />
                   </div>
                   <div class="col-md-12">
@@ -202,6 +175,29 @@
                       :class="{ error: saveFormError.address }"
                       @input="object.address = $event.target.value"
                     />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">PHONE:</label>
+                    <span class="lb-error" v-if="saveFormError.phone">{{
+                      saveFormError.phone
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.phone"
+                      :class="{ error: saveFormError.phone }"
+                      @input="object.phone = $event.target.value"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">ROLE:</label>
+                    <span class="lb-error" v-if="saveFormError.role_id">{{
+                      saveFormError.role_id
+                    }}</span>
+                    <select class="form-control" 
+                    v-model="object.role_id">
+                      <option v-for="item in roleList" :key="item.role_id" :value="item.role_id">{{item.role_name}}</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -256,6 +252,7 @@ export default {
     let create_form = ref(false);
     let object = ref(null);
     let objectList = ref([]);
+    let roleList  =  ref([]);
     let isLoading = ref(false);
     let msgShow = ref(false);
     let modalSaveForm = ref(null);
@@ -266,13 +263,13 @@ export default {
       
     });
     let schemaSaveForm = Yup.object().shape({
-      supplier_name:Yup.string().max(100).required(),
-      contact_person:Yup.string().max(100),
-      contact_email:Yup.string().max(100).email(),
-      contact_phone:Yup.string().max(20),
+      username:Yup.string().max(50).required(),
+      email:Yup.string().max(255).email(),
       address:Yup.string().max(255),
+      phone:Yup.string().max(20),
+      role_id:Yup.number().required(),
     });
-    let url = '/suppliers';
+    let url = '/users';
 
     let formatDate = (fecha) => {
       return moment(fecha).format("YYYY-MM-DD HH:mm:ss");
@@ -280,7 +277,7 @@ export default {
 
     let Clear = () => {
       search.value = {
-        name: "",
+       name:"",
       };
       objectList.value = [];
     };
@@ -331,11 +328,25 @@ export default {
         Mensaje.error(err.message);
       }
     };
+    
+    let getRoles = async ()=>{
+      try{
+        await api.get( '/roles?page=1&limit=1000').then((response) => {
+          roleList.value = response.data.content;
+        });
+      } catch(err) {
+        Mensaje.error(err.message);
+      }
+    }
 
     const ShowCreateForm = async () => {
       create_form.value = true;
       object.value = {
-        name: "",
+        username:"",
+        email:"",
+        address:"",
+        phone:"",
+        role_id:null,
       };
     };
 
@@ -383,11 +394,11 @@ export default {
           isLoading.value = true;
           let data = object.value;
           await api
-            .put(url + `/${object.value.supplier_id}`, data)
+            .put(url + `/${object.value.user_id}`, data)
             .then((response) => {
               if (objectList.value.length > 0) {
                 let index = objectList.value.findIndex(
-                  (x) => x.supplier_id == object.value.supplier_id
+                  (x) => x.user_id == object.value.user_id
                 );
                 if (index >= 0) {
                   object.value.updated = true;
@@ -447,7 +458,7 @@ export default {
             let response = await api.delete(url+`/${id}`);
             if (response.status == 200) {
               let index = objectList.value.findIndex(
-                (x) => x.supplier_id == id
+                (x) => x.user_id == id
               );
               if (index >= 0) {
                 objectList.value.splice(index, 1);
@@ -467,6 +478,7 @@ export default {
 
     onMounted(() => {
       getList();
+      getRoles();
     });
 
     return {
@@ -488,6 +500,7 @@ export default {
       deleteObject,
       create_form,
       ShowCreateForm,
+      roleList,
     };
   },
 };

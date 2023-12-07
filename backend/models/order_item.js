@@ -28,12 +28,22 @@ OrderItem.init({
             key: 'product_id'
         }
     },
+    price: {
+        type: DataTypes.DECIMAL(15,7),
+        allowNull: false
+    },
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
     subtotal: {
         type: DataTypes.DECIMAL(10, 2)
+    },
+    lote: {
+        type: DataTypes.STRING(50)
+    },
+    expiration_date: {
+        type: DataTypes.DATE
     },
     created_at: {
         type: DataTypes.DATE,

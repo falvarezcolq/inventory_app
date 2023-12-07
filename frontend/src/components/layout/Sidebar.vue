@@ -7,9 +7,9 @@
         </div>
       </div> -->
       <div class="row" @click="irInicio">
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <img src="../../assets/buo.png" width="70" />
-        </div>
+        </div> -->
         <div class="col-md-12">
           
           <span ><b>{{ $t('name_app')}}</b></span>
@@ -82,12 +82,33 @@
             </div>
           </div>
         </li>
-         <li >
+         <!-- <li >
           <div class="row">
             <div class="col-md-12" >
               <router-link to="/movements">
                 <i class="fa fa-chevron-right"></i> 
                 MOVEMENTS
+              </router-link>
+            </div>
+          </div>
+        </li> -->
+
+        <li >
+          <div class="row">
+            <div class="col-md-12" >
+              <router-link to="/in">
+                <i class="fa fa-chevron-right"></i> 
+                INCOME
+              </router-link>
+            </div>
+          </div>
+        </li>
+         <li >
+          <div class="row">
+            <div class="col-md-12" >
+              <router-link to="/out">
+                <i class="fa fa-chevron-right"></i> 
+                OUTLETS
               </router-link>
             </div>
           </div>

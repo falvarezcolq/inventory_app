@@ -489,6 +489,11 @@ textarea.error{
   font-size: 0.7rem;
 }
 
+.lb-success{
+  color: #179903;
+  font-size: 0.7rem;
+}
+
 .msg-grid{
   color: #f06b78;
   font-size: 0.9rem;
@@ -689,6 +694,14 @@ textarea.error{
   color: #6d7076 !important;
 }
 
+.input-table {
+  padding:6px 12px;
+  margin: 3px;
+  border: 0px;
+  border-radius: 5px;
+  width: 100px;
+  padding: auto;
+}
 
 
 

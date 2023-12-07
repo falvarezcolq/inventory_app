@@ -50,7 +50,6 @@
         FOREIGN KEY (role_id) REFERENCES roles(role_id)
     );
      
-
     CREATE TABLE products (
         product_id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
@@ -108,7 +107,7 @@
     CREATE TABLE orders (
         order_id SERIAL PRIMARY KEY,
         user_id INT NOT NULL,
-        order_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        order_date DATE NOT NULL,
         total_amount DECIMAL(10, 2),
         active BOOLEAN DEFAULT TRUE NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -122,8 +121,11 @@
         order_item_id SERIAL PRIMARY KEY,
         order_id INT NOT NULL,
         product_id INT NOT NULL,
+        price DECIMAL(15, 7) NOT NULL,
         quantity INT NOT NULL,
         subtotal DECIMAL(10, 2),
+        lote  VARCHAR(50),
+        expiration_date TIMESTAMP WITH TIME ZONE,
         active BOOLEAN DEFAULT TRUE NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

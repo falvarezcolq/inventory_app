@@ -1,12 +1,16 @@
 const { Router } = require("express");
 let router = Router();
+const { Op } = require("sequelize");
 
 const Products = require("../models/product.js");
 
 // GET all products
 router.get("/products", async (req, res) => {
   try {
-    const products = await Products.findAll({ where: { active: true } });
+    const { page, limit, name } = req.query;
+    const offset = (page - 1) * limit;
+    const whereClause = name ? { active: true, name: { [Op.like]: `%${name}%` } } : { active: true };
+    const products = await Products.findAll({ where: whereClause, offset, limit });
     const serializedProducts = products.map(product => serialize(product));
     res.status(200).json({ code: 1, message: "OK", content: serializedProducts });
   } catch (error) {

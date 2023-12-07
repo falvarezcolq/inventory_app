@@ -76,21 +76,27 @@ const routes = [
     meta: { layout: 'default', requiresAuth: true }
   },
   {
-    path: '/persona',
-    name: 'Persona',
-    component: () => import("@/inicio/pages/DatosPersonales.vue"),
+    path: '/users', 
+    name: 'users',
+    component: () => import("@/page/users/Users.vue"),
     meta: { layout: 'default', requiresAuth: true }
   },
   {
-    path: '/tramites',
-    name: 'Tramites',
-    component: () => import('@/inicio/pages/Tramites.vue'),
+    path: '/products',
+    name: 'products',
+    component: () => import('@/page/products/Products.vue'),
     meta: { layout: 'default', requiresAuth: true }
   },
   {
-    path: '/requisitos',
-    name: 'Requisitos',
-    component: () => import('@/inicio/pages/Requisitos.vue'),
+    path: '/in',
+    name: 'in',
+    component: () => import('@/page/movements/In.vue'),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
+    path: '/out',
+    name: 'out',
+    component: () => import('@/page/movements/Out.vue'),
     meta: { layout: 'default', requiresAuth: true }
   },
   {

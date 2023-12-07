@@ -9,7 +9,8 @@ app.use('/api/v1', require('./roles'));
 app.use('/api/v1', require('./categories'));
 app.use('/api/v1', require('./suppliers'));
 app.use('/api/v1',require('./login'));
-app.use('/api/v1',require('./userinfo'));   
+app.use('/api/v1',require('./userinfo'));  
+app.use('/api/v1',require('./inventory_movements')); 
 
 
 module.exports = app;
