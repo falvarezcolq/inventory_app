@@ -860,10 +860,7 @@ export default {
     let total = computed(() => {
       let sum = 0;
       objectList.value.forEach((item) => {
-        console.log(Number((item.price * item.quantity).toFixed(2)))
-        
         sum += Number(Number((item.price * item.quantity).toFixed(2)).toFixed(2));
-        console.log(sum)
       });
       tot.value = sum.toFixed(2);
       return sum.toFixed(2)
