@@ -49,6 +49,7 @@
         updated_by INT,
         FOREIGN KEY (role_id) REFERENCES roles(role_id)
     );
+    
      
     CREATE TABLE products (
         product_id SERIAL PRIMARY KEY,

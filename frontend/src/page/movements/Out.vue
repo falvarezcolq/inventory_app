@@ -50,11 +50,36 @@
       </div>
     </div>
     <div class="row mb-3">
-      <div class="col-md-12">
+      <div class="col-md-8">
         <div class="search">
           <div class="search_seccion">
             <div class="row">
-              <div class="col-md-2">
+            
+              <div class="col-md-12">  
+                <div class="form-group">
+                  <label class="frm-label">PRODUCT</label>
+                  <span class="lb-error" v-if="formError.name">{{
+                    formError.name
+                  }}</span>
+
+                  <select class="form-control" 
+                    v-model="search.product_id"
+                    @change="getObject(search.product_id)"
+                    >
+                    <option v-for="item in productList" :key="item.product_id" :value="item.product_id">
+                      {{ item.name }}</option>
+                  </select>
+            
+
+                  <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
+                    "No stock"
+                  }}</span>
+                  <span class="lb-success" v-if="product && Number(product.stock_quantity) > 0">{{
+                    "Stock available: "+product.stock_quantity
+                  }}</span>
+                </div>
+              </div>
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="frm-label">BARCODE</label>
                   <span class="lb-error" v-if="formError.barcode">{{
@@ -67,31 +92,7 @@
                   />
                 </div>
               </div>
-              <div class="col-md-5">  
-                <div class="form-group">
-                  <label class="frm-label">PRODUCT</label>
-                  <span class="lb-error" v-if="formError.name">{{
-                    formError.name
-                  }}</span>
-              
-
-                  <select class="form-control" 
-                    v-model="search.product_id"
-                    @change="getObject(search.product_id)"
-                    >
-                    <option v-for="item in productList" :key="item.product_id" :value="item.product_id">
-                      {{ item.name }}</option>
-                  </select>
-                  
-                  <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
-                    "No stock"
-                  }}</span>
-                  <span class="lb-success" v-if="product && Number(product.stock_quantity) > 0">{{
-                    "Stock available: "+product.stock_quantity
-                  }}</span>
-                </div>
-              </div>
-               <div class="col-md-2">
+               <div class="col-md-5">
                 <div class="form-group">
                   <label class="frm-label">QUANTITY</label>
                   <span class="lb-error" v-if="formError.name">{{
@@ -158,6 +159,20 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4">
+        <!-- <div style="width:100%;max-height:400px;"> -->
+           <img
+              
+                :src="product.image_url"
+                alt="Product Image"
+                v-if="product && product.image_url"
+                width="300"
+                height="300"
+               
+            />
+        <!-- </div>  -->
+     
+      </div>
     </div>
 
     <div class="row" v-if="objectList.length == 0">
@@ -170,7 +185,6 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ITEM</th>
-           
             <th>PRODUCT</th>
             <th class="text-center" width="100">PRICE</th>
             <th class="text-center" width="100">QUANTITY</th>
@@ -264,7 +278,6 @@
             <div style="width:100%;" class="text-end">
                 TOTAL: 
             </div>
-
           </div>
           <div class="col-md-3">
             <input
@@ -279,7 +292,6 @@
        <div>
         <div class="row">
           <div class="offset-9 col-md-3 ">
-           
             <button class="btn btn-primary"
               @click="saveOut()"
             >
@@ -502,11 +514,14 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { Mensaje } from "../../tools/Mensaje";
-
+import Multiselect from "vue-multiselect";
+import Multas from '../../inicio/pages/multas/Multas.vue';
 export default {
   components: {
     Loading,
     SinResultado,
+    Multiselect,
+    Multas
   },
   setup() {
     let maxDate = moment().format("YYYY-MM-DD");
@@ -897,6 +912,8 @@ export default {
         isLoading.value = false;
       }
     }
+
+    
 
 
     onMounted(() => {

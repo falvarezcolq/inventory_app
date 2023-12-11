@@ -134,7 +134,7 @@
           </div>
           <div class="modal-body" v-if="object != null">
             <div class="row mb-3">
-              <div class="offset-md-2 col-md-8">
+              <div class="col-md-6">
                 <div class="row">
                    <div class="col-md-12">
                     <label class="frm-label">PRODUCT CODE:</label>
@@ -288,9 +288,40 @@
                       @input="object.weight = $event.target.value"
                     />
                   </div>
-             
               </div>
-            </div>
+             
+         
+
+              </div>
+              <div class="col-md-6">
+                
+                <div class="col-md-12 mt-3" v-if="object.image_url">
+                  <img class="doc" :src="object.image_url" 
+                    alt="Product Image"
+                    v-if="object.image_url" width="400" height="400"
+
+                    />
+
+                </div>
+
+                <div class="col-md-12 mt-3">
+                <label :for="'file-upload'" class="btn btn-sm btn-outline-success">
+                  <i class="fa fa-cloud-upload"></i> Upload image
+                </label>
+                <input @change="cargarArchivo($event)" type="file" :id="'file-upload'"
+                  style="display: none;"/>
+                </div>
+
+                <div class="col-md-12 mt-3" v-if="product_image">
+                  <img class="doc" v-bind:src="product_image" 
+                    alt="Product Image"
+                    v-if="product_image" width="400" height="400"
+
+                    />
+
+                </div>
+             </div>
+            
             </div>
           </div>
           <div class="modal-footer">
@@ -327,6 +358,8 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { Mensaje } from "../../tools/Mensaje";
+import TipoArchivos from '../../constantes/TipoArchivos';
+
 
 export default {
   components: {
@@ -377,10 +410,16 @@ export default {
         image_url:null,
         product_code:"",
         weight:"",
+      
       }
+    let product_image = ref(null);
+    let product_image_blob = ref(null);
+    let product_image_name = ref(null);
+
 
     let categoryList =  ref([]);
     let supplierList =  ref([]);
+  
 
 
     let formatDate = (fecha) => {
@@ -515,24 +554,28 @@ export default {
         if (await saveValidate()) {
           isLoading.value = true;
           let data = object.value;
-          await api
+          let response  = await api
             .put(url + `/${object.value.product_id}`, data)
-            .then((response) => {
-              if (objectList.value.length > 0) {
-                let index = objectList.value.findIndex(
-                  (x) => x.product_id == object.value.product_id
-                );
-                if (index >= 0) {
-                  object.value.updated = true;
-                  objectList.value[index] = object.value;
-                }
+          
+          if( response.status == 200){
+            if (objectList.value.length > 0) {
+              let index = objectList.value.findIndex(
+                (x) => x.product_id == object.value.product_id
+              );
+              if (index >= 0) {
+                object.value.updated = true;
+                objectList.value[index] = object.value;
               }
-              Mensaje.success("Updated successfully");
-              Modal.getInstance(modalSaveForm.value).hide();
-            })
-            .catch((err) => {
-              Mensaje.error(err.message);
-            });
+            }
+            if(product_image_blob.value){
+              await saveImage();
+            }
+            Mensaje.success("Updated successfully");
+            Modal.getInstance(modalSaveForm.value).hide();
+          }
+           
+
+            
         }
         isLoading.value = false;
       } catch (err) {
@@ -599,6 +642,109 @@ export default {
       }
     };
 
+
+
+    let cargarArchivo = async ( e) => {
+      try {
+        let archivo = e.target.files[0];
+        if (!archivo) return;
+          const imagenesAceptadas = TipoArchivos.TipoImagenes;
+        if (imagenesAceptadas.includes(archivo['type'])) {
+          resizeImage(archivo)
+        } else  {
+          Mensaje.error("El archivo seleccionado no tiene el formato aceptado, solamente imágenes y pdf son válidos. ")
+        }
+      } catch (error) {
+        console.log(error.message);
+        Mensaje.error("Error:" + error.message)
+      }
+    }
+
+
+    let resizeImage = (file) => {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = new Image();
+          img.onload = function () {
+
+            let tamanhoMinimoAceptable= img.width > img.height ? img.width : img.height ;
+            if (tamanhoMinimoAceptable < 100 ){
+              Mensaje.error("La imagen no alcanza el tamaño minimo aceptado")
+              return;
+            }
+            const maxWidth = 4096;
+            const maxHeight = 4096;
+            let newWidth = img.width;
+            let newHeight = img.height; 
+            if (img.width > maxWidth) {
+              newWidth = maxWidth;
+              newHeight = (img.height * maxWidth) / img.width;
+            }
+            if (newHeight > maxHeight) {
+              newHeight = maxHeight;
+              newWidth = (img.width * maxHeight) / img.height;
+            }
+            const max = newWidth > newHeight ? newWidth: newHeight;
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            const qualityImage = 1 - (0.0002)*(max-100);
+            canvas.toBlob((blob) => {
+              guardarArchivo(blob,file.name)
+            }, 'image/jpeg', qualityImage)
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    let guardarArchivo = async (archivo,name, item) => {
+      try {
+        product_image_name.value = name;  
+        product_image_blob.value = archivo;
+        var reader = new window.FileReader();
+          reader.readAsDataURL(archivo); 
+          reader.onload = function() {
+               product_image.value = reader.result;
+          }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    let saveImage = async () => {
+      try {
+         
+        if (product_image_blob.size > 2050000 ){
+          Mensaje.error("El documento no debe exceder los 2MB de tamaño")
+          return ;
+        }
+        const formData = new FormData();
+        formData.append('product_id', object.value.product_id);
+        formData.append('archivo', product_image_blob.value,"name");
+        isLoading.value=true;
+        let result = await api.post('/product_images', formData)
+        isLoading.value=false;
+        if (result.status == 200) {
+          product_image_name.value = null;  
+          product_image_blob.value = null;
+          product_image.value = null;
+          console.log("¡Archivo subido con éxito!")
+        } else {
+          Mensaje.error("Error")
+        }
+      } catch (error) {
+        isLoading.value=false;
+        console.log(error.message);
+        Mensaje.error("Error:" + error.message)
+      }
+    }
+
     onMounted(() => {
       getList();
       getCategories();
@@ -626,6 +772,10 @@ export default {
       ShowCreateForm,
       categoryList,
       supplierList,
+
+      cargarArchivo,
+      product_image,
+      product_image_name,
     };
   },
 };

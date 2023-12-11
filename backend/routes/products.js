@@ -1,6 +1,6 @@
 const { Router } = require("express");
 let router = Router();
-const { Op } = require("sequelize");
+
 
 const Products = require("../models/product.js");
 
@@ -10,7 +10,11 @@ router.get("/products", async (req, res) => {
     const { page, limit, name } = req.query;
     const offset = (page - 1) * limit;
     const whereClause = name ? { active: true, name: { [Op.like]: `%${name}%` } } : { active: true };
-    const products = await Products.findAll({ where: whereClause, offset, limit });
+    const products = await Products.findAll(
+      { where: whereClause, offset, limit,
+        order: [["name", "ASC"]] }
+      
+      );
     const serializedProducts = products.map(product => serialize(product));
     res.status(200).json({ code: 1, message: "OK", content: serializedProducts });
   } catch (error) {
@@ -30,7 +34,7 @@ function serialize(product) {
       barcode:product.barcode,
       manufacturer:product.manufacturer,
       supplier_id:product.supplier_id,
-      image_url:product.image_url,
+      image_url:(product.image_url != null) ? process.env.URL + product.image_url : null,
       product_code:product.product_code,
       weight:product.weight,
       active:product.active,
@@ -49,7 +53,7 @@ router.get("/products/:id", async (req, res) => {
       }
     });
     if (product) {
-      res.status(200).json({ code: 1, message: "OK", content: product });
+      res.status(200).json({ code: 1, message: "OK", content: serialize(product) });
     } else {
       res.status(404).json({ code: 0, message: "Product not found", content: "" });
     }

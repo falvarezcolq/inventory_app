@@ -7,7 +7,7 @@ backend/fileit s.pdf
 backend/files/
 backend/files/*
 
-backend/archivos/*
+backend/public/*
 backend/archivos_sobreescritos/*
 
 frontend/.env

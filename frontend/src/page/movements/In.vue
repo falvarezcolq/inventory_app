@@ -6,24 +6,29 @@
       </div>
     </div>
 
-
-   <div class="row mb-3">
+    <div class="row mb-3">
       <div class="col-md-12">
         <div class="search">
           <div class="search_seccion">
             <div class="row">
-       
-              <div class="col-md-5">  
+              <div class="col-md-5">
                 <div class="form-group">
                   <label class="frm-label">Supplier</label>
                   <span class="lb-error" v-if="formInError.supplier_id">{{
                     formInError.supplier_id
                   }}</span>
-                  <select class="form-control" 
+                  <select
+                    class="form-control"
                     v-model="objectIn.supplier_id"
-                    :class="{error:formInError.supplier_id}">
-                    <option v-for="item in supplierList" :key="item.supplier_id" :value="item.supplier_id">
-                      {{ item.supplier_name }}</option>
+                    :class="{ error: formInError.supplier_id }"
+                  >
+                    <option
+                      v-for="item in supplierList"
+                      :key="item.supplier_id"
+                      :value="item.supplier_id"
+                    >
+                      {{ item.supplier_name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -38,27 +43,12 @@
                     class="form-control"
                     placeholder=""
                     v-model="objectIn.order_date"
-                    :class="{error:formInError.order_date}"
+                    :class="{ error: formInError.order_date }"
                     type="date"
                   />
                 </div>
-                
               </div>
-             
-<!-- 
-              <div class="col-md-3">
-                <div class="mt-4">
-                   <button
-                    type="button"
-                    class="btn btn-sm btn-primary"
-                    title="Add"
-                    @click="addObject()"
-                  >
-                   &nbsp; <i class="fa fa-plus"></i>&nbsp;&nbsp;  
-                    </button
-                  >&nbsp;
-                               </div>
-              </div> -->
+
             
             </div>
           </div>
@@ -66,104 +56,131 @@
       </div>
     </div>
     <div class="row mb-3">
-      <div class="col-md-12">
-        <div class="search">
-          <div class="search_seccion">
-            <div class="row">
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="frm-label">BARCODE</label>
-                  <span class="lb-error" v-if="formError.barcode">{{
-                    formError.barcode
-                  }}</span>
-                  <input
-                    class="form-control"
-                    placeholder=""
-                    v-model="search.barcode"
-                  />
-                </div>
-              </div>
-              <div class="col-md-5">  
-                <div class="form-group">
-                  <label class="frm-label">PRODUCT</label>
-                  <span class="lb-error" v-if="formError.name">{{
-                    formError.name
-                  }}</span>
-              
+      <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="frm-label">PRODUCT</label>
+                <span class="lb-error" v-if="formError.name">{{
+                  formError.name
+                }}</span>
 
-                  <select class="form-control" 
-                  v-model="search.product_id">
-                    <option v-for="item in productList" :key="item.product_id" :value="item.product_id">
-                      {{ item.name }}</option>
-                  </select>
-                </div>
-              </div>
-               <div class="col-md-2">
-                <div class="form-group">
-                  <label class="frm-label">QUANTITY</label>
-                  <span class="lb-error" v-if="formError.name">{{
-                    formError.name
-                  }}</span>
-                  <input
-                    class="form-control text-end"
-                    placeholder=""
-                    v-model="search.quantity"
-                    type="number"
-                  />
-                </div>
-              </div>
+                <select class="form-control"
+                   v-model="search.product_id"
+                   @change="getObject(search.product_id)"
+                 >
+                  <option
+                    v-for="item in productList"
+                    :key="item.product_id"
+                    :value="item.product_id"
+                  >
+                    {{ item.name }}
+                  </option>
 
-              <div class="col-md-3">
-                <div class="mt-4">
-                   <button
-                    type="button"
-                    class="btn btn-sm btn-primary"
-                    title="Add"
-                    @click="addObject()"
-                  >
-                   &nbsp; <i class="fa fa-plus"></i>&nbsp;&nbsp;  
-                    </button
-                  >&nbsp;
-                  <!-- <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary"
-                    title="Search"
-                    @click="Search"
-                  >
-                    <i class="fa fa-search"></i></button
-                  >&nbsp; -->
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary"
-                    title="Clear"
-                    @click="Clear"
-                  >
-                    <i class="fa fa-eraser"></i>
-                  </button>
-                  &nbsp;
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary"
-                    title="Clear"
-                    @click="Clear"
-                  >
-                    <i class="fa fa-sync"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="col-md-12" style="text-align: right">
-                <button
-                  class="btn btn-outline-primary btn-sm"
-                  @click="ShowCreateForm()"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalSaveProductForm"
-                >
-                  ADD NEW PRODUCT<i class="fa fa-plus"></i>
-                </button>
+                  <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
+                    "No stock"
+                  }}</span>
+                  <span class="lb-success" v-if="product && Number(product.stock_quantity) > 0">{{
+                    "Stock available: "+product.stock_quantity
+                  }}</span>
+                </select>
               </div>
             </div>
           </div>
-        </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="frm-label">BARCODE</label>
+                <span class="lb-error" v-if="formError.barcode">{{
+                  formError.barcode
+                }}</span>
+                <input
+                  class="form-control"
+                  placeholder=""
+                  v-model="search.barcode"
+                />
+              </div>
+            </div>
+          
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="frm-label">QUANTITY</label>
+                <span class="lb-error" v-if="formError.name">{{
+                  formError.name
+                }}</span>
+                <input
+                  class="form-control text-end"
+                  placeholder=""
+                  v-model="search.quantity"
+                  type="number"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mt-4">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  title="Add"
+                  @click="addObject()"
+                >
+                  &nbsp; <i class="fa fa-plus"></i>&nbsp;&nbsp;</button
+                >&nbsp;
+                <!-- <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  title="Search"
+                  @click="Search"
+                >
+                  <i class="fa fa-search"></i></button
+                >&nbsp; -->
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  title="Clear"
+                  @click="Clear"
+                >
+                  <i class="fa fa-eraser"></i>
+                </button>
+                &nbsp;
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  title="Clear"
+                  @click="Clear"
+                >
+                  <i class="fa fa-sync"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-12" style="text-align: right">
+              <button
+                class="btn btn-outline-primary btn-sm"
+                @click="ShowCreateForm()"
+                data-bs-toggle="modal"
+                data-bs-target="#modalSaveProductForm"
+              >
+                ADD NEW PRODUCT<i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+         
+      </div>
+      <div class="col-md-4">
+        <!-- <div style="width:100%;max-height:400px;"> -->
+           <img
+              
+                :src="product.image_url"
+                alt="Product Image"
+                v-if="product && product.image_url"
+                width="300"
+                height="300"
+               
+            />
+        <!-- </div>  -->
+        
       </div>
     </div>
 
@@ -177,13 +194,13 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ITEM</th>
-           
+
             <th>PRODUCT</th>
             <th class="text-center" width="100">PRICE</th>
             <th class="text-center" width="100">QUANTITY</th>
             <th class="text-center" width="100">SUBTOTAL</th>
             <th></th>
-             <th width="100">LOTE</th>
+            <th width="100">LOTE</th>
             <th width="100">EXPIRATION</th>
           </tr>
         </thead>
@@ -196,66 +213,80 @@
               'table-info': item.updated,
             }"
           >
-            <td class="text-center">{{ (index + 1) }}</td>
-           
-            <td>{{ item.name}} </td>
-            <td style="margin-rigth:0"> 
+            <td class="text-center">{{ index + 1 }}</td>
+
+            <td>{{ item.name }}</td>
+            <td style="margin-rigth: 0">
               <span class="lb-error" v-if="formErrorRow[index].price">{{
-                  formErrorRow[index].price
+                formErrorRow[index].price
               }}</span>
-              <input v-model.trim="item.price"
-                  class="form-control input-table text-end" 
-                  type="text"
-                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
-                  :class="{ error: formErrorRow[index].price }"
-              /> 
+              <input
+                v-model.trim="item.price"
+                class="form-control input-table text-end"
+                type="text"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
+                :class="{ error: formErrorRow[index].price }"
+              />
             </td>
             <td class="text-center" style="">
               <span class="lb-error" v-if="formErrorRow[index].quantity">{{
-                  formErrorRow[index].quantity
+                formErrorRow[index].quantity
               }}</span>
-              <input v-model.trim = "item.quantity"
-                class="form-control input-table text-end" 
+              <input
+                v-model.trim="item.quantity"
+                class="form-control input-table text-end"
                 type="text"
                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
                 :class="{ error: formErrorRow[index].quantity }"
-                /> 
+              />
             </td>
-           
-            <td  style="position:relative;">
-              <div class="text-end" style="width:100%; margin-top:7px; margin-right:0px; font-size:12px;">
+
+            <td style="position: relative">
+              <div
+                class="text-end"
+                style="
+                  width: 100%;
+                  margin-top: 7px;
+                  margin-right: 0px;
+                  font-size: 12px;
+                "
+              >
                 {{ (item.price * item.quantity).toFixed(2) }}
               </div>
             </td>
-            
+
             <td class="text-center">
               <button
-                class="btn btn-outline-secondary btn-sm" 
+                class="btn btn-outline-secondary btn-sm"
                 @click="deleteObject(item.product_id)"
               >
                 <i class="fa fa-trash"></i>
               </button>
             </td>
 
-            <td width="100"> 
+            <td width="100">
               <span class="lb-error" v-if="formErrorRow[index].lote">{{
-                  formErrorRow[index].lote
+                formErrorRow[index].lote
               }}</span>
-              <input v-model.trim = "item.lote"
-                class="input-table" 
+              <input
+                v-model.trim="item.lote"
+                class="input-table"
                 type="text"
                 :class="{ error: formErrorRow[index].lote }"
-                /> 
+              />
             </td>
-            <td width="100"> 
-              <span class="lb-error" v-if="formErrorRow[index].expiration_date">{{
-                  formErrorRow[index].expiration_date
-              }}</span>
-              <input v-model.trim = "item.expiration_date"
-                class="input-table" 
+            <td width="100">
+              <span
+                class="lb-error"
+                v-if="formErrorRow[index].expiration_date"
+                >{{ formErrorRow[index].expiration_date }}</span
+              >
+              <input
+                v-model.trim="item.expiration_date"
+                class="input-table"
                 type="date"
-                 :class="{ error: formErrorRow[index].expiration_date }"
-                /> 
+                :class="{ error: formErrorRow[index].expiration_date }"
+              />
             </td>
           </tr>
         </tbody>
@@ -264,10 +295,7 @@
       <div>
         <div class="row">
           <div class="offset-3 col-md-3 text-end">
-            <div style="width:100%;" class="text-end">
-                TOTAL: 
-            </div>
-
+            <div style="width: 100%" class="text-end">TOTAL:</div>
           </div>
           <div class="col-md-3">
             <input
@@ -279,17 +307,11 @@
           </div>
         </div>
       </div>
-       <div>
+      <div>
         <div class="row">
-          <div class="offset-9 col-md-3 ">
-           
-            <button class="btn btn-primary"
-              @click="saveIn()"
-            >
-              SAVE
-            </button>
+          <div class="offset-9 col-md-3">
+            <button class="btn btn-primary" @click="saveIn()">SAVE</button>
           </div>
-         
         </div>
       </div>
     </div>
@@ -314,7 +336,7 @@
             <div class="row mb-3">
               <div class="offset-md-2 col-md-8">
                 <div class="row">
-                   <div class="col-md-12">
+                  <div class="col-md-12">
                     <label class="frm-label">PRODUCT CODE:</label>
                     <span class="lb-error" v-if="saveFormError.product_code">{{
                       saveFormError.product_code
@@ -327,7 +349,7 @@
                       @input="newProduct.product_code = $event.target.value"
                     />
                   </div>
-                
+
                   <div class="col-md-12">
                     <label class="frm-label">NAME:</label>
                     <span class="lb-error" v-if="saveFormError.name">{{
@@ -369,9 +391,11 @@
                   </div>
                   <div class="col-md-12">
                     <label class="frm-label">STOCK QUANTITY:</label>
-                    <span class="lb-error" v-if="saveFormError.stock_quantity">{{
-                      saveFormError.stock_quantity
-                    }}</span>
+                    <span
+                      class="lb-error"
+                      v-if="saveFormError.stock_quantity"
+                      >{{ saveFormError.stock_quantity }}</span
+                    >
                     <input
                       class="form-control"
                       type="number"
@@ -389,12 +413,16 @@
                       class="form-control"
                       v-model="newProduct.category_id"
                       :class="{ error: saveFormError.category_id }"
-                      @input="newProduct.category_id = $event.target.value">
-                      <option v-for="item in categoryList"
-                      :key="item.category_id" 
-                      :value="item.category_id">
-                        {{ item.name }}</option> 
-                      </select>
+                      @input="newProduct.category_id = $event.target.value"
+                    >
+                      <option
+                        v-for="item in categoryList"
+                        :key="item.category_id"
+                        :value="item.category_id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
                   </div>
                   <div class="col-md-12">
                     <label class="frm-label">BARCODE:</label>
@@ -431,11 +459,15 @@
                       class="form-control"
                       v-model="newProduct.supplier_id"
                       :class="{ error: saveFormError.supplier_id }"
-                      @input="newProduct.supplier_id = $event.target.value">
-                      <option v-for="item in supplierList" 
-                      :key="item.supplier_id" 
-                      :value="item.supplier_id">
-                        {{ item.supplier_name}}</option> 
+                      @input="newProduct.supplier_id = $event.target.value"
+                    >
+                      <option
+                        v-for="item in supplierList"
+                        :key="item.supplier_id"
+                        :value="item.supplier_id"
+                      >
+                        {{ item.supplier_name }}
+                      </option>
                     </select>
                   </div>
                   <!-- <div class="col-md-12">
@@ -451,7 +483,7 @@
                       @input="newProduct.image_url = $event.target.value"
                     />
                   </div> -->
-                 
+
                   <div class="col-md-12">
                     <label class="frm-label">WEIGHT:</label>
                     <span class="lb-error" v-if="saveFormError.weight">{{
@@ -466,9 +498,8 @@
                       @input="newProduct.weight = $event.target.value"
                     />
                   </div>
-             
+                </div>
               </div>
-            </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -515,8 +546,8 @@ export default {
     let maxDate = moment().format("YYYY-MM-DD");
     let search = ref({
       barcode: "",
-      product_id:null,
-      quantity:1,
+      product_id: null,
+      quantity: 1,
     });
     let create_form = ref(false);
     let object = ref(null);
@@ -525,7 +556,7 @@ export default {
       order_date: moment().format("YYYY-MM-DD"),
     });
     let objectList = ref([]);
-    
+
     let isLoading = ref(false);
     let msgShow = ref(false);
     let modalSaveProductForm = ref(null);
@@ -536,39 +567,38 @@ export default {
       name: Yup.string().required(),
     });
     let schemaSaveProductForm = Yup.object().shape({
-       name:Yup.string().max(100).required(),
-        description:Yup.string().max(1024),
-        price:Yup.number().required(),
-        stock_quantity:Yup.number().required(),
-        category_id:Yup.number().required(),
-        barcode:Yup.string().max(50),
-        manufacturer:Yup.string().max(100),
-        supplier_id:Yup.number().required(),
-        // image_url:Yup.string().max(512),
-        product_code:Yup.string().max(50),
-        weight:Yup.number().required(),
+      name: Yup.string().max(100).required(),
+      description: Yup.string().max(1024),
+      price: Yup.number().required(),
+      stock_quantity: Yup.number().required(),
+      category_id: Yup.number().required(),
+      barcode: Yup.string().max(50),
+      manufacturer: Yup.string().max(100),
+      supplier_id: Yup.number().required(),
+      // image_url:Yup.string().max(512),
+      product_code: Yup.string().max(50),
+      weight: Yup.number().required(),
     });
-    let urlProducts = '/products';
+    let urlProducts = "/products";
     let data = {
-        name:"",
-        description:"",
-        price:"",
-        stock_quantity:0,
-        category_id:null,
-        barcode:"",
-        manufacturer:"",
-        supplier_id:null,
-        image_url:null,
-        product_code:"",
-        weight:"",
-      }
+      name: "",
+      description: "",
+      price: "",
+      stock_quantity: 0,
+      category_id: null,
+      barcode: "",
+      manufacturer: "",
+      supplier_id: null,
+      image_url: null,
+      product_code: "",
+      weight: "",
+    };
 
-    let categoryList =  ref([]);
-    let supplierList =  ref([]);
-    let productList =  ref([]);
+    let categoryList = ref([]);
+    let supplierList = ref([]);
+    let productList = ref([]);
     let newProduct = ref(null);
-    
-
+    let product = ref(null);
 
     let formatDate = (fecha) => {
       return moment(fecha).format("YYYY-MM-DD HH:mm:ss");
@@ -577,8 +607,8 @@ export default {
     let Clear = () => {
       search.value = {
         barcode: "",
-        product_id:null,
-        quantity:1,
+        product_id: null,
+        quantity: 1,
       };
       objectList.value = [];
     };
@@ -605,9 +635,7 @@ export default {
         if (await searchValidate()) {
           isLoading.value = true;
           await api
-            .get(
-              urlProducts + `?page=1&limit=10000&name=${search.value.name}`
-            )
+            .get(urlProducts + `?page=1&limit=10000&name=${search.value.name}`)
             .then((response) => {
               objectList.value = response.data.content;
             });
@@ -619,41 +647,38 @@ export default {
       }
     };
 
-
-
-    
-    let getCategories = async () =>{
-      try{
-        await api.get( '/categories?page=1&limit=1000').then((response) => {
+    let getCategories = async () => {
+      try {
+        await api.get("/categories?page=1&limit=1000").then((response) => {
           categoryList.value = response.data.content;
         });
-      } catch(err) {
-         isLoading.value = false;
-        Mensaje.error(err.message);
-      }
-    }
-
-    let getSuppliers = async () =>{
-      try{
-        await api.get( '/suppliers?page=1&limit=1000').then((response) => {
-          supplierList.value = response.data.content;
-        });
-      } catch(err) {
-         isLoading.value = false;
-        Mensaje.error(err.message);
-      }
-    }
-
-    let getProducts = async () =>{
-      try{
-        await api.get( '/products?page=1&limit=1000').then((response) => {
-          productList.value = response.data.content;
-        });
-      } catch(err) {
+      } catch (err) {
         isLoading.value = false;
         Mensaje.error(err.message);
       }
-    }
+    };
+
+    let getSuppliers = async () => {
+      try {
+        await api.get("/suppliers?page=1&limit=1000").then((response) => {
+          supplierList.value = response.data.content;
+        });
+      } catch (err) {
+        isLoading.value = false;
+        Mensaje.error(err.message);
+      }
+    };
+
+    let getProducts = async () => {
+      try {
+        await api.get("/products?page=1&limit=1000").then((response) => {
+          productList.value = response.data.content;
+        });
+      } catch (err) {
+        isLoading.value = false;
+        Mensaje.error(err.message);
+      }
+    };
     const ShowCreateForm = async () => {
       create_form.value = true;
       newProduct.value = data;
@@ -661,25 +686,26 @@ export default {
     };
 
     const getObject = async (id) => {
-      isLoading.value = true;
-      create_form.value = false;
-      let response = await api.get(url+`/${id}`);
-      isLoading.value = false;
-      if (response.status == 200) {
-        newProduct.value = response.data.content;
-      } else {
-        Mensaje.error(response.data.message);
+       try {
+        product.value = productList.value.find(x=>x.product_id == id);
+        console.log(product.value);
+      } catch (error) {
+        console.log(error);
       }
     };
 
-    const addObject = async ()=>{
+    const addObject = async () => {
       try {
-        let product = productList.value.find(x=>x.product_id == search.value.product_id);
-        if(product){
-          let index = objectList.value.findIndex(x=>x.product_id == product.product_id);
-          if(index >= 0){
+        let product = productList.value.find(
+          (x) => x.product_id == search.value.product_id
+        );
+        if (product) {
+          let index = objectList.value.findIndex(
+            (x) => x.product_id == product.product_id
+          );
+          if (index >= 0) {
             objectList.value[index].quantity += search.value.quantity;
-          }else{
+          } else {
             product.quantity = search.value.quantity;
             product.sub_total = (product.price * product.quantity).toFixed(2);
             objectList.value.push(product);
@@ -691,15 +717,15 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-
-   
+    };
 
     const saveProductValidate = async () => {
       let valida = false;
       try {
         saveFormError.value = {};
-        await schemaSaveProductForm.validate(newProduct.value, { abortEarly: false });
+        await schemaSaveProductForm.validate(newProduct.value, {
+          abortEarly: false,
+        });
         valida = true;
       } catch (err) {
         saveFormError.value = {};
@@ -712,12 +738,12 @@ export default {
       return valida;
     };
 
-    const saveObject = async () => { 
-     await createProduct();  
+    const saveObject = async () => {
+      await createProduct();
     };
 
-    const saveProduct = async () => { 
-     await createProduct();  
+    const saveProduct = async () => {
+      await createProduct();
     };
 
     const createProduct = async () => {
@@ -748,8 +774,7 @@ export default {
 
     const deleteObject = async (id) => {
       try {
-
-        let index = objectList.value.findIndex(x=>x.product_id == id);
+        let index = objectList.value.findIndex((x) => x.product_id == id);
         let deleteObject = objectList.value[index];
         Swal.fire({
           title: `${deleteObject.name}`,
@@ -760,12 +785,11 @@ export default {
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
           if (result.isConfirmed) {
-             let index = objectList.value.findIndex(x=>x.product_id == id);
-              if(index >= 0){
-                objectList.value.splice(index,1);
-                formErrorRow.value.splice(index,1);
-              }
-            
+            let index = objectList.value.findIndex((x) => x.product_id == id);
+            if (index >= 0) {
+              objectList.value.splice(index, 1);
+              formErrorRow.value.splice(index, 1);
+            }
           }
         });
       } catch (err) {
@@ -789,7 +813,7 @@ export default {
 
     const formErrorRow = ref([]);
 
-    const validateItem = async (item,index)=>{
+    const validateItem = async (item, index) => {
       let valida = false;
       console.log(item);
       console.log(index);
@@ -806,9 +830,9 @@ export default {
         });
       }
       return valida;
-    }
+    };
 
-    const validateIn = async ()=>{
+    const validateIn = async () => {
       let valida = false;
       try {
         formInError.value = {};
@@ -821,21 +845,21 @@ export default {
             formInError.value[error.path] = error.message;
           }
         });
-        valida=false;
+        valida = false;
       }
 
-      if(objectList.value.length == 0){
+      if (objectList.value.length == 0) {
         Mensaje.error("No items");
         valida = false;
-      }else{
-        for(let i = 0; i < objectList.value.length; i++){
-          if(! await validateItem(objectList.value[i],i)){
+      } else {
+        for (let i = 0; i < objectList.value.length; i++) {
+          if (!(await validateItem(objectList.value[i], i))) {
             valida = false;
           }
         }
       }
       return valida;
-    }
+    };
 
     const tot = ref(0);
     let total = computed(() => {
@@ -844,39 +868,39 @@ export default {
         sum += Number((item.price * item.quantity).toFixed(2));
       });
       tot.value = sum;
-      return sum
+      return sum;
     });
 
-    const saveIn = async ()=>{
+    const saveIn = async () => {
       try {
-        if( await validateIn()){
-          Mensaje.Confirmar("Do you want to save this income?",async ()=>{
-           
-             isLoading.value = true;
+        if (await validateIn()) {
+          Mensaje.Confirmar("Do you want to save this income?", async () => {
+            isLoading.value = true;
             let data = {
-              supplier_id:objectIn.value.supplier_id,
-              order_date:objectIn.value.order_date,
-              items:objectList.value,
-              total:tot.value,
-            }
-            await api.post('/in',data).then((response)=>{
-              Mensaje.success("Created successfully");
-              Clear();
-              objectList.value = [];
-              isLoading.value = false;
-            }).catch((err)=>{
-              Mensaje.error(err.message);
-              isLoading.value = false;
-            })
+              supplier_id: objectIn.value.supplier_id,
+              order_date: objectIn.value.order_date,
+              items: objectList.value,
+              total: tot.value,
+            };
+            await api
+              .post("/in", data)
+              .then((response) => {
+                Mensaje.success("Created successfully");
+                Clear();
+                objectList.value = [];
+                isLoading.value = false;
+              })
+              .catch((err) => {
+                Mensaje.error(err.message);
+                isLoading.value = false;
+              });
           });
-          
         }
       } catch (error) {
         Mensaje.error(err.message);
         isLoading.value = false;
       }
-    }
-
+    };
 
     onMounted(() => {
       getCategories();
@@ -884,8 +908,6 @@ export default {
       getProducts();
     });
 
-   
-    
     return {
       formatDate,
       Search,
@@ -917,6 +939,7 @@ export default {
       saveIn,
       objectIn,
       formErrorRow,
+      product,
     };
   },
 };

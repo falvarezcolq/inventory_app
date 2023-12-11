@@ -18,6 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true ,limit: "50mb"}));
 //   res.status(500).send('Error middleware');
 // });
 
+
+
+app.use( express.static('public'));
+app.use('/images', express.static('images'));
+
 // Configuracion global de rutas
 app.use(require("./routes/index.route"));
 // Puerto
