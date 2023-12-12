@@ -147,7 +147,7 @@
                       type="text"
                       v-model="object.username"
                       :class="{ error: saveFormError.username }"
-                      @input="object.username = $event.target.value.toUpperCase()"
+                    
                     />
                   </div>
                   <div class="col-md-12">

@@ -123,7 +123,7 @@
             </div>
           </div>
         </li>
-
+<!-- 
         <li >
           <div class="row">
             <div class="col-md-12" >
@@ -133,9 +133,9 @@
               </router-link>
             </div>
           </div>
-        </li>
+        </li> -->
 
-        <li >
+        <!-- <li >
           <div class="row">
             <div class="col-md-12" >
               <router-link to="/payments">
@@ -144,8 +144,8 @@
               </router-link>
             </div>
           </div>
-        </li>
-         <li >
+        </li> -->
+         <!-- <li >
           <div class="row">
             <div class="col-md-12" >
               <router-link to="/reviews">
@@ -154,7 +154,7 @@
               </router-link>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
     </div>
 
