@@ -37,15 +37,49 @@ router.get("/suppliers", async (req, res) => {
     }
 });
 
+router.get("/suppliers/suppliers", async (req, res) => {
+    try {
+        const { page, limit, name } = req.query;
+        if (!page || !limit) {
+           page = 1;
+           limit = 10000;   
+        }
+        const offset = (page - 1) * limit;
+        const whereClause = {
+            active: true,
+            supplier: true,     
+        };
+        if (name) {
+            whereClause.supplier_name = {
+                [Op.like]: `%${name}%`
+            };
+        }
+        const suppliers = await Suppliers.findAndCountAll({
+            where: whereClause,
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            order: [["supplier_name", "ASC"]]
+        });
+        const serializedSuppliers = suppliers.rows.map(supplier => serialize(supplier));
+        res.status(200).json({ code: 1, message: "OK", content: serializedSuppliers, total: suppliers.count });
+    } catch (error) {
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
+    }
+});
+
 // Serialize supplier data
 function serialize(supplier) {
     return {
         supplier_id: supplier.supplier_id,
+        nit: supplier.nit,
+        razon_social: supplier.razon_social,
         supplier_name: supplier.supplier_name,
         contact_person: supplier.contact_person,
         contact_email: supplier.contact_email,
         contact_phone: supplier.contact_phone,
         address: supplier.address,
+        customer: supplier.customer,
+        supplier: supplier.supplier,
     };
 }
 
@@ -71,13 +105,17 @@ router.get("/suppliers/:id", async (req, res) => {
 // CREATE a new supplier
 router.post("/suppliers", async (req, res) => {
     try {
-        const { supplier_name, contact_person, contact_email,contact_phone, address } = req.body;
+        const { nit,razon_social, supplier_name, contact_person, contact_email,contact_phone, customer, supplier, address } = req.body;
         const newSupplier = await Suppliers.create({
+            nit,
+            razon_social,
             supplier_name,
             contact_person,
             contact_email,
             contact_phone,
-            address
+            address,
+            customer,
+            supplier
         });
         res.status(201).json({ code: 1, message: "Supplier created successfully", content: newSupplier });
     } catch (error) {
@@ -89,9 +127,12 @@ router.post("/suppliers", async (req, res) => {
 router.put("/suppliers/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { supplier_name } = req.body;
+        const {  nit, razon_social, supplier_name, contact_person, contact_email, contact_phone, address, customer, supplier
+         } = req.body;
         const updatedSupplier = await Suppliers.update(
-            { supplier_name },
+            { 
+                nit,razon_social,supplier_name,contact_person,contact_email,contact_phone,address,customer,supplier
+            },
             {
                 where: {
                     supplier_id: id

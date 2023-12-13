@@ -3,6 +3,7 @@ const sequelize = require('../config/config_sequelize');
 const Category = require('./category');
 const Supplier = require('./supplier');
 const User = require('./user');
+const Unit = require('./unit');
 
 class Product extends Model {}
 
@@ -20,13 +21,24 @@ Product.init({
     description: {
         type: DataTypes.TEXT
     },
+    purchase_price: {
+        type: DataTypes.DECIMAL(15, 7),
+        allowNull: false
+    },
     price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     stock_quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
+    },
+    barcode: {
+        type: DataTypes.STRING(50)
+    },
+    manufacturer: {
+        type: DataTypes.STRING(100)
     },
     category_id: {
         type: DataTypes.INTEGER,
@@ -36,18 +48,25 @@ Product.init({
             key: 'category_id'
         }
     },
-    barcode: {
-        type: DataTypes.STRING(50)
-    },
-    manufacturer: {
-        type: DataTypes.STRING(100)
-    },
     supplier_id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: Supplier,
             key: 'supplier_id'
         }
+    },
+    unit_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Unit,
+            key: 'unit_id'
+        }
+    },
+    unit_abbreviation: {
+        type: DataTypes.STRING(10),
+        allowNull: false
     },
     image_url: {
         type: DataTypes.TEXT
@@ -57,6 +76,20 @@ Product.init({
     },
     weight: {
         type: DataTypes.DECIMAL(10, 2)
+    },
+    discount: {
+        type: DataTypes.DECIMAL(5, 2),
+        defaultValue: 0.00
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+    },
+    is_active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
     },
     created_at: {
         type: DataTypes.DATE,
@@ -79,14 +112,6 @@ Product.init({
             model: User,
             key: 'user_id'
         }
-    },
-    is_active: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-    },
-    discount: {
-        type: DataTypes.DECIMAL(5, 2),
-        defaultValue: 0.00
     }
 }, {
     // Other model options go here
@@ -99,6 +124,7 @@ Product.init({
 // Define associations
 Product.belongsTo(Category, { foreignKey: 'category_id' });
 Product.belongsTo(Supplier, { foreignKey: 'supplier_id' });
+Product.belongsTo(Unit, { foreignKey: 'unit_id' });
 Product.belongsTo(User, { as: 'createdBy', foreignKey: 'created_by' });
 Product.belongsTo(User, { as: 'updatedBy', foreignKey: 'updated_by' });
 

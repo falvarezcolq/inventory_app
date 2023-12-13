@@ -69,8 +69,6 @@
                     <option v-for="item in productList" :key="item.product_id" :value="item.product_id">
                       {{ item.name }}</option>
                   </select>
-            
-
                   <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
                     "No stock"
                   }}</span>
@@ -183,9 +181,10 @@
     <div class="table-responsive" v-else>
       <table class="table table-sm table-hover">
         <thead class="thead-dark">
-          <tr class="text-center">
-            <th>ITEM</th>
-            <th>PRODUCT</th>
+          <tr>
+            <th class="text-start">ITEM</th>
+            <th class="text-start">PRODUCT</th>
+            <th class="text-start">UNIT</th>
             <th class="text-center" width="100">PRICE</th>
             <th class="text-center" width="100">QUANTITY</th>
             <th class="text-center" width="100">SUBTOTAL</th>
@@ -203,8 +202,9 @@
               'table-info': item.updated,
             }"
           >
-            <td class="text-center">{{ (index + 1) }}</td>           
-            <td>{{ item.name}} </td>
+            <td class="text-start">{{ (index + 1) }}</td>           
+            <td class="text-start">{{ item.name}} </td>
+            <td class="text-start">{{ item.unit_abbreviation}} </td>
             <td style="margin-rigth:0"> 
               <span class="lb-error" v-if="formErrorRow[index].price">{{
                   formErrorRow[index].price
@@ -875,7 +875,8 @@ export default {
     let total = computed(() => {
       let sum = 0;
       objectList.value.forEach((item) => {
-        sum += Number(Number((item.price * item.quantity).toFixed(2)).toFixed(2));
+        item.subtotal = (item.price * item.quantity).toFixed(2);
+        sum += Number((item.price * item.quantity).toFixed(2));
       });
       tot.value = sum.toFixed(2);
       return sum.toFixed(2)

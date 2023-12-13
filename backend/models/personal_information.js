@@ -1,21 +1,21 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config_sequelize');
-const Role = require('./role');
+const User = require('./user');
 
-class User extends Model {}
+class PersonalInformation extends Model {}
 
-User.init({
+PersonalInformation.init({
   // Model attributes are defined here
-  user_id: {
+  personal_information_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  username: {
+  first_name: {
     type: DataTypes.STRING(50),
     allowNull: false
   },
-  password: {
+  last_name: {
     type: DataTypes.STRING(50),
     allowNull: false
   },
@@ -30,19 +30,22 @@ User.init({
   phone: {
     type: DataTypes.STRING(20)
   },
-  role_id: {
+  document: {
+    type: DataTypes.STRING(30)
+  },
+  user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    unique: true,
     references: {
-      model: Role,
-      key: 'role_id'
+      model: User,
+      key: 'user_id'
     }
   },
-  personal_information_id:{
-    type: DataTypes.INTEGER,
-    allowNull: true,
+  active: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+    allowNull: false
   },
-  
   created_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
@@ -50,22 +53,16 @@ User.init({
   updated_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
-  },
-  created_by: {
-    type: DataTypes.INTEGER
-  },
-  updated_by: {
-    type: DataTypes.INTEGER
   }
 }, {
   // Other model options go here
   sequelize, // We need to pass the connection instance
-  modelName: 'users', // We need to choose the model name
+  modelName: 'personal_information', // We need to choose the model name
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 });
 
 // Add foreign key constraint
-User.belongsTo(Role, { foreignKey: 'role_id' });
+PersonalInformation.belongsTo(User, { foreignKey: 'user_id' });
 
-module.exports = User;
+module.exports = PersonalInformation;

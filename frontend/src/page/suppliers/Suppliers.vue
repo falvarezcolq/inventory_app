@@ -71,12 +71,16 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ID</th>
+            <th>NIT</th>
+            <th>RAZON SOCIAL</th>
             <th>NAME</th>
-            <th>CONTACT PERSON</th>
-            <th>CONTACT EMAIL</th>
-            <th>CONTACT PHONE</th>
+            <th>PERSON</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
             <th>ADDRESS</th>
             <th>CREATED AT</th>
+            <th>CUSTOMER</th>
+            <th>SUPPLIER</th>
             <th></th>
           </tr>
         </thead>
@@ -90,6 +94,8 @@
             }"
           >
             <td class="text-center">{{ item.supplier_id }}</td>
+            <td>{{ item.nit}} </td>
+            <td>{{ item.razon_social}} </td>
             <td>{{ item.supplier_name}} </td>
             <td>{{ item.contact_person}} </td>
             <td>{{ item.contact_email}} </td>
@@ -97,6 +103,13 @@
             <td>{{ item.address}} </td>
 
             <td class="text-center">{{ formatDate(item.created_at) }}</td>
+            <td class="text-center"> 
+              <i class="fa fa-check" v-if="item.customer"></i>
+            </td>
+            <td class="text-center" >
+              <i class="fa fa-check" v-if="item.supplier"></i>
+            </td>
+
             <td class="text-center">
               <button
                 class="btn btn-link"
@@ -138,6 +151,32 @@
             <div class="row mb-3">
               <div class="offset-md-2 col-md-8">
                 <div class="row">
+                   <div class="col-md-12">
+                    <label class="frm-label">CODE:</label>
+                    <span class="lb-error" v-if="saveFormError.nit">{{
+                      saveFormError.nit
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.nit"
+                      :class="{ error: saveFormError.nit }"
+                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    />
+                  </div>
+                   <div class="col-md-12">
+                    <label class="frm-label">RAZON SOCIAL SUPPLIER:</label>
+                    <span class="lb-error" v-if="saveFormError.razon_social">{{
+                      saveFormError.razon_social
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.razon_social"
+                      :class="{ error: saveFormError.razon_social }"
+                      @input="object.razon_social = $event.target.value.toUpperCase()"
+                    />
+                  </div>
                   <div class="col-md-12">
                     <label class="frm-label">NAME'S SUPPLIER:</label>
                     <span class="lb-error" v-if="saveFormError.supplier_name">{{
@@ -203,6 +242,44 @@
                       @input="object.address = $event.target.value"
                     />
                   </div>
+                   <div class="col-md-12 mt-2">
+                    <div class="form-check form-switch">
+                      <span class="lb-error" v-if="saveFormError.customer">{{
+                        saveFormError.customer
+                      }}</span>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="object.customer"
+                        :class="{ error: saveFormError.customer }"
+                        role="switch"
+                        id="checkCustomer"
+                      />
+                     <label class="form-check-labe" for="checkCustomer">CUSTOMER:</label>
+
+                    </div>
+                   
+                  </div>
+                   <div class="col-md-12 mt-2">
+                    <div class="form-check form-switch">
+                      <span class="lb-error" v-if="saveFormError.supplier">{{
+                        saveFormError.supplier
+                      }}</span>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="object.supplier"
+                        :class="{ error: saveFormError.supplier }"
+                        role="switch"
+                        id="checkSupplier"
+                      />
+                      <label class="form-check-labe" for="checkSupplier">SUPPLIER:</label>
+
+
+                    </div>
+                    
+                   
+                  </div>
                 </div>
               </div>
             </div>
@@ -266,11 +343,13 @@ export default {
       
     });
     let schemaSaveForm = Yup.object().shape({
+      nit:Yup.string().max(50).required(),
+      razon_social:Yup.string().max(255).required(),
       supplier_name:Yup.string().max(100).required(),
-      contact_person:Yup.string().max(100),
-      contact_email:Yup.string().max(100).email(),
-      contact_phone:Yup.string().max(20),
-      address:Yup.string().max(255),
+      contact_person:Yup.string().max(100).nullable(),
+      contact_email:Yup.string().max(100).email().nullable(),
+      contact_phone:Yup.string().max(20).nullable(),
+      address:Yup.string().max(255).nullable(),
     });
     let url = '/suppliers';
 

@@ -40,9 +40,10 @@
         </div>
       </div>
     </div>
+     <Loading v-show="isLoading"/>
   </div>
 
-  <Loading v-show="isLoading"/>
+ 
 </template>
 
 <script>

@@ -8,61 +8,68 @@ const OrderItem = require("../models/order_item.js");
 const Product = require("../models/product.js");
 const { validarJWT } = require("../middlewares/validar_jwt.js");
 const conexionPG = require("../config/config_pg.js");
+const Supplier = require("../models/supplier.js");
 
 
 // CREATE a new inventory movement
-router.post("/in",[validarJWT], async (req, res) => {
+router.post("/in_purchase",[validarJWT], async (req, res) => {
   try {
-    const { 
-      supplier_id,
-      order_date,
-      items,
-      userauth,
-      total,
-    } = req.body; 
-
+    const { supplier_id, order_date, items, userauth, total, } = req.body; 
+    const type_movement_id = 1; // IN PURCHASE
+    const supplier = await Supplier.findOne({ where: { supplier_id: supplier_id,} });
     const result = await sequelize.transaction(async (t) => {
-
     const newOrder = await Order.create({
       supplier_id,
+      nit: supplier.nit,
+      razon_social: supplier.razon_social,
       order_date,
-      user_id: userauth.user_id,
+      type_movement_id,
+      movement_type: "In",
       total_amount: total,
+      user_id: userauth.user_id,
+      total_items: items.length,
     },{ transaction: t });
-    
+
     for(let i = 0; i < items.length; i++){
-      const {  product_id,  quantity, price, lote, expiration_date, stock_quantity} = items[i];
-      const newOrderItem = await OrderItem.create({
-        order_id: newOrder.order_id,
+      const {  product_id,  quantity, purchase_price, price, lote, expiration_date, unit_id, stock_quantity,subtotal} = items[i];
+     
+      const product = await Product.findOne({ where: { product_id: product_id } });
+      const newInventoryMovement = await InventoryMovement.create({
         product_id,
         quantity,
-        price,
-        lote,
-        expiration_date,
-      },{ transaction: t });
+        balance: product.stock_quantity + quantity,
+        type_movement_id,
+        movement_type: "In",
+        user_id: userauth.user_id,
+        supplier_id: supplier_id,
+        
+      }, { transaction: t });
       const stock = sequelize.literal(`stock_quantity + ${quantity}`);
-      const product =  await Product.update(  
-        { stock_quantity: stock },
+      const product_updated =  await Product.update(
+        { stock_quantity: stock, purchase_price },
         {
           where: {
             product_id: product_id
-          }
-        })
-    }
+          },
+          transaction: t 
+        });
+      
+        const newOrderItem = await OrderItem.create({
+          order_id: newOrder.order_id,
+          product_id,
+          quantity,
+          price:purchase_price,
+          lote,
+          expiration_date,
+          unit_id,
+          type_movement_id,
+          movement_type: "In",
+          subtotal,
+          movement_id: newInventoryMovement.movement_id
+        },{ transaction: t });
+  }
 
-    for(let i = 0; i < items.length; i++){
-      const { 
-        product_id, 
-        quantity,
-       } = items[i];
-      const newInventoryMovement = await InventoryMovement.create({
-        product_id,
-        movement_type: "In",
-        supplier_id: supplier_id,
-        quantity,
-        user_id: userauth.user_id,
-      },{ transaction: t });
-    }
+   
     return { newOrder };
   });
    
@@ -78,28 +85,49 @@ router.post("/in",[validarJWT], async (req, res) => {
   }
 });
 
-
+// CREATE a new inventory movement
 router.post("/out",[validarJWT], async (req, res) => {
   try {
-    const { 
-      supplier_id,
-      order_date,
-      items,
-      userauth,
-      total,
-    } = req.body; 
-
+    const { supplier_id, order_date, items, userauth, total, } = req.body; 
+    const type_movement_id = 5; // out sale
+    const supplier = await Supplier.findOne({ where: { supplier_id: supplier_id,} });
     const result = await sequelize.transaction(async (t) => {
-
+   
     const newOrder = await Order.create({
       supplier_id,
+      nit: supplier.nit,
+      razon_social: supplier.razon_social,
       order_date,
-      user_id: userauth.user_id,
+      type_movement_id,
+      movement_type: "Out",
       total_amount: total,
+      user_id: userauth.user_id,
+      total_items: items.length,
     },{ transaction: t });
-    
+
     for(let i = 0; i < items.length; i++){
-      const {  product_id,  quantity, price, lote, expiration_date } = items[i];
+      const {  product_id,  quantity, purchase_price, price, lote, expiration_date, unit_id, stock_quantity,subtotal} = items[i];
+     
+      const product = await Product.findOne({ where: { product_id: product_id } });
+      const newInventoryMovement = await InventoryMovement.create({
+        product_id,
+        quantity,
+        balance: product.stock_quantity - quantity,
+        type_movement_id,
+        movement_type: "Out",
+        user_id: userauth.user_id,
+        supplier_id: supplier_id,
+        
+      }, { transaction: t });
+      const stock = sequelize.literal(`stock_quantity - ${quantity}`);
+      const product_updated =  await Product.update(
+        { stock_quantity: stock },
+        {
+          where: {
+            product_id: product_id
+          },
+          transaction: t 
+        });
       const newOrderItem = await OrderItem.create({
         order_id: newOrder.order_id,
         product_id,
@@ -107,32 +135,18 @@ router.post("/out",[validarJWT], async (req, res) => {
         price,
         lote,
         expiration_date,
-      },{ transaction: t });
-      const stock = sequelize.literal(`stock_quantity - ${quantity}`);
-      const product =  await Product.update(  
-        { stock_quantity: stock },
-        {
-          where: {
-            product_id: product_id
-          }
-        })
-    }
-
-    for(let i = 0; i < items.length; i++){
-      const { 
-        product_id, 
-        quantity,
-       } = items[i];
-      const newInventoryMovement = await InventoryMovement.create({
-        product_id,
+        unit_id,
+        type_movement_id,
         movement_type: "Out",
-        supplier_id: supplier_id,
-        quantity,
-        user_id: userauth.user_id,
+        subtotal,
+        movement_id: newInventoryMovement.movement_id
       },{ transaction: t });
-    }
+  }
+
+   
     return { newOrder };
   });
+   
     res.status(201).json({ 
       code: 1, 
       message: "Inventory movement created successfully", 

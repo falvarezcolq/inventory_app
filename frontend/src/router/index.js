@@ -82,6 +82,12 @@ const routes = [
     meta: { layout: 'default', requiresAuth: true }
   },
   {
+    path: '/units',
+    name: 'units',
+    component: () => import('@/page/units/Units.vue'),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
     path: '/products',
     name: 'products',
     component: () => import('@/page/products/Products.vue'),
@@ -97,6 +103,12 @@ const routes = [
     path: '/out',
     name: 'out',
     component: () => import('@/page/movements/Out.vue'),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('@/page/orders/Orders.vue'),
     meta: { layout: 'default', requiresAuth: true }
   },
   {

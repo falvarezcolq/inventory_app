@@ -4,6 +4,7 @@ const morgan = require("morgan");
 
 // app.use(morgan("dev"));
 app.use('/api/v1', require('./users'));
+app.use('/api/v1', require('./units'));
 app.use('/api/v1', require('./products'));
 app.use('/api/v1', require('./product_images'));
 app.use('/api/v1', require('./roles'));
@@ -12,6 +13,7 @@ app.use('/api/v1', require('./suppliers'));
 app.use('/api/v1',require('./login'));
 app.use('/api/v1',require('./userinfo'));  
 app.use('/api/v1',require('./inventory_movements')); 
+app.use('/api/v1',require('./orders'));
 
 
 module.exports = app;

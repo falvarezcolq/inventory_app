@@ -72,6 +72,17 @@
             </div>
           </div>
         </li>
+        
+         <li >
+          <div class="row">
+            <div class="col-md-12" >
+              <router-link to="/units">
+                <i class="fa fa-chevron-right"></i> 
+                UNITS
+              </router-link>
+            </div>
+          </div>
+        </li>
          <li >
           <div class="row">
             <div class="col-md-12" >

@@ -2,12 +2,12 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">INCOME</h2>
+        <h2 class="text-center">INCOME PURCHASE</h2>
       </div>
     </div>
 
     <div class="row mb-3">
-      <div class="col-md-12">
+      <div class="col-md-10">
         <div class="search">
           <div class="search_seccion">
             <div class="row">
@@ -54,6 +54,16 @@
           </div>
         </div>
       </div>
+       <div class="col-md-2" style="text-align: right">
+              <button
+                class="btn btn-outline-primary btn-sm"
+                @click="ShowCreateForm()"
+                data-bs-toggle="modal"
+                data-bs-target="#modalSaveProductForm"
+              >
+                ADD NEW PRODUCT<i class="fa fa-plus"></i>
+              </button>
+            </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-8">
@@ -127,14 +137,7 @@
                 >
                   &nbsp; <i class="fa fa-plus"></i>&nbsp;&nbsp;</button
                 >&nbsp;
-                <!-- <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  title="Search"
-                  @click="Search"
-                >
-                  <i class="fa fa-search"></i></button
-                >&nbsp; -->
+           
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-secondary"
@@ -154,16 +157,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-md-12" style="text-align: right">
-              <button
-                class="btn btn-outline-primary btn-sm"
-                @click="ShowCreateForm()"
-                data-bs-toggle="modal"
-                data-bs-target="#modalSaveProductForm"
-              >
-                ADD NEW PRODUCT<i class="fa fa-plus"></i>
-              </button>
-            </div>
+          
           </div>
 
          
@@ -195,8 +189,9 @@
           <tr class="text-center">
             <th>ITEM</th>
 
-            <th>PRODUCT</th>
-            <th class="text-center" width="100">PRICE</th>
+            <th class="text-start" >PRODUCT</th>
+            <th class="text-start">UNIT</th>
+            <th class="text-center" width="100">PURCHASE PRICE</th>
             <th class="text-center" width="100">QUANTITY</th>
             <th class="text-center" width="100">SUBTOTAL</th>
             <th></th>
@@ -215,17 +210,18 @@
           >
             <td class="text-center">{{ index + 1 }}</td>
 
-            <td>{{ item.name }}</td>
+            <td class="text-start">{{ item.name }}</td>
+            <td>{{ item.unit_abbreviation }}</td>
             <td style="margin-rigth: 0">
-              <span class="lb-error" v-if="formErrorRow[index].price">{{
-                formErrorRow[index].price
+              <span class="lb-error" v-if="formErrorRow[index].purchase_price">{{
+                formErrorRow[index].purchase_price
               }}</span>
               <input
-                v-model.trim="item.price"
+                v-model.trim="item.purchase_price"
                 class="form-control input-table text-end"
                 type="text"
                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
-                :class="{ error: formErrorRow[index].price }"
+                :class="{ error: formErrorRow[index].purchase_price }"
               />
             </td>
             <td class="text-center" style="">
@@ -251,7 +247,7 @@
                   font-size: 12px;
                 "
               >
-                {{ (item.price * item.quantity).toFixed(2) }}
+                {{ (item.purchase_price * item.quantity).toFixed(2) }}
               </div>
             </td>
 
@@ -332,11 +328,11 @@
               class="btn-close"
             ></button>
           </div>
-          <div class="modal-body" v-if="newProduct != null">
+        <div class="modal-body" v-if="newProduct != null">
             <div class="row mb-3">
-              <div class="offset-md-2 col-md-8">
+              <div class="col-md-6">
                 <div class="row">
-                  <div class="col-md-12">
+                   <div class="col-md-12">
                     <label class="frm-label">PRODUCT CODE:</label>
                     <span class="lb-error" v-if="saveFormError.product_code">{{
                       saveFormError.product_code
@@ -349,7 +345,7 @@
                       @input="newProduct.product_code = $event.target.value"
                     />
                   </div>
-
+                
                   <div class="col-md-12">
                     <label class="frm-label">NAME:</label>
                     <span class="lb-error" v-if="saveFormError.name">{{
@@ -360,7 +356,7 @@
                       type="text"
                       v-model="newProduct.name"
                       :class="{ error: saveFormError.name }"
-                      @input="newProduct.name = $event.target.value"
+                      @input="newProduct.name = $event.target.value.toUpperCase()"
                     />
                   </div>
                   <div class="col-md-12">
@@ -375,6 +371,20 @@
                       @input="newProduct.description = $event.target.value"
                     ></textarea>
                   </div>
+                   <div class="col-md-12">
+                    <label class="frm-label">PURCHASE PRICE:</label>
+                    <span class="lb-error" v-if="saveFormError.purchase_price">{{
+                      saveFormError.purchase_price
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="number"
+                      step="0.01"
+                      v-model="newProduct.purchase_price"
+                      :class="{ error: saveFormError.purchase_price }"
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
+                    />
+                  </div>
                   <div class="col-md-12">
                     <label class="frm-label">PRICE:</label>
                     <span class="lb-error" v-if="saveFormError.price">{{
@@ -386,45 +396,24 @@
                       step="0.01"
                       v-model="newProduct.price"
                       :class="{ error: saveFormError.price }"
-                      @input="newProduct.price = $event.target.value"
+                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
                     />
                   </div>
-                  <div class="col-md-12">
+                  <!-- <div class="col-md-12">
                     <label class="frm-label">STOCK QUANTITY:</label>
-                    <span
-                      class="lb-error"
-                      v-if="saveFormError.stock_quantity"
-                      >{{ saveFormError.stock_quantity }}</span
-                    >
+                    <span class="lb-error" v-if="saveFormError.stock_quantity">{{
+                      saveFormError.stock_quantity
+                    }}</span>
                     <input
                       class="form-control"
                       type="number"
+                      value="0"
                       v-model="newProduct.stock_quantity"
                       :class="{ error: saveFormError.stock_quantity }"
-                      @input="newProduct.stock_quantity = $event.target.value"
+                      disabled
                     />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CATEGORY ID:</label>
-                    <span class="lb-error" v-if="saveFormError.category_id">{{
-                      saveFormError.category_id
-                    }}</span>
-                    <select
-                      class="form-control"
-                      v-model="newProduct.category_id"
-                      :class="{ error: saveFormError.category_id }"
-                      @input="newProduct.category_id = $event.target.value"
-                    >
-                      <option
-                        v-for="item in categoryList"
-                        :key="item.category_id"
-                        :value="item.category_id"
-                      >
-                        {{ item.name }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="col-md-12">
+                  </div> -->
+                   <div class="col-md-12">
                     <label class="frm-label">BARCODE:</label>
                     <span class="lb-error" v-if="saveFormError.barcode">{{
                       saveFormError.barcode
@@ -451,7 +440,25 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">SUPPLIER ID:</label>
+                    <label class="frm-label">CATEGORY:</label>
+                    <span class="lb-error" v-if="saveFormError.category_id">{{
+                      saveFormError.category_id
+                    }}</span>
+                    <select
+                      class="form-control"
+                      v-model="newProduct.category_id"
+                      :class="{ error: saveFormError.category_id }"
+                      @input="newProduct.category_id = $event.target.value">
+                      <option value="">--SELECT--</option>
+                      <option v-for="item in categoryList"
+                      :key="item.category_id" 
+                      :value="item.category_id">
+                        {{ item.name }}</option> 
+                      </select>
+                  </div>
+                 
+                  <div class="col-md-12">
+                    <label class="frm-label">SUPPLIER:</label>
                     <span class="lb-error" v-if="saveFormError.supplier_id">{{
                       saveFormError.supplier_id
                     }}</span>
@@ -459,31 +466,33 @@
                       class="form-control"
                       v-model="newProduct.supplier_id"
                       :class="{ error: saveFormError.supplier_id }"
-                      @input="newProduct.supplier_id = $event.target.value"
-                    >
-                      <option
-                        v-for="item in supplierList"
-                        :key="item.supplier_id"
-                        :value="item.supplier_id"
-                      >
-                        {{ item.supplier_name }}
-                      </option>
+                      @input="newProduct.supplier_id = $event.target.value">
+                      <option value="">--SELECT--</option>
+                      <option v-for="item in supplierList" 
+                      :key="item.supplier_id" 
+                      :value="item.supplier_id">
+                        {{ item.supplier_name}}</option> 
                     </select>
                   </div>
-                  <!-- <div class="col-md-12">
-                    <label class="frm-label">IMAGE URL:</label>
-                    <span class="lb-error" v-if="saveFormError.image_url">{{
-                      saveFormError.image_url
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="newProduct.image_url"
-                      :class="{ error: saveFormError.image_url }"
-                      @input="newProduct.image_url = $event.target.value"
-                    />
-                  </div> -->
 
+                  <div class="col-md-12">
+                    <label class="frm-label">UNIT:</label>
+                    <span class="lb-error" v-if="saveFormError.unit_id">{{
+                      saveFormError.unit_id
+                    }}</span>
+                    <select
+                      class="form-control"
+                      v-model="newProduct.unit_id"
+                      :class="{ error: saveFormError.unit_id }"
+                      @input="newProduct.unit_id = $event.target.value">
+                     
+                      <option v-for="item in unitList" 
+                      :key="item.unit_id" 
+                      :value="item.unit_id">
+                        {{ item.name}}</option> 
+                    </select>
+                  </div>
+                
                   <div class="col-md-12">
                     <label class="frm-label">WEIGHT:</label>
                     <span class="lb-error" v-if="saveFormError.weight">{{
@@ -498,10 +507,44 @@
                       @input="newProduct.weight = $event.target.value"
                     />
                   </div>
-                </div>
               </div>
+             
+         
+
+              </div>
+              <div class="col-md-6">
+                
+                <div class="col-md-12 mt-3" v-if="newProduct.image_url">
+                  <img class="doc" :src="newProduct.image_url" 
+                    alt="Product Image"
+                    v-if="newProduct.image_url" width="400" height="400"
+
+                    />
+
+                </div>
+
+                <div class="col-md-12 mt-3">
+                <label :for="'file-upload'" class="btn btn-sm btn-outline-success">
+                  <i class="fa fa-cloud-upload"></i> Upload image
+                </label>
+                <input @change="cargarArchivo($event)" type="file" :id="'file-upload'"
+                  style="display: none;"/>
+                </div>
+
+                <div class="col-md-12 mt-3" v-if="product_image">
+                  <img class="doc" v-bind:src="product_image" 
+                    alt="Product Image"
+                    v-if="product_image" width="400" height="400"
+
+                    />
+
+                </div>
+             </div>
+            
             </div>
           </div>
+
+
           <div class="modal-footer">
             <button
               type="button"
@@ -536,6 +579,8 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { Mensaje } from "../../tools/Mensaje";
+import TipoArchivos from '../../constantes/TipoArchivos';
+
 
 export default {
   components: {
@@ -569,36 +614,42 @@ export default {
     let schemaSaveProductForm = Yup.object().shape({
       name: Yup.string().max(100).required(),
       description: Yup.string().max(1024),
+      purchase_price: Yup.number().required(),
       price: Yup.number().required(),
       stock_quantity: Yup.number().required(),
       category_id: Yup.number().required(),
       barcode: Yup.string().max(50),
       manufacturer: Yup.string().max(100),
       supplier_id: Yup.number().required(),
-      // image_url:Yup.string().max(512),
       product_code: Yup.string().max(50),
       weight: Yup.number().required(),
     });
     let urlProducts = "/products";
-    let data = {
-      name: "",
-      description: "",
-      price: "",
-      stock_quantity: 0,
-      category_id: null,
-      barcode: "",
-      manufacturer: "",
-      supplier_id: null,
-      image_url: null,
-      product_code: "",
-      weight: "",
-    };
+   let data = {
+        name:"",
+        description:"",
+        purchase_price:"",
+        price:"",
+        stock_quantity:0,
+        category_id:null,
+        barcode:"",
+        manufacturer:"",
+        category_id:"",
+        supplier_id:"1",
+        unit_id:"1",
+        image_url:null,
+        product_code:"",
+        weight:"1",
+      }
 
     let categoryList = ref([]);
     let supplierList = ref([]);
+    let unitList = ref([]);
     let productList = ref([]);
     let newProduct = ref(null);
     let product = ref(null);
+    let product_image = ref(null);
+    let product_image_blob = ref(null);
 
     let formatDate = (fecha) => {
       return moment(fecha).format("YYYY-MM-DD HH:mm:ss");
@@ -660,7 +711,7 @@ export default {
 
     let getSuppliers = async () => {
       try {
-        await api.get("/suppliers?page=1&limit=1000").then((response) => {
+        await api.get("/suppliers/suppliers?page=1&limit=1000").then((response) => {
           supplierList.value = response.data.content;
         });
       } catch (err) {
@@ -707,7 +758,7 @@ export default {
             objectList.value[index].quantity += search.value.quantity;
           } else {
             product.quantity = search.value.quantity;
-            product.sub_total = (product.price * product.quantity).toFixed(2);
+            product.sub_total = (product.purchase_price * product.quantity).toFixed(2);
             objectList.value.push(product);
             formErrorRow.value.push({});
           }
@@ -750,20 +801,22 @@ export default {
       try {
         if (await saveProductValidate()) {
           isLoading.value = true;
+          let unit = unitList.value.find(x=>x.unit_id == newProduct.value.unit_id);
+          newProduct.value.unit_abbreviation = unit.abbreviation;
           let data = newProduct.value;
-          await api
-            .post(urlProducts, data)
-            .then((response) => {
-              if (productList.value.length > 0) {
-                response.data.content.created = true;
-                productList.value.push(response.data.content);
+          let response = await api.post(urlProducts, data);
+          if( response.status == 201){
+              response.data.content.created = true;
+              newProduct.value = response.data.content;
+              productList.value.push(response.data.content);
+              
+              if(product_image_blob.value){
+                await saveImage();
               }
-              Mensaje.success("Created successfully");
-              Modal.getInstance(modalSaveProductForm.value).hide();
-            })
-            .catch((err) => {
-              Mensaje.error(err.message);
-            });
+
+            Mensaje.success("Created successfully");
+            Modal.getInstance(modalSaveProductForm.value).hide();
+          }
         }
         isLoading.value = false;
       } catch (err) {
@@ -806,7 +859,7 @@ export default {
     const schemaFormItem = Yup.object().shape({
       product_id: Yup.number().required(),
       quantity: Yup.number().required(),
-      price: Yup.number().required(),
+      purchase_price: Yup.number().required(),
       lote: Yup.string().nullable(),
       expiration_date: Yup.date().nullable(),
     });
@@ -815,8 +868,7 @@ export default {
 
     const validateItem = async (item, index) => {
       let valida = false;
-      console.log(item);
-      console.log(index);
+    
       try {
         formErrorRow.value[index] = {};
         await schemaFormItem.validate(item, { abortEarly: false });
@@ -865,7 +917,8 @@ export default {
     let total = computed(() => {
       let sum = 0;
       objectList.value.forEach((item) => {
-        sum += Number((item.price * item.quantity).toFixed(2));
+        item.subtotal = (item.purchase_price * item.quantity).toFixed(2)
+        sum += Number((item.purchase_price * item.quantity).toFixed(2));
       });
       tot.value = sum;
       return sum;
@@ -874,8 +927,11 @@ export default {
     const saveIn = async () => {
       try {
         if (await validateIn()) {
+
+          console.log(objectList)
           Mensaje.Confirmar("Do you want to save this income?", async () => {
             isLoading.value = true;
+
             let data = {
               supplier_id: objectIn.value.supplier_id,
               order_date: objectIn.value.order_date,
@@ -883,7 +939,7 @@ export default {
               total: tot.value,
             };
             await api
-              .post("/in", data)
+              .post("/in_purchase", data)
               .then((response) => {
                 Mensaje.success("Created successfully");
                 Clear();
@@ -902,10 +958,132 @@ export default {
       }
     };
 
+
+
+
+
+
+    let cargarArchivo = async ( e) => {
+      try {
+        let archivo = e.target.files[0];
+        if (!archivo) return;
+          const imagenesAceptadas = TipoArchivos.TipoImagenes;
+        if (imagenesAceptadas.includes(archivo['type'])) {
+          resizeImage(archivo)
+        } else  {
+          Mensaje.error("El archivo seleccionado no tiene el formato aceptado, solamente imágenes y pdf son válidos. ")
+        }
+      } catch (error) {
+        console.log(error.message);
+        Mensaje.error("Error:" + error.message)
+      }
+    }
+
+
+    let resizeImage = (file) => {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = new Image();
+          img.onload = function () {
+
+            let tamanhoMinimoAceptable= img.width > img.height ? img.width : img.height ;
+            if (tamanhoMinimoAceptable < 100 ){
+              Mensaje.error("La imagen no alcanza el tamaño minimo aceptado")
+              return;
+            }
+            const maxWidth = 4096;
+            const maxHeight = 4096;
+            let newWidth = img.width;
+            let newHeight = img.height; 
+            if (img.width > maxWidth) {
+              newWidth = maxWidth;
+              newHeight = (img.height * maxWidth) / img.width;
+            }
+            if (newHeight > maxHeight) {
+              newHeight = maxHeight;
+              newWidth = (img.width * maxHeight) / img.height;
+            }
+            const max = newWidth > newHeight ? newWidth: newHeight;
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            const qualityImage = 1 - (0.0002)*(max-100);
+            canvas.toBlob((blob) => {
+              guardarArchivo(blob,file.name)
+            }, 'image/jpeg', qualityImage)
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    let guardarArchivo = async (archivo,name,) => {
+      try {
+        
+        product_image_blob.value = archivo;
+        var reader = new window.FileReader();
+          reader.readAsDataURL(archivo); 
+          reader.onload = function() {
+               product_image.value = reader.result;
+          }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    let saveImage = async () => {
+      try {
+         
+         console.log("product_image_blob.value",product_image_blob.value)
+        if (product_image_blob.size > 2050000 ){
+          Mensaje.error("El documento no debe exceder los 2MB de tamaño")
+          return ;
+        }
+        const formData = new FormData();  
+        formData.append('product_id', newProduct.value.product_id);
+
+        formData.append('archivo', product_image_blob.value,"name");
+        isLoading.value=true;
+        let result = await api.post('/product_images', formData)
+        isLoading.value=false;
+        if (result.status == 200) {
+          
+          let index = productList.value.indexOf(x=>x.product_id == newProduct.value.product_id);
+          productList.value[index].image_url = result.data.content.newProductImage.image_url;
+          product_image_blob.value = null;
+          product_image.value = null;
+          console.log("¡Archivo subido con éxito!")
+        } else {
+          Mensaje.error("Error")
+        }
+      } catch (error) {
+        isLoading.value=false;
+        console.log(error.message);
+        Mensaje.error("Error:" + error.message)
+      }
+    }
+
+     let getUnits = async () =>{
+      try{
+        await api.get( '/units?page=1&limit=1000').then((response) => {
+          unitList.value = response.data.content;
+        });
+      } catch(err) {
+         isLoading.value = false;
+        Mensaje.error(err.message);
+      }
+    }
+
     onMounted(() => {
       getCategories();
       getSuppliers();
       getProducts();
+      getUnits();
     });
 
     return {
@@ -932,6 +1110,7 @@ export default {
 
       categoryList,
       supplierList,
+      unitList,
       productList,
       saveProduct,
       newProduct,
@@ -940,6 +1119,11 @@ export default {
       objectIn,
       formErrorRow,
       product,
+
+      cargarArchivo,
+      saveImage,
+      product_image,
+      product_image_blob,
     };
   },
 };

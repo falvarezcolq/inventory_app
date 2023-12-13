@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Categories</h2>
+        <h2 class="text-center">ORDERS</h2>
       </div>
     </div>
 
@@ -19,7 +19,7 @@
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S CATEGORY"
+                    placeholder="NAME'S SUPPLIER"
                     v-model="search.name"
                   />
                 </div>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  New Category <i class="fa fa-plus"></i>
+                  NEW SUPPLIER <i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -71,8 +71,12 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ID</th>
-            <th>NAME</th>
-            <th>CREATED AT</th>
+            <th>CI/NIT</th>
+            <th>RAZON SOCIAL</th>
+            <th>TYPE MOVEMENT</th>
+            <th>ITEMS</th>
+            <th>TOTAL AMOUNT</th>
+            <th>REGISTERED AT</th>
             <th></th>
           </tr>
         </thead>
@@ -81,29 +85,27 @@
             v-for="(item, index) in objectList"
             :key="index"
             :class="{
-              'table-success': item.created,
-              'table-info': item.updated,
+              'table-primary': item.movement_type=='In',
+              'table-success': item.movement_type=='Out',
             }"
           >
-            <td class="text-center">{{ item.category_id }}</td>
-            <td>{{ item.name }}<br /></td>
-
+            <td class="text-center">{{ item.order_id }}</td>
+            <td>{{ item.nit}} </td>
+            <td>{{ item.razon_social }} </td>
+            <td>{{ item.type_movement_id }} {{ item.movement_type}} </td>
+            <td>{{ item.total_items}} </td>
+            <td>{{ item.total_amount}} </td>
             <td class="text-center">{{ formatDate(item.created_at) }}</td>
             <td class="text-center">
               <button
                 class="btn btn-link"
-                @click="getObject(item.category_id)"
+                @click="getObject(item.order_id)"
                 data-bs-toggle="modal"
                 data-bs-target="#modalSaveForm"
               >
                 <i class="fa fa-edit"></i>
               </button>
-              <button
-                class="btn btn-link red"
-                @click="deleteObject(item.category_id)"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
+            
             </td>
           </tr>
         </tbody>
@@ -119,7 +121,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">NEW CATEGORY</div>
+            <div class="modal-title">ADD SUPPLIER</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -130,18 +132,134 @@
             <div class="row mb-3">
               <div class="offset-md-2 col-md-8">
                 <div class="row">
-                  <div class="col-md-12">
-                    <label class="frm-label">NAME'S CATEGORY:</label>
-                    <span class="lb-error" v-if="saveFormError.name">{{
-                      saveFormError.name
+                   <div class="col-md-12">
+                    <label class="frm-label">CODE:</label>
+                    <span class="lb-error" v-if="saveFormError.nit">{{
+                      saveFormError.nit
                     }}</span>
                     <input
                       class="form-control"
                       type="text"
-                      v-model="object.name"
-                      :class="{ error: saveFormError.name }"
-                      @input="object.name = $event.target.value.toUpperCase()"
+                      v-model="object.nit"
+                      :class="{ error: saveFormError.nit }"
+                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     />
+                  </div>
+                   <div class="col-md-12">
+                    <label class="frm-label">RAZON SOCIAL SUPPLIER:</label>
+                    <span class="lb-error" v-if="saveFormError.razon_social">{{
+                      saveFormError.razon_social
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.razon_social"
+                      :class="{ error: saveFormError.razon_social }"
+                      @input="object.razon_social = $event.target.value.toUpperCase()"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">NAME'S SUPPLIER:</label>
+                    <span class="lb-error" v-if="saveFormError.supplier_name">{{
+                      saveFormError.supplier_name
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.supplier_name"
+                      :class="{ error: saveFormError.supplier_name }"
+                      @input="object.supplier_name = $event.target.value.toUpperCase()"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">CONTACT PERSON:</label>
+                    <span class="lb-error" v-if="saveFormError.contact_person">{{
+                      saveFormError.contact_person
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.contact_person"
+                      :class="{ error: saveFormError.contact_person }"
+                      @input="object.contact_person = $event.target.value"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">CONTACT EMAIL:</label>
+                    <span class="lb-error" v-if="saveFormError.contact_email">{{
+                      saveFormError.contact_email
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="email"
+                      v-model="object.contact_email"
+                      :class="{ error: saveFormError.contact_email }"
+                      @input="object.contact_email = $event.target.value"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">CONTACT PHONE:</label>
+                    <span class="lb-error" v-if="saveFormError.contact_phone">{{
+                      saveFormError.contact_phone
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.contact_phone"
+                      :class="{ error: saveFormError.contact_phone }"
+                      @input="object.contact_phone = $event.target.value"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">ADDRESS:</label>
+                    <span class="lb-error" v-if="saveFormError.address">{{
+                      saveFormError.address
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.address"
+                      :class="{ error: saveFormError.address }"
+                      @input="object.address = $event.target.value"
+                    />
+                  </div>
+                   <div class="col-md-12 mt-2">
+                    <div class="form-check form-switch">
+                      <span class="lb-error" v-if="saveFormError.customer">{{
+                        saveFormError.customer
+                      }}</span>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="object.customer"
+                        :class="{ error: saveFormError.customer }"
+                        role="switch"
+                        id="checkCustomer"
+                      />
+                     <label class="form-check-labe" for="checkCustomer">CUSTOMER:</label>
+
+                    </div>
+                   
+                  </div>
+                   <div class="col-md-12 mt-2">
+                    <div class="form-check form-switch">
+                      <span class="lb-error" v-if="saveFormError.supplier">{{
+                        saveFormError.supplier
+                      }}</span>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="object.supplier"
+                        :class="{ error: saveFormError.supplier }"
+                        role="switch"
+                        id="checkSupplier"
+                      />
+                      <label class="form-check-labe" for="checkSupplier">SUPPLIER:</label>
+
+
+                    </div>
+                    
+                   
                   </div>
                 </div>
               </div>
@@ -203,12 +321,19 @@ export default {
     let saveFormError = ref({});
     let schemaForm = Yup.object().shape({
       name: Yup.string().required(),
+      
     });
     let schemaSaveForm = Yup.object().shape({
-      name: Yup.string().max(100).required(),
+      nit:Yup.string().max(50).required(),
+      razon_social:Yup.string().max(255).required(),
+      supplier_name:Yup.string().max(100).required(),
+      contact_person:Yup.string().max(100).nullable(),
+      contact_email:Yup.string().max(100).email().nullable(),
+      contact_phone:Yup.string().max(20).nullable(),
+      address:Yup.string().max(255).nullable(),
     });
+    let url = '/orders';
 
-    let url = '/categories';
     let formatDate = (fecha) => {
       return moment(fecha).format("YYYY-MM-DD HH:mm:ss");
     };
@@ -277,7 +402,7 @@ export default {
     const getObject = async (id) => {
       isLoading.value = true;
       create_form.value = false;
-      let response = await api.get(`/categories/${id}`);
+      let response = await api.get(url+`/${id}`);
       isLoading.value = false;
       if (response.status == 200) {
         object.value = response.data.content;
@@ -290,9 +415,7 @@ export default {
       try {
         if (await saveValidate()) {
           isLoading.value = true;
-          let data = {
-            name: object.value.name,
-          };
+          let data = object.value;
           await api
             .post(url, data)
             .then((response) => {
@@ -318,15 +441,13 @@ export default {
       try {
         if (await saveValidate()) {
           isLoading.value = true;
-          let data = {
-            name: object.value.name,
-          };
+          let data = object.value;
           await api
-            .put(`/categories/${object.value.category_id}`, data)
+            .put(url + `/${object.value.order_id}`, data)
             .then((response) => {
               if (objectList.value.length > 0) {
                 let index = objectList.value.findIndex(
-                  (x) => x.category_id == object.value.category_id
+                  (x) => x.order_id == object.value.order_id
                 );
                 if (index >= 0) {
                   object.value.updated = true;
@@ -371,38 +492,7 @@ export default {
       }
     };
 
-    const deleteObject = async (id) => {
-      try {
-        Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "No, cancel!",
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(`/categories/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.category_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
-              }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
-            }
-            isLoading.value = false;
-          }
-        });
-      } catch (err) {
-        Mensaje.error(err.message);
-        isLoading.value = false;
-      }
-    };
+   
 
     onMounted(() => {
       getList();
@@ -424,7 +514,7 @@ export default {
       saveObject,
       getList,
       getObject,
-      deleteObject,
+    
       create_form,
       ShowCreateForm,
     };

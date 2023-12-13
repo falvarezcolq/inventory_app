@@ -1,8 +1,9 @@
 const { Router } = require("express");
 let router = Router();
-
+const { Op } = require("sequelize");
 
 const Products = require("../models/product.js");
+const Unit = require("../models/unit.js");
 
 // GET all products
 router.get("/products", async (req, res) => {
@@ -28,12 +29,15 @@ function serialize(product) {
       product_id:product.product_id,
       name:product.name,
       description:product.description,
+      purchase_price:product.purchase_price,
       price:product.price,
       stock_quantity:product.stock_quantity,
       category_id:product.category_id,
       barcode:product.barcode,
       manufacturer:product.manufacturer,
       supplier_id:product.supplier_id,
+      unit_id:product.unit_id,
+      unit_abbreviation:product.unit_abbreviation,
       image_url:(product.image_url != null) ? process.env.URL + product.image_url : null,
       product_code:product.product_code,
       weight:product.weight,
@@ -50,7 +54,7 @@ router.get("/products/:id", async (req, res) => {
     const product = await Products.findOne({
       where: {
         product_id: id
-      }
+      } 
     });
     if (product) {
       res.status(200).json({ code: 1, message: "OK", content: serialize(product) });
@@ -65,17 +69,21 @@ router.get("/products/:id", async (req, res) => {
 // CREATE a new product
 router.post("/products", async (req, res) => {
   try {
-    const { name, description, price, stock_quantity, category_id, barcode, manufacturer, supplier_id, product_code, weight,
+    const { name, description, purchase_price,  price, stock_quantity, barcode, manufacturer, category_id, supplier_id, unit_id, unit_abbreviation, product_code, weight,
     } = req.body;
+   
     const newProduct = await Products.create({
       name,
       description,
+      purchase_price, 
       price,
-      stock_quantity,
-      category_id,
+      // stock_quantity,
       barcode,
       manufacturer,
+      category_id,
       supplier_id,
+      unit_id,
+      unit_abbreviation,
       product_code,
       weight,
     });
@@ -89,9 +97,21 @@ router.post("/products", async (req, res) => {
 router.put("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, price, description } = req.body;
+    const { name, description, purchase_price,  price, stock_quantity, barcode, manufacturer, category_id, supplier_id, unit_id, unit_abbreviation, product_code, weight,
+    } = req.body;
+    const unit = await Unit.findOne({
+      where: {
+        unit_id: unit_id
+      }
+    });
     const updatedProduct = await Products.update(
-      { name, price, description },
+      { name, description, purchase_price,  price, 
+        // stock_quantity, 
+        barcode, manufacturer, category_id, supplier_id, 
+        unit_id, 
+        unit_abbreviation, 
+        product_code, weight,
+      },
       {
         where: {
           product_id: id

@@ -3,6 +3,7 @@ const sequelize = require('../config/config_sequelize');
 const Product = require('./product');
 const User = require('./user');
 const Supplier = require('./supplier');
+const TypeMovement = require('./type_movement');
 
 class InventoryMovement extends Model {}
 
@@ -21,12 +22,26 @@ InventoryMovement.init({
             key: 'product_id'
         }
     },
+   
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    balance: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    type_movement_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: TypeMovement,
+            key: 'type_movement_id'
+        }
+    },
     movement_type: {
-        type: DataTypes.ENUM('In', 'Out')
+        type: DataTypes.ENUM('In', 'Out'),
+        allowNull: false
     },
     movement_date: {
         type: DataTypes.DATE,
@@ -42,6 +57,7 @@ InventoryMovement.init({
     },
     supplier_id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: Supplier,
             key: 'supplier_id'
@@ -78,5 +94,6 @@ InventoryMovement.init({
 InventoryMovement.belongsTo(Product, { foreignKey: 'product_id' });
 InventoryMovement.belongsTo(User, { foreignKey: 'user_id' });
 InventoryMovement.belongsTo(Supplier, { foreignKey: 'supplier_id' });
+InventoryMovement.belongsTo(TypeMovement, { foreignKey: 'type_movement_id' });
 
 module.exports = InventoryMovement;

@@ -2,6 +2,8 @@ const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config_sequelize');
 const Order = require('./order');
 const Product = require('./product');
+const Unit = require('./unit');
+const InventoryMovement = require('./inventory_movement');
 
 class OrderItem extends Model {}
 
@@ -28,6 +30,14 @@ OrderItem.init({
             key: 'product_id'
         }
     },
+    movement_id: {  
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: InventoryMovement,
+            key: 'movement_id'
+        }
+    },
     price: {
         type: DataTypes.DECIMAL(15,7),
         allowNull: false
@@ -45,13 +55,33 @@ OrderItem.init({
     expiration_date: {
         type: DataTypes.DATE
     },
+    unit_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Unit,
+            key: 'unit_id'
+        }
+    },
+    type_movement_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    movement_type: {
+        type: DataTypes.ENUM('movement_type_enum')
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+    },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
     updated_at: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.CURRENT_TIMESTAMP
     },
     created_by: {
         type: DataTypes.INTEGER

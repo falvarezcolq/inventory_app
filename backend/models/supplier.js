@@ -10,6 +10,12 @@ Supplier.init({
         primaryKey: true,
         autoIncrement: true
     },
+    nit: {
+        type: DataTypes.STRING(50)
+    },
+    razon_social: {
+        type: DataTypes.STRING(255)
+    },
     supplier_name: {
         type: DataTypes.STRING(100),
         allowNull: false
@@ -23,8 +29,23 @@ Supplier.init({
     contact_phone: {
         type: DataTypes.STRING(20)
     },
+    customer: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    supplier: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
     address: {
         type: DataTypes.STRING(255)
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
     },
     created_at: {
         type: DataTypes.DATE,

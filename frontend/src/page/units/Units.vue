@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Categories</h2>
+        <h2 class="text-center">UNITS</h2>
       </div>
     </div>
 
@@ -19,7 +19,7 @@
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S CATEGORY"
+                    placeholder="NAME'S UNIT"
                     v-model="search.name"
                   />
                 </div>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  New Category <i class="fa fa-plus"></i>
+                  New Unit<i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -72,6 +72,7 @@
           <tr class="text-center">
             <th>ID</th>
             <th>NAME</th>
+            <th>ABBREVIATION</th>
             <th>CREATED AT</th>
             <th></th>
           </tr>
@@ -85,14 +86,15 @@
               'table-info': item.updated,
             }"
           >
-            <td class="text-center">{{ item.category_id }}</td>
-            <td>{{ item.name }}<br /></td>
+            <td class="text-center">{{ item.unit_id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.abbreviation }}</td>
 
             <td class="text-center">{{ formatDate(item.created_at) }}</td>
             <td class="text-center">
               <button
                 class="btn btn-link"
-                @click="getObject(item.category_id)"
+                @click="getObject(item.unit_id)"
                 data-bs-toggle="modal"
                 data-bs-target="#modalSaveForm"
               >
@@ -100,7 +102,7 @@
               </button>
               <button
                 class="btn btn-link red"
-                @click="deleteObject(item.category_id)"
+                @click="deleteObject(item.unit_id)"
               >
                 <i class="fa fa-trash"></i>
               </button>
@@ -119,7 +121,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">NEW CATEGORY</div>
+            <div class="modal-title">NEW UNIT</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -131,7 +133,7 @@
               <div class="offset-md-2 col-md-8">
                 <div class="row">
                   <div class="col-md-12">
-                    <label class="frm-label">NAME'S CATEGORY:</label>
+                    <label class="frm-label">NAME'S UNIT:</label>
                     <span class="lb-error" v-if="saveFormError.name">{{
                       saveFormError.name
                     }}</span>
@@ -141,6 +143,19 @@
                       v-model="object.name"
                       :class="{ error: saveFormError.name }"
                       @input="object.name = $event.target.value.toUpperCase()"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="frm-label">ABBREVIATION:</label>
+                    <span class="lb-error" v-if="saveFormError.abbreviation">{{
+                      saveFormError.abbreviation
+                    }}</span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="object.abbreviation"
+                      :class="{ error: saveFormError.abbreviation }"
+                    
                     />
                   </div>
                 </div>
@@ -208,7 +223,7 @@ export default {
       name: Yup.string().max(100).required(),
     });
 
-    let url = '/categories';
+    let url = '/units'
     let formatDate = (fecha) => {
       return moment(fecha).format("YYYY-MM-DD HH:mm:ss");
     };
@@ -277,7 +292,7 @@ export default {
     const getObject = async (id) => {
       isLoading.value = true;
       create_form.value = false;
-      let response = await api.get(`/categories/${id}`);
+      let response = await api.get( url +`/${id}`);
       isLoading.value = false;
       if (response.status == 200) {
         object.value = response.data.content;
@@ -290,9 +305,7 @@ export default {
       try {
         if (await saveValidate()) {
           isLoading.value = true;
-          let data = {
-            name: object.value.name,
-          };
+          let data = object.value;
           await api
             .post(url, data)
             .then((response) => {
@@ -318,15 +331,14 @@ export default {
       try {
         if (await saveValidate()) {
           isLoading.value = true;
-          let data = {
-            name: object.value.name,
-          };
+          let data = object.value;
+           
           await api
-            .put(`/categories/${object.value.category_id}`, data)
+            .put( url + `/${object.value.unit_id}`, data)
             .then((response) => {
               if (objectList.value.length > 0) {
                 let index = objectList.value.findIndex(
-                  (x) => x.category_id == object.value.category_id
+                  (x) => x.unit_id == object.value.unit_id
                 );
                 if (index >= 0) {
                   object.value.updated = true;
@@ -383,10 +395,10 @@ export default {
         }).then(async (result) => {
           if (result.isConfirmed) {
             isLoading.value = true;
-            let response = await api.delete(`/categories/${id}`);
+            let response = await api.delete( url + `/${id}`);
             if (response.status == 200) {
               let index = objectList.value.findIndex(
-                (x) => x.category_id == id
+                (x) => x.unit_id == id
               );
               if (index >= 0) {
                 objectList.value.splice(index, 1);

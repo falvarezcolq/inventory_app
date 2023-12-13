@@ -10,6 +10,28 @@ const fs = require('fs');
 const Product = require("../models/product.js");
 const ProductImages = require("../models/product_image.js");
 
+// Serialize product data
+function serialize(product) {
+  return {
+      product_id:product.product_id,
+      name:product.name,
+      description:product.description,
+      purchase_price:product.purchase_price,
+      price:product.price,
+      stock_quantity:product.stock_quantity,
+      category_id:product.category_id,
+      barcode:product.barcode,
+      manufacturer:product.manufacturer,
+      supplier_id:product.supplier_id,
+      image_url:(product.image_url != null) ? process.env.URL + product.image_url : null,
+      product_code:product.product_code,
+      weight:product.weight,
+      active:product.active,
+      created_at:product.created_at,
+      updated_at:product.updated_at,
+  };
+}
+
 
 
 // GET all product images
@@ -87,11 +109,14 @@ router.post('/product_images', async (req, res) => {
     }, {
       where: { product_id: product_id } 
     });
+
+    
+    newProductImage.image_url = process.env.URL + newProductImage.image_url;
     uploadedFile.mv(uploadPath, (err) => {
       if (err) {
         return res.status(500).send(err);
       } 
-      return res.status(200).json({ codigo: 1, mensaje: "Consulta exitosa" })
+      return res.status(200).json({ codigo: 1, mensaje: "Consulta exitosa",content:{ newProductImage}})
     });
 
   } catch (error) {
