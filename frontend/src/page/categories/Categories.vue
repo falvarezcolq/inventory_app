@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Categories</h2>
+        <h2 class="text-center">{{$t('categories')}}</h2>
       </div>
     </div>
 
@@ -13,13 +13,13 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S CATEGORY"
+                    :placeholder="$t('name_category')"
                     v-model="search.name"
                   />
                 </div>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  New Category <i class="fa fa-plus"></i>
+                  {{$t('new_category')}}<i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -71,8 +71,8 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ID</th>
-            <th>NAME</th>
-            <th>CREATED AT</th>
+            <th>{{$t('name')}}</th>
+            <th>{{$t('created_at')}}</th>
             <th></th>
           </tr>
         </thead>
@@ -119,7 +119,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">NEW CATEGORY</div>
+            <div class="modal-title">{{$t('new_category')}}</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -131,7 +131,7 @@
               <div class="offset-md-2 col-md-8">
                 <div class="row">
                   <div class="col-md-12">
-                    <label class="frm-label">NAME'S CATEGORY:</label>
+                    <label class="frm-label"> {{ $t('name_category')}}:</label>
                     <span class="lb-error" v-if="saveFormError.name">{{
                       saveFormError.name
                     }}</span>
@@ -153,14 +153,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -277,7 +277,7 @@ export default {
     const getObject = async (id) => {
       isLoading.value = true;
       create_form.value = false;
-      let response = await api.get(`/categories/${id}`);
+      let response = await api.get(url + `/${id}`);
       isLoading.value = false;
       if (response.status == 200) {
         object.value = response.data.content;
@@ -322,7 +322,7 @@ export default {
             name: object.value.name,
           };
           await api
-            .put(`/categories/${object.value.category_id}`, data)
+            .put(url + `/${object.value.category_id}`, data)
             .then((response) => {
               if (objectList.value.length > 0) {
                 let index = objectList.value.findIndex(
@@ -371,8 +371,7 @@ export default {
       }
     };
 
-    const deleteObject = async (id) => {
-      try {
+   const deleteObject = async (id) => {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -381,28 +380,30 @@ export default {
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(`/categories/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.category_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
+          try {
+            if (result.isConfirmed) {
+              isLoading.value = true;
+              let response = await api.delete(url+`/${id}`);
+              if (response.status == 200) {
+                let index = objectList.value.findIndex(
+                  (x) => x.product_id == id
+                );
+                if (index >= 0) {
+                  objectList.value.splice(index, 1);
+                }
+                Mensaje.success("Deleted successfully");
+              } else {
+                Mensaje.error(response.data.message);
               }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
+              isLoading.value = false;
             }
+          } catch (err) {
             isLoading.value = false;
+            Mensaje.error(err.message);
           }
         });
-      } catch (err) {
-        Mensaje.error(err.message);
-        isLoading.value = false;
-      }
     };
+
 
     onMounted(() => {
       getList();

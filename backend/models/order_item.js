@@ -97,4 +97,11 @@ OrderItem.init({
     updatedAt: 'updated_at',
 });
 
+// Define associations
+OrderItem.belongsTo(Product, { foreignKey: 'product_id' });
+OrderItem.belongsTo(Unit, { foreignKey: 'unit_id' });
+
+// In your Product model definition
+Product.hasMany(OrderItem, { foreignKey: 'product_id' });
+
 module.exports = OrderItem;

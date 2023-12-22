@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true ,limit: "50mb"}));
 
 
 
+
+
 app.use( express.static('public'));
 app.use('/images', express.static('images'));
 

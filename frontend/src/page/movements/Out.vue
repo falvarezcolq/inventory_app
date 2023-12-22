@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">OUTLETS</h2>
+        <h2 class="text-center">{{$t('outlets')}} </h2>
       </div>
     </div>
 
@@ -15,7 +15,7 @@
        
               <div class="col-md-5">  
                 <div class="form-group">
-                  <label class="frm-label">Supplier</label>
+                  <label class="frm-label">{{$t('supplier')}} </label>
                   <span class="lb-error" v-if="formInError.supplier_id">{{
                     formInError.supplier_id
                   }}</span>
@@ -30,7 +30,7 @@
 
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">DATE</label>
+                  <label class="frm-label">{{$t('date')}} </label>
                   <span class="lb-error" v-if="formInError.order_date">{{
                     formInError.order_date
                   }}</span>
@@ -57,7 +57,7 @@
             
               <div class="col-md-12">  
                 <div class="form-group">
-                  <label class="frm-label">PRODUCT</label>
+                  <label class="frm-label">{{$t('product')}} </label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
@@ -79,7 +79,7 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">BARCODE</label>
+                  <label class="frm-label">{{$t('barcode')}} </label>
                   <span class="lb-error" v-if="formError.barcode">{{
                     formError.barcode
                   }}</span>
@@ -92,7 +92,7 @@
               </div>
                <div class="col-md-5">
                 <div class="form-group">
-                  <label class="frm-label">QUANTITY</label>
+                  <label class="frm-label">{{$t('quantity')}} </label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
@@ -175,7 +175,7 @@
 
     <div class="row" v-if="objectList.length == 0">
       <div class="col">
-        <label for="" class="orange">No items</label>
+        <label for="" class="orange">{{$t('no_items')}} </label>
       </div>
     </div>
     <div class="table-responsive" v-else>
@@ -183,11 +183,11 @@
         <thead class="thead-dark">
           <tr>
             <th class="text-start">ITEM</th>
-            <th class="text-start">PRODUCT</th>
-            <th class="text-start">UNIT</th>
-            <th class="text-center" width="100">PRICE</th>
-            <th class="text-center" width="100">QUANTITY</th>
-            <th class="text-center" width="100">SUBTOTAL</th>
+            <th class="text-start">{{$t('product')}} </th>
+            <th class="text-start">{{$t('unidad')}} </th>
+            <th class="text-center" width="100">{{$t('sale_price')}} </th>
+            <th class="text-center" width="100">{{$t('quantity')}} </th>
+            <th class="text-center" width="100">{{$t('subtotal')}} </th>
             <th></th>
              <!-- <th width="100">LOTE</th>
             <th width="100">EXPIRATION</th> -->
@@ -295,7 +295,7 @@
             <button class="btn btn-primary"
               @click="saveOut()"
             >
-              SAVE
+              {{$t('save')}} 
             </button>
           </div>
          
@@ -312,7 +312,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">FORM PRODUCT</div>
+            <div class="modal-title"></div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -486,14 +486,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveProduct()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>

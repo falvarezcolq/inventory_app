@@ -241,7 +241,7 @@
         FOREIGN KEY (order_id) REFERENCES orders(order_id),
         FOREIGN KEY (product_id) REFERENCES products(product_id),
         FOREIGN KEY (unit_id) REFERENCES units(unit_id),
-        FOREIGN KEY (movement_id) REFERENCES inventory_movements(movement_id),
+        FOREIGN KEY (movement_id) REFERENCES inventory_movements(movement_id)
     );
 
     CREATE TABLE customers (
@@ -333,7 +333,7 @@
     -- Insert data into the suppliers table
     INSERT INTO suppliers (supplier_id, nit, razon_social, supplier_name, contact_person, contact_email, contact_phone, customer, supplier, address, active, created_at, updated_at, created_by, updated_by)
     VALUES 
-    (1, 'O', 'SIN FACTURA', 'ADMINISTRADOR', '', 'admin@mail.com', '1', FALSE, TRUE, '123 Supplier St', TRUE, NOW(), NOW(), 1, 1);
+    (1, 'O', '', 'ADMINISTRADOR', '', 'admin@mail.com', '1', FALSE, TRUE, '123 Supplier St', TRUE, NOW(), NOW(), 1, 1);
          
 
 

@@ -6,6 +6,9 @@ const { Op } = require("sequelize");
 let router = Router();
 
 const Orders = require("../models/order.js");
+const OrderItems = require("../models/order_item.js");
+const Product = require("../models/product.js");
+const Unit = require("../models/unit.js");
 
 // GET all orders
 router.get("/orders", async (req, res) => {
@@ -28,7 +31,9 @@ router.get("/orders", async (req, res) => {
             where: whereClause,
             limit: parseInt(limit),
             offset: parseInt(offset),
-            order: [["order_date", "ASC"]]
+            order: [["order_id", "DESC"]],
+            // order: [["order_date", "ASC"]]
+            
         });
         const serializedOrders = orders.rows.map(order => serialize(order));
         res.status(200).json({ code: 1, message: "OK", content: serializedOrders, total: orders.count });
@@ -71,6 +76,9 @@ router.get("/orders/:id", async (req, res) => {
         res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
     }
 });
+
+
+
 
 // CREATE a new order
 router.post("/orders", async (req, res) => {
@@ -137,10 +145,47 @@ router.delete("/orders/:id", async (req, res) => {
         const deletedOrder = await Orders.destroy({
             where: {
                 order_id: id
-            }
+            },
+           
+
         });
         if (deletedOrder === 1) {
             res.status(200).json({ code: 1, message: "Order deleted successfully", content: "" });
+        } else {
+            res.status(404).json({ code: 0, message: "Order not found", content: "" });
+        }
+    } catch (error) {
+        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
+    }
+});
+
+
+// GET a specific order by ID
+router.get("/orders/:id/detail", async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const order = await Orders.findOne({
+            where: {
+                order_id: id
+            }
+        });
+        const order_items = await OrderItems.findAll({
+            where: {
+                order_id: id
+            },
+            order: [["order_item_id", "ASC"]],
+            include: [{
+                model: Product,
+                attributes: ['product_id', 'name']
+            },
+            {
+                model: Unit,
+                attributes: ['unit_id', 'abbreviation',]
+            }]
+        });
+        if (order) {
+            res.status(200).json({ code: 1, message: "OK", content: {order,order_items} });
         } else {
             res.status(404).json({ code: 0, message: "Order not found", content: "" });
         }

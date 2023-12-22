@@ -1,0 +1,25 @@
+-- update stock products
+
+
+
+-- select
+select a.product_id, a.stock_quantity, b.q
+from products as a , (
+select product_id, sum(quantity)  as q
+from inventory_movements
+group by product_id ) as b
+where a.product_id = b.product_id
+
+
+-- update 
+update products set stock_quantity  = c.q 
+from (
+	select a.product_id, a.stock_quantity, b.q
+	from products as a , (
+	select product_id, sum(quantity)  as q
+	from inventory_movements
+	group by product_id ) as b
+	where a.product_id = b.product_id
+) as c
+
+where products.product_id = c.product_id

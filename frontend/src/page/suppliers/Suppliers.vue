@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Suppliers</h2>
+        <h2 class="text-center">{{$t('suppliers')}}</h2>
       </div>
     </div>
 
@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  NEW SUPPLIER <i class="fa fa-plus"></i>
+                  {{$t('new_supplier')}}<i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -71,16 +71,16 @@
         <thead class="thead-dark">
           <tr class="text-center">
             <th>ID</th>
-            <th>NIT</th>
-            <th>RAZON SOCIAL</th>
-            <th>NAME</th>
-            <th>PERSON</th>
-            <th>EMAIL</th>
-            <th>PHONE</th>
-            <th>ADDRESS</th>
-            <th>CREATED AT</th>
-            <th>CUSTOMER</th>
-            <th>SUPPLIER</th>
+            <th>{{ $t('nit')}}</th>
+            <th>{{ $t('razon_social')}}</th>
+            <th>{{ $t('name')}}</th>
+            <th>{{ $t('contact')}}</th>
+            <th>{{ $t('email')}}</th>
+            <th>{{ $t('phone')}}</th>
+            <th>{{ $t('address')}}</th>
+            <th>{{ $t('created_at')}}</th>
+            <th>{{ $t('customer')}}</th>
+            <th>{{ $t('supplier')}}</th>
             <th></th>
           </tr>
         </thead>
@@ -140,7 +140,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">ADD SUPPLIER</div>
+            <div class="modal-title">{{$t('new_supplier')}}</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -152,7 +152,7 @@
               <div class="offset-md-2 col-md-8">
                 <div class="row">
                    <div class="col-md-12">
-                    <label class="frm-label">CODE:</label>
+                    <label class="frm-label">{{ $t('nit')}}:</label>
                     <span class="lb-error" v-if="saveFormError.nit">{{
                       saveFormError.nit
                     }}</span>
@@ -165,7 +165,7 @@
                     />
                   </div>
                    <div class="col-md-12">
-                    <label class="frm-label">RAZON SOCIAL SUPPLIER:</label>
+                    <label class="frm-label">{{$t('razon_social')}}:</label>
                     <span class="lb-error" v-if="saveFormError.razon_social">{{
                       saveFormError.razon_social
                     }}</span>
@@ -178,7 +178,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">NAME'S SUPPLIER:</label>
+                    <label class="frm-label">{{$t('name_supplier')}}:</label>
                     <span class="lb-error" v-if="saveFormError.supplier_name">{{
                       saveFormError.supplier_name
                     }}</span>
@@ -191,7 +191,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">CONTACT PERSON:</label>
+                    <label class="frm-label">{{ $t('contact')}}:</label>
                     <span class="lb-error" v-if="saveFormError.contact_person">{{
                       saveFormError.contact_person
                     }}</span>
@@ -204,7 +204,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">CONTACT EMAIL:</label>
+                    <label class="frm-label">{{$t('email')}}:</label>
                     <span class="lb-error" v-if="saveFormError.contact_email">{{
                       saveFormError.contact_email
                     }}</span>
@@ -217,7 +217,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">CONTACT PHONE:</label>
+                    <label class="frm-label">{{$t('phone')}}:</label>
                     <span class="lb-error" v-if="saveFormError.contact_phone">{{
                       saveFormError.contact_phone
                     }}</span>
@@ -230,7 +230,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">ADDRESS:</label>
+                    <label class="frm-label">{{$t('address')}}:</label>
                     <span class="lb-error" v-if="saveFormError.address">{{
                       saveFormError.address
                     }}</span>
@@ -255,7 +255,7 @@
                         role="switch"
                         id="checkCustomer"
                       />
-                     <label class="form-check-labe" for="checkCustomer">CUSTOMER:</label>
+                     <label class="form-check-labe" for="checkCustomer">{{$t('customer')}}:</label>
 
                     </div>
                    
@@ -273,7 +273,7 @@
                         role="switch"
                         id="checkSupplier"
                       />
-                      <label class="form-check-labe" for="checkSupplier">SUPPLIER:</label>
+                      <label class="form-check-labe" for="checkSupplier">{{$t('supplier')}}:</label>
 
 
                     </div>
@@ -290,14 +290,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -511,8 +511,7 @@ export default {
       }
     };
 
-    const deleteObject = async (id) => {
-      try {
+   const deleteObject = async (id) => {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -521,27 +520,28 @@ export default {
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(url+`/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.supplier_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
+          try {
+            if (result.isConfirmed) {
+              isLoading.value = true;
+              let response = await api.delete(url+`/${id}`);
+              if (response.status == 200) {
+                let index = objectList.value.findIndex(
+                  (x) => x.product_id == id
+                );
+                if (index >= 0) {
+                  objectList.value.splice(index, 1);
+                }
+                Mensaje.success("Deleted successfully");
+              } else {
+                Mensaje.error(response.data.message);
               }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
+              isLoading.value = false;
             }
+          } catch (err) {
             isLoading.value = false;
+            Mensaje.error(err.message);
           }
         });
-      } catch (err) {
-        Mensaje.error(err.message);
-        isLoading.value = false;
-      }
     };
 
     onMounted(() => {

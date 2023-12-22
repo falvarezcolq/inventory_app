@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Users</h2>
+        <h2 class="text-center">{{$t('users')}}</h2>
       </div>
     </div>
 
@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  ADD NEW USER <i class="fa fa-plus"></i>
+                 {{$t('new_user')}} <i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -63,19 +63,19 @@
 
     <div class="row" v-if="objectList.length == 0">
       <div class="col">
-        <label for="" class="orange">No items</label>
+        <label for="" class="orange">{{$t('no_items')}}</label>
       </div>
     </div>
     <div class="table-responsive" v-else>
       <table class="table table-sm table-hover">
         <thead class="thead-dark">
           <tr class="text-center">
-            <th>USERNAME</th>
-            <th>EMAIL</th>
-            <th>ADDRESS</th>
-            <th>PHONE</th>
-            <th>ROLE</th>
-            <th>CREATED AT</th>
+            <th>{{$t('name_user')}}</th>
+            <th>{{$t('email')}}</th>
+            <th>{{$t('address')}}</th>
+            <th>{{$t('phone')}}</th>
+            <th>{{$t('role')}}</th>
+            <th>{{$t('created_at')}}</th>
             <th></th>
           </tr>
         </thead>
@@ -126,7 +126,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">FORM USER</div>
+            <div class="modal-title">{{$t('user')}}</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -138,7 +138,7 @@
               <div class="offset-md-2 col-md-8">
                 <div class="row">
                   <div class="col-md-12">
-                    <label class="frm-label">USERNAME:</label>
+                    <label class="frm-label">{{$t('username')}}:</label>
                     <span class="lb-error" v-if="saveFormError.username">{{
                       saveFormError.username
                     }}</span>
@@ -151,7 +151,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">EMAIL:</label>
+                    <label class="frm-label">{{$t('email')}}:</label>
                     <span class="lb-error" v-if="saveFormError.email">{{
                       saveFormError.email
                     }}</span>
@@ -164,7 +164,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">ADDRESS:</label>
+                    <label class="frm-label">{{$t('address')}}:</label>
                     <span class="lb-error" v-if="saveFormError.address">{{
                       saveFormError.address
                     }}</span>
@@ -177,7 +177,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">PHONE:</label>
+                    <label class="frm-label">{{$t('phone')}}:</label>
                     <span class="lb-error" v-if="saveFormError.phone">{{
                       saveFormError.phone
                     }}</span>
@@ -190,7 +190,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">ROLE:</label>
+                    <label class="frm-label">{{$t('role')}}:</label>
                     <span class="lb-error" v-if="saveFormError.role_id">{{
                       saveFormError.role_id
                     }}</span>
@@ -209,14 +209,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -443,8 +443,7 @@ export default {
       }
     };
 
-    const deleteObject = async (id) => {
-      try {
+   const deleteObject = async (id) => {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -453,28 +452,30 @@ export default {
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(url+`/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.user_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
+          try {
+            if (result.isConfirmed) {
+              isLoading.value = true;
+              let response = await api.delete(url+`/${id}`);
+              if (response.status == 200) {
+                let index = objectList.value.findIndex(
+                  (x) => x.product_id == id
+                );
+                if (index >= 0) {
+                  objectList.value.splice(index, 1);
+                }
+                Mensaje.success("Deleted successfully");
+              } else {
+                Mensaje.error(response.data.message);
               }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
+              isLoading.value = false;
             }
+          } catch (err) {
             isLoading.value = false;
+            Mensaje.error(err.message);
           }
         });
-      } catch (err) {
-        Mensaje.error(err.message);
-        isLoading.value = false;
-      }
     };
+
 
     onMounted(() => {
       getList();

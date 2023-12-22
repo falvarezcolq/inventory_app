@@ -13,7 +13,7 @@
             <div class="row">
               <!-- <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.role_name">{{
                     formError.role_name
                   }}</span>
@@ -157,14 +157,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -376,7 +376,6 @@ export default {
     };
 
     const deleteObject = async (id) => {
-      try {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -385,28 +384,30 @@ export default {
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(`/categories/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.role_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
+          try {
+            if (result.isConfirmed) {
+              isLoading.value = true;
+              let response = await api.delete(url+`/${id}`);
+              if (response.status == 200) {
+                let index = objectList.value.findIndex(
+                  (x) => x.product_id == id
+                );
+                if (index >= 0) {
+                  objectList.value.splice(index, 1);
+                }
+                Mensaje.success("Deleted successfully");
+              } else {
+                Mensaje.error(response.data.message);
               }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
+              isLoading.value = false;
             }
+          } catch (err) {
             isLoading.value = false;
+            Mensaje.error(err.message);
           }
         });
-      } catch (err) {
-        Mensaje.error(err.message);
-        isLoading.value = false;
-      }
     };
+
 
     onMounted(() => {
       getList();

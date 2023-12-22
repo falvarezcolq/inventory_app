@@ -25,7 +25,7 @@
               <router-link to="/about_me">
                 <i class="fa fa-chevron-right"></i> 
                 <!-- {{item.nombre_menu}}  -->
-                DATOS PERSONALES
+                {{$t('info_personal')}}
               </router-link>
             </div>
           </div>
@@ -36,7 +36,7 @@
             <div class="col-md-12" >
               <router-link to="/roles">
                 <i class="fa fa-chevron-right"></i> 
-                ROLES
+                {{$t('roles')}}
               </router-link>
             </div>
           </div>
@@ -47,7 +47,7 @@
             <div class="col-md-12" >
               <router-link to="/categories">
                 <i class="fa fa-chevron-right"></i> 
-                CATEGORIES
+                {{$t('categories')}}
               </router-link>
             </div>
           </div>
@@ -57,7 +57,7 @@
             <div class="col-md-12" >
               <router-link to="/suppliers">
                 <i class="fa fa-chevron-right"></i> 
-                SUPPLIERS
+                {{$t('suppliers')}}
               </router-link>
             </div>
           </div>
@@ -67,7 +67,7 @@
             <div class="col-md-12" >
               <router-link to="/users">
                 <i class="fa fa-chevron-right"></i> 
-                USERS
+                {{$t('users')}}
               </router-link>
             </div>
           </div>
@@ -78,7 +78,7 @@
             <div class="col-md-12" >
               <router-link to="/units">
                 <i class="fa fa-chevron-right"></i> 
-                UNITS
+                {{$t('units')}}
               </router-link>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <div class="col-md-12" >
               <router-link to="/products">
                 <i class="fa fa-chevron-right"></i> 
-                PRODUCTS
+                {{$t('products')}}
               </router-link>
             </div>
           </div>
@@ -109,7 +109,7 @@
             <div class="col-md-12" >
               <router-link to="/in">
                 <i class="fa fa-chevron-right"></i> 
-                INCOME
+                {{$t('incomes')}}
               </router-link>
             </div>
           </div>
@@ -119,7 +119,7 @@
             <div class="col-md-12" >
               <router-link to="/out">
                 <i class="fa fa-chevron-right"></i> 
-                OUTLETS
+                {{$t('outlets')}}
               </router-link>
             </div>
           </div>
@@ -129,7 +129,7 @@
             <div class="col-md-12" >
               <router-link to="/orders">
                 <i class="fa fa-chevron-right"></i> 
-                ORDERS
+                {{$t('orders')}}
               </router-link>
             </div>
           </div>

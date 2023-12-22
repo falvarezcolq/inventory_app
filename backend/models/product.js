@@ -116,10 +116,10 @@ Product.init({
 }, {
     // Other model options go here
     sequelize, // We need to pass the connection instance
-    modelName: 'product', // We need to choose the model name
+    modelName: 'products', // We need to choose the model name
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-});
+}); 
 
 // Define associations
 Product.belongsTo(Category, { foreignKey: 'category_id' });

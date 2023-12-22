@@ -95,4 +95,98 @@ export default {
     fecha_emision: 'DOCUMENT ISSUANCE DATE (ONLY IF IT HAS)',
     fecha_expiracion: 'EXPIRATION DATE OF THE DOCUMENT',
     pais_emision: 'COUNTRY OF ISSUANCE',
+
+
+     //
+     search:"Search",
+     name:"Name",
+     created_at:"Created at",
+     save:"Save",
+     close:"Close",
+     no_items:"No items",
+     select:"Elegir",
+     //
+     category:"Category",
+     categories: "Categories",
+     new_category: "New Category",
+     name_category: "Name´s category",
+
+      //supplier
+    suppliers: "Suppliers",
+    nit: 'NIT',	
+    razon_social: 'Business Name',	
+    concact: 'Contact',	
+    email: 'Email',	
+    phone: 'Phone',	
+    address: 'Address',	
+    customer: 'Customer',
+    supplier: 'Supplier',
+    new_supplier: "New Supplier",
+    name_supplier: "Supplier Name",
+    
+    // users
+    user: "User",
+    users: "Users",
+    username: "Username",
+    new_user: "New User",
+    name_user: "User Name",
+    password: "Password",
+    password_confirm: "Confirm Password",
+    email_user: "Email",
+    phone_user: "Phone",
+    role: "Role",
+
+    // units
+    unit: "Unit",
+    units: "Units",
+    new_unit: "New Unit",
+    name_unit: "Unit Name",
+    abbreviation: "Abbreviation",
+    
+    //products
+    product: "Product",
+    products: "Products",
+    new_product: "New Product",
+    name_product: "Product Name",
+    product_code: "Product Code",
+    purchase_price: "Purchase Price",
+    sale_price: "Sale Price",
+    stock: "Stock",
+    upload_image: "Upload Image",
+    barcode: "Barcode",
+    manufacturer: "Manufacturer",
+    weight: "Weight",
+    product_form: "Product Form",
+
+    // income
+
+    income: "Income",
+    incomes: "Incomes",
+    Income_purchase: "Purchase",
+    date: "Date",
+    quantity: "Quantity",
+    subtotal: "Subtotal",
+    total: "Total",
+    lote: "Lote",
+    expiration: "Expiration Date",
+
+        // outlets
+    outlet: "Outlet",
+    outlets: "Outlets",
+    outlet_sale: "Outlet Sale",
+
+    // orders
+    order: "Order",
+    orders: "Orders",
+    movements: "Movements",
+    type_movement: "Movement Type",
+    total_amount: "Total Amount",
+    items: "Items",
+    total_items: "Total Items",
+    order_date: "Order Date",
+    order_number: "Order Number",
+    discount: "Discount",
+    price: "Price",
+    
+
 }

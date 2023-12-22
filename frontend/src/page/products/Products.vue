@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">Products</h2>
+        <h2 class="text-center">{{$t('products')}}</h2>
       </div>
     </div>
 
@@ -13,13 +13,13 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S PRODUCT"
+                    :placeholder="$t('name_product')"
                     v-model="search.name"
                   />
                 </div>
@@ -52,7 +52,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#modalSaveForm"
                 >
-                  ADD NEW PRODUCT<i class="fa fa-plus"></i>
+                  {{$t('new_product')}}<i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -63,21 +63,21 @@
 
     <div class="row" v-if="objectList.length == 0">
       <div class="col">
-        <label for="" class="orange">No items</label>
+        <label for="" class="orange">{{$t('no_items')}}</label>
       </div>
     </div>
     <div class="table-responsive" v-else>
       <table class="table table-sm table-hover">
         <thead class="thead-dark">
           <tr class="text-center">
-            <th>PRODUCT_CODE</th>
-            <th>PRODUCT</th>
+            <th>{{$t('product_code')}}</th>
+            <th>{{$t('product')}}</th>
             <!-- <th>MANUFACTURER</th> -->
-            <th class="text-end">PURCHASE PRICE</th>
-            <th class="text-end">PRICE</th>
-            <th class="text-end" >STOCK</th>
-            <th class="text-center">UNIT</th>
-            <th class="text-center">CREATED AT</th>
+            <th class="text-end">{{$t('purchase_price')}}</th>
+            <th class="text-end">{{$t('sale_price')}}</th>
+            <th class="text-end" >{{$t('stock')}}</th>
+            <th class="text-center">{{$t('unit')}}</th>
+            <th class="text-center">{{$t('created_at')}}</th>
             <th></th>
           </tr>
         </thead>
@@ -90,7 +90,13 @@
               'table-info': item.updated,
             }"
           >
-            <td class="text-center">{{ item.product_code }}</td>
+            <!-- <td class="text-center">{{ item.product_code }}</td> -->
+            <td>
+                <img class="doc" v-bind:src="item.image_url" 
+                    alt="Product Image"
+                    v-if="item.image_url" width="200" height="200"
+                    />
+            </td>
             <td>{{ item.name}} </td>
             <!-- <td>{{ item.manufacturer}} </td> -->
             <td class="text-end">{{ item.purchase_price}} </td>
@@ -130,7 +136,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">FORM PRODUCT</div>
+            <div class="modal-title">{{$t('product')}}</div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -142,7 +148,7 @@
               <div class="col-md-6">
                 <div class="row">
                    <div class="col-md-12">
-                    <label class="frm-label">PRODUCT CODE:</label>
+                    <label class="frm-label">{{$t('product_code')}}:</label>
                     <span class="lb-error" v-if="saveFormError.product_code">{{
                       saveFormError.product_code
                     }}</span>
@@ -156,7 +162,7 @@
                   </div>
                 
                   <div class="col-md-12">
-                    <label class="frm-label">NAME:</label>
+                    <label class="frm-label">{{$t('name')}}:</label>
                     <span class="lb-error" v-if="saveFormError.name">{{
                       saveFormError.name
                     }}</span>
@@ -169,7 +175,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">DESCRIPTION:</label>
+                    <label class="frm-label">{{$t('description')}}:</label>
                     <span class="lb-error" v-if="saveFormError.description">{{
                       saveFormError.description
                     }}</span>
@@ -181,7 +187,7 @@
                     ></textarea>
                   </div>
                    <div class="col-md-12">
-                    <label class="frm-label">PURCHASE PRICE:</label>
+                    <label class="frm-label">{{$t('purchase_price')}}:</label>
                     <span class="lb-error" v-if="saveFormError.purchase_price">{{
                       saveFormError.purchase_price
                     }}</span>
@@ -195,7 +201,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">PRICE:</label>
+                    <label class="frm-label">{{$t('sale_price')}}:</label>
                     <span class="lb-error" v-if="saveFormError.price">{{
                       saveFormError.price
                     }}</span>
@@ -223,7 +229,7 @@
                     />
                   </div> -->
                    <div class="col-md-12">
-                    <label class="frm-label">BARCODE:</label>
+                    <label class="frm-label">{{$t('barcode')}}:</label>
                     <span class="lb-error" v-if="saveFormError.barcode">{{
                       saveFormError.barcode
                     }}</span>
@@ -236,7 +242,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">MANUFACTURER:</label>
+                    <label class="frm-label">{{$t('manufacturer')}}:</label>
                     <span class="lb-error" v-if="saveFormError.manufacturer">{{
                       saveFormError.manufacturer
                     }}</span>
@@ -249,7 +255,7 @@
                     />
                   </div>
                   <div class="col-md-12">
-                    <label class="frm-label">CATEGORY:</label>
+                    <label class="frm-label">{{$t('category')}}:</label>
                     <span class="lb-error" v-if="saveFormError.category_id">{{
                       saveFormError.category_id
                     }}</span>
@@ -258,7 +264,7 @@
                       v-model="object.category_id"
                       :class="{ error: saveFormError.category_id }"
                       @input="object.category_id = $event.target.value">
-                      <option value="">--SELECT--</option>
+                      <option value="">--{{$t('select')}}--</option>
                       <option v-for="item in categoryList"
                       :key="item.category_id" 
                       :value="item.category_id">
@@ -267,7 +273,7 @@
                   </div>
                  
                   <div class="col-md-12">
-                    <label class="frm-label">SUPPLIER:</label>
+                    <label class="frm-label">{{$t('supplier')}}:</label>
                     <span class="lb-error" v-if="saveFormError.supplier_id">{{
                       saveFormError.supplier_id
                     }}</span>
@@ -276,7 +282,7 @@
                       v-model="object.supplier_id"
                       :class="{ error: saveFormError.supplier_id }"
                       @input="object.supplier_id = $event.target.value">
-                      <option value="">--SELECT--</option>
+                      <option value="">--{{$t('select')}}--</option>
                       <option v-for="item in supplierList" 
                       :key="item.supplier_id" 
                       :value="item.supplier_id">
@@ -285,7 +291,7 @@
                   </div>
 
                   <div class="col-md-12">
-                    <label class="frm-label">UNIT:</label>
+                    <label class="frm-label">{{$t('unit')}}:</label>
                     <span class="lb-error" v-if="saveFormError.unit_id">{{
                       saveFormError.unit_id
                     }}</span>
@@ -303,7 +309,7 @@
                   </div>
                 
                   <div class="col-md-12">
-                    <label class="frm-label">WEIGHT:</label>
+                    <label class="frm-label">{{$t('weight')}}:</label>
                     <span class="lb-error" v-if="saveFormError.weight">{{
                       saveFormError.weight
                     }}</span>
@@ -334,7 +340,7 @@
 
                 <div class="col-md-12 mt-3">
                 <label :for="'file-upload'" class="btn btn-sm btn-outline-success">
-                  <i class="fa fa-cloud-upload"></i> Upload image
+                  <i class="fa fa-cloud-upload"></i> {{$t('upload_image')}}
                 </label>
                 <input @change="cargarArchivo($event)" type="file" :id="'file-upload'"
                   style="display: none;"/>
@@ -358,14 +364,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -616,6 +622,7 @@ export default {
               if (index >= 0) {
                 object.value.updated = true;
                 objectList.value[index] = object.value;
+                console.log("objectList.value[index]",objectList.value[index])
               }
             }
             if(product_image_blob.value){
@@ -660,7 +667,6 @@ export default {
     };
 
     const deleteObject = async (id) => {
-      try {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -669,28 +675,28 @@ export default {
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            isLoading.value = true;
-            let response = await api.delete(url+`/${id}`);
-            if (response.status == 200) {
-              let index = objectList.value.findIndex(
-                (x) => x.product_id == id
-              );
-              if (index >= 0) {
-                objectList.value.splice(index, 1);
+          try {
+            if (result.isConfirmed) {
+              isLoading.value = true;
+              let response = await api.delete(url+`/${id}`);
+              if (response.status == 200) {
+                let index = objectList.value.findIndex(
+                  (x) => x.product_id == id
+                );
+                if (index >= 0) {
+                  objectList.value.splice(index, 1);
+                }
+                Mensaje.success("Deleted successfully");
+              } else {
+                Mensaje.error(response.data.message);
               }
-              Mensaje.success("Deleted successfully");
-            } else {
-              Mensaje.error(response.data.message);
+              isLoading.value = false;
             }
+          } catch (err) {
             isLoading.value = false;
+            Mensaje.error(err.message);
           }
         });
-      } catch (err) {
-        isLoading.value = false;
-        Mensaje.error(err.message);
-       
-      }
     };
 
 
@@ -778,7 +784,6 @@ export default {
         }
         const formData = new FormData();  
         formData.append('product_id', object.value.product_id);
-
         formData.append('archivo', product_image_blob.value,"name");
         isLoading.value=true;
         let result = await api.post('/product_images', formData)

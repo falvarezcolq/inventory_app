@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <h2 class="text-center">ORDERS</h2>
+        <h2 class="text-center">{{$t('orders')}} </h2>
       </div>
     </div>
 
@@ -13,13 +13,13 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="frm-label">SEARCH</label>
+                  <label class="frm-label">{{$t('search')}}</label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
                   <input
                     class="form-control"
-                    placeholder="NAME'S SUPPLIER"
+                    :placeholder="$t('name') "
                     v-model="search.name"
                   />
                 </div>
@@ -45,16 +45,7 @@
                   </button>
                 </div>
               </div>
-              <div class="col-md-6" style="text-align: right">
-                <button
-                  class="btn btn-primary"
-                  @click="ShowCreateForm()"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalSaveForm"
-                >
-                  NEW SUPPLIER <i class="fa fa-plus"></i>
-                </button>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -63,7 +54,7 @@
 
     <div class="row" v-if="objectList.length == 0">
       <div class="col">
-        <label for="" class="orange">No items</label>
+        <label for="" class="orange">{{$t('no_items')}} </label>
       </div>
     </div>
     <div class="table-responsive" v-else>
@@ -72,11 +63,11 @@
           <tr class="text-center">
             <th>ID</th>
             <th>CI/NIT</th>
-            <th>RAZON SOCIAL</th>
-            <th>TYPE MOVEMENT</th>
-            <th>ITEMS</th>
-            <th>TOTAL AMOUNT</th>
-            <th>REGISTERED AT</th>
+            <th>{{$t('razon_social')}} </th>
+            <th>{{$t('type_movement')}} </th>
+            <th>{{$t('items')}} </th>
+            <th>{{$t('total')}} </th>
+            <th>{{$t('created_at')}} </th>
             <th></th>
           </tr>
         </thead>
@@ -103,7 +94,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalSaveForm"
               >
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-eye"></i>
               </button>
             
             </td>
@@ -121,7 +112,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">ADD SUPPLIER</div>
+            <div class="modal-title">{{$t('order')}} </div>
             <button
               type="button"
               data-bs-dismiss="modal"
@@ -130,137 +121,76 @@
           </div>
           <div class="modal-body" v-if="object != null">
             <div class="row mb-3">
-              <div class="offset-md-2 col-md-8">
+              <div class="offset-md-1 col-md-10">
                 <div class="row">
-                   <div class="col-md-12">
-                    <label class="frm-label">CODE:</label>
-                    <span class="lb-error" v-if="saveFormError.nit">{{
-                      saveFormError.nit
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.nit"
-                      :class="{ error: saveFormError.nit }"
-                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                    />
-                  </div>
-                   <div class="col-md-12">
-                    <label class="frm-label">RAZON SOCIAL SUPPLIER:</label>
-                    <span class="lb-error" v-if="saveFormError.razon_social">{{
-                      saveFormError.razon_social
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.razon_social"
-                      :class="{ error: saveFormError.razon_social }"
-                      @input="object.razon_social = $event.target.value.toUpperCase()"
-                    />
-                  </div>
                   <div class="col-md-12">
-                    <label class="frm-label">NAME'S SUPPLIER:</label>
-                    <span class="lb-error" v-if="saveFormError.supplier_name">{{
-                      saveFormError.supplier_name
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.supplier_name"
-                      :class="{ error: saveFormError.supplier_name }"
-                      @input="object.supplier_name = $event.target.value.toUpperCase()"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CONTACT PERSON:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_person">{{
-                      saveFormError.contact_person
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.contact_person"
-                      :class="{ error: saveFormError.contact_person }"
-                      @input="object.contact_person = $event.target.value"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CONTACT EMAIL:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_email">{{
-                      saveFormError.contact_email
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="email"
-                      v-model="object.contact_email"
-                      :class="{ error: saveFormError.contact_email }"
-                      @input="object.contact_email = $event.target.value"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">CONTACT PHONE:</label>
-                    <span class="lb-error" v-if="saveFormError.contact_phone">{{
-                      saveFormError.contact_phone
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.contact_phone"
-                      :class="{ error: saveFormError.contact_phone }"
-                      @input="object.contact_phone = $event.target.value"
-                    />
-                  </div>
-                  <div class="col-md-12">
-                    <label class="frm-label">ADDRESS:</label>
-                    <span class="lb-error" v-if="saveFormError.address">{{
-                      saveFormError.address
-                    }}</span>
-                    <input
-                      class="form-control"
-                      type="text"
-                      v-model="object.address"
-                      :class="{ error: saveFormError.address }"
-                      @input="object.address = $event.target.value"
-                    />
-                  </div>
-                   <div class="col-md-12 mt-2">
-                    <div class="form-check form-switch">
-                      <span class="lb-error" v-if="saveFormError.customer">{{
-                        saveFormError.customer
-                      }}</span>
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        v-model="object.customer"
-                        :class="{ error: saveFormError.customer }"
-                        role="switch"
-                        id="checkCustomer"
-                      />
-                     <label class="form-check-labe" for="checkCustomer">CUSTOMER:</label>
-
+                    <div class="row">
+                      <div class="col-6"> 
+                        <div> <b>{{$t('supplier')}} : </b> {{ object.order.razon_social}}</div>
+                        <!-- <div> <b>Estado: </b> --</div> -->
+                        <div> <b>{{$t('order_date')}} : </b> {{ moment(object.order.order_date).format("YYYY-MM-DD")}}</div>
+                        <div> <b>{{$t('total_items')}} : </b> {{ object.order.total_items }}</div>
+                      </div>
+                      <div class="col-6"> 
+                        <div> <b>{{$t('order_number')}} : </b> <span class="orange">{{object.order.order_id}}</span></div>
+                        <div> <b>{{$t('nit')}} : </b> {{ object.order.nit}}</div>
+                        <div> <b>{{$t('razon_social')}} : </b>{{ object.order.razon_social}}</div>
+                       
+                      </div>
                     </div>
-                   
                   </div>
-                   <div class="col-md-12 mt-2">
-                    <div class="form-check form-switch">
-                      <span class="lb-error" v-if="saveFormError.supplier">{{
-                        saveFormError.supplier
-                      }}</span>
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        v-model="object.supplier"
-                        :class="{ error: saveFormError.supplier }"
-                        role="switch"
-                        id="checkSupplier"
-                      />
-                      <label class="form-check-labe" for="checkSupplier">SUPPLIER:</label>
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table table-sm table-hover border border-secondary">
+                        <thead class="thead-dark border-bottom border-danger" >
+                          <tr class="table dark text-center border-bottom border-dark">
+                            <th>ITEM</th>
+                            <th>{{$t('product_code')}}</th>
+                            <th>{{$t('product')}}</th>
+                            <th>{{$t('unit')}}</th>
+                            <th>{{$t('quantity')}}</th>
+                            <th>{{$t('price')}}</th>
+                            <th>{{$t('discount')}}</th>
+                            <th>{{$t('subtotal')}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="(item, index) in object.order_items"
+                            :key="index"
+                            :class="{
+                            
+                            }"
+                          >
+                            <td class="text-center">{{ index + 1 }}</td>
+                            <td class="text-center">{{ item.product.barcode }} </td>
+                            <td class="text-start">{{ item.product.name }} </td>
+                            <td class="text-center">{{ item.unit.abbreviation }} </td>
+                            <td class="text-end">{{ item.quantity}} </td>
+                            <td class="text-end">{{ Number(item.price).toFixed(2)}} </td>
+                            <td class="text-end">{{ item.descuent }} 0</td>
+                            <td class="text-end">{{ item.subtotal }}</td>
+                             
+                            
+                          
+                          </tr>
+                             <tr>
+                            <td colspan="6"></td>
+                            <!-- <td>{{ item.nit}} </td>
+                            <td>{{ item.razon_social }} </td>
+                            <td>{{ item.type_movement_id }} {{ item.movement_type}} </td>
+                            <td>{{ item.total_items}} </td>
+                            <td>{{ item.total_amount}} </td> -->
+                            <td class="text-end"><b>TOTAL:</b></td>
+                            <td class="text-end"><b> <span class="h4 text-black">{{object.order.total_amount}}</span></b></td>
+                          </tr>
+                        </tbody>
+                      </table>
 
-
+                      
                     </div>
-                    
-                   
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -271,14 +201,14 @@
               class="btn btn-outline-primary btn-sm"
               @click="saveObject()"
             >
-              <i class="fa fa-save"></i> SAVE
+              <i class="fa fa-save"></i> {{ $t('save') }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
               data-bs-dismiss="modal"
             >
-              <i class="fa fa-close"></i> CLOSE
+              <i class="fa fa-close"></i> {{ $t('close') }}
             </button>
           </div>
         </div>
@@ -402,7 +332,7 @@ export default {
     const getObject = async (id) => {
       isLoading.value = true;
       create_form.value = false;
-      let response = await api.get(url+`/${id}`);
+      let response = await api.get(url+`/${id}/detail`);
       isLoading.value = false;
       if (response.status == 200) {
         object.value = response.data.content;
@@ -517,6 +447,7 @@ export default {
     
       create_form,
       ShowCreateForm,
+      moment,
     };
   },
 };
