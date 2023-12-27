@@ -14,6 +14,9 @@ app.use('/api/v1',require('./login'));
 app.use('/api/v1',require('./userinfo'));  
 app.use('/api/v1',require('./inventory_movements')); 
 app.use('/api/v1',require('./orders'));
+app.use('/api/v1',require('./reports'));
+
+
 
 
 module.exports = app;

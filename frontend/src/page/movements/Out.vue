@@ -209,16 +209,18 @@
               <span class="lb-error" v-if="formErrorRow[index].price">{{
                   formErrorRow[index].price
               }}</span>
-              <!-- <input v-model.trim="item.price"
+             
+             <input v-model.trim="item.price"
                   class="form-control input-table text-end" 
                   type="text"
                   onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46)"
                   :class="{ error: formErrorRow[index].price }"
-                  disabled
-              />  -->
-              <div class="text-end" style="width:100%; margin-top:7px; margin-right:0px; font-size:12px;">
+                 
+              /> 
+        
+              <!-- <div class="text-end" style="width:100%; margin-top:7px; margin-right:0px; font-size:12px;">
                 {{ item.price }}  
-              </div>
+              </div> -->
             </td>
             <td class="text-center" style="">
               <span class="lb-error" v-if="formErrorRow[index].quantity">{{

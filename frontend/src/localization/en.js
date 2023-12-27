@@ -187,6 +187,5 @@ export default {
     order_number: "Order Number",
     discount: "Discount",
     price: "Price",
-    
-
+    reports: "Reports",
 }

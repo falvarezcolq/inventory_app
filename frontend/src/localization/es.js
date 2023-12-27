@@ -185,5 +185,6 @@ order_date: "Fecha de orden",
 order_number: "Número de orden",
 discount: "Descuento",
 price: "Precio",
+reports: "Reportes",
 
 };

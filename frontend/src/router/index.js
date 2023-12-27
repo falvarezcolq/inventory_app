@@ -112,6 +112,18 @@ const routes = [
     meta: { layout: 'default', requiresAuth: true }
   },
   {
+    path: '/reports',
+    name: 'reports',
+    component: () => import('@/page/reports/Reports.vue'),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
+    path: '/report_purchase',
+    name: 'report_purchase',
+    component: () => import('@/page/reports/ReportsPurchase.vue'),
+    meta: { layout: 'default', requiresAuth: true }
+  },
+  {
     path: '/datosadicionales',
     name: 'datosadicionales',
     component: () => import('@/inicio/pages/DatosAdicionales.vue'),

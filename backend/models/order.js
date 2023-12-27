@@ -1,7 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config_sequelize');
 const User = require('./user');
+const OrderItem = require('./order_item');
 const TypeMovement = require('./type_movement');
+
 
 class Order extends Model {}
 
@@ -74,5 +76,9 @@ Order.init({
     createdAt: 'created_at',
     updatedAt: 'updated_at',
 });
+
+
+// In your Product model definition
+Order.hasMany(OrderItem, { foreignKey: 'order_id' });
 
 module.exports = Order;
