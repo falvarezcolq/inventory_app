@@ -57,18 +57,27 @@
             
               <div class="col-md-12">  
                 <div class="form-group">
+                    <div>
+                    <!-- <multiselect v-model="value" :options="options"></multiselect> -->
+                  </div>
                   <label class="frm-label">{{$t('product')}} </label>
                   <span class="lb-error" v-if="formError.name">{{
                     formError.name
                   }}</span>
 
-                  <select class="form-control" 
-                    v-model="search.product_id"
-                    @change="getObject(search.product_id)"
-                    >
-                    <option v-for="item in productList" :key="item.product_id" :value="item.product_id">
-                      {{ item.name }}</option>
-                  </select>
+                  <div>
+                   <multiselect v-model="value" 
+                 
+                   track-by="name" 
+                   label="name" 
+                   placeholder="Elije uno" 
+                   :options="productList" 
+                   @select="getObject(value.product_id)"
+                   >
+                  </multiselect>
+
+                  </div>
+
                   <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
                     "No stock"
                   }}</span>
@@ -517,13 +526,12 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { Mensaje } from "../../tools/Mensaje";
 import Multiselect from "vue-multiselect";
-import Multas from '../../inicio/pages/multas/Multas.vue';
+
 export default {
   components: {
     Loading,
     SinResultado,
     Multiselect,
-    Multas
   },
   setup() {
     let maxDate = moment().format("YYYY-MM-DD");
@@ -590,11 +598,11 @@ export default {
     };
 
     let Clear = () => {
-      search.value = {
-        barcode: "",
-        product_id:null,
-        quantity:1,
-      };
+      // search.value = {
+      //   barcode: "",
+      //   product_id:null,
+      //   quantity:1,
+      // };
       objectList.value = [];
     };
 
@@ -686,7 +694,7 @@ export default {
     const getObject = async (id) => {
        try {
         product.value = productList.value.find(x=>x.product_id == id);
-        console.log(product.value);
+        search.value.product_id = product.value.product_id;
       } catch (error) {
         console.log(error);
       }
@@ -696,6 +704,7 @@ export default {
       try {
         let product = productList.value.find(x=>x.product_id == search.value.product_id);
 
+        console.log(product);
 
         if(product){
 
@@ -887,7 +896,7 @@ export default {
     const saveOut = async ()=>{
       try {
         if( await validateIn()){
-          Mensaje.Confirmar("Do you want to save this income?",async ()=>{
+          Mensaje.Confirmar("¿Esta seguro de registrar la salida?",async ()=>{
            
              isLoading.value = true;
             let data = {
@@ -897,7 +906,7 @@ export default {
               total:tot.value,
             }
             await api.post('/out',data).then((response)=>{
-              Mensaje.success("Created successfully");
+              Mensaje.success("Registrado correctamente");
               objectList.value.map((item)=>{
                   item.stock_quantity_init = item.stock_quantity;
               });
@@ -925,6 +934,14 @@ export default {
       getProducts();
     });
 
+  let value = ref(null);
+  let options = ref([
+      { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP', $isDisabled: true },
+        { name: 'Phoenix', language: 'Elixir' }
+  ]);
    
     
     return {
@@ -958,7 +975,13 @@ export default {
       formErrorRow,
       product,
       validateItem,
+      value,
+      options,
     };
   },
 };
 </script>
+
+
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

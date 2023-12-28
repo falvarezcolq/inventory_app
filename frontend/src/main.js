@@ -78,6 +78,8 @@ VueQueryPlugin.install( app, {
   }
 })
 //app.use(VueSweetalert2)
+
+
 app.component('default-layout', DefaultLayout)
 app.component('public-layout', PublicLayout)
 app.component('login-layout', LoginLayout)
