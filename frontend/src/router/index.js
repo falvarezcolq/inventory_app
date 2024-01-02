@@ -124,6 +124,13 @@ const routes = [
     meta: { layout: 'default', requiresAuth: true }
   },
   {
+    path:'/report_sales',
+    name:'report_sales',
+    component: ()=> import('@/page/reports/ReportsSales.vue'),
+    meta: {layout: 'default', requiresAuth:true }
+
+  },
+  {
     path: '/datosadicionales',
     name: 'datosadicionales',
     component: () => import('@/inicio/pages/DatosAdicionales.vue'),

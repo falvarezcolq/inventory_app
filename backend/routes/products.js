@@ -14,7 +14,7 @@ router.get("/products", async (req, res) => {
     const products = await Products.findAll(
       { where: whereClause, offset, limit,
         order: [["name", "ASC"]] }
-      
+
       );
     const serializedProducts = products.map(product => serialize(product));
     res.status(200).json({ code: 1, message: "OK", content: serializedProducts });

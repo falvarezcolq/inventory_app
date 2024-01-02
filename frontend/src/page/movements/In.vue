@@ -75,25 +75,17 @@
                   formError.name
                 }}</span>
 
-                <select class="form-control"
-                   v-model="search.product_id"
-                   @change="getObject(search.product_id)"
-                 >
-                  <option
-                    v-for="item in productList"
-                    :key="item.product_id"
-                    :value="item.product_id"
-                  >
-                    {{ item.name }}
-                  </option>
 
-                  <span class="lb-error" v-if="product && Number(product.stock_quantity) == 0 ">{{
-                    "No stock"
-                  }}</span>
-                  <span class="lb-success" v-if="product && Number(product.stock_quantity) > 0">{{
-                    "Stock available: "+product.stock_quantity
-                  }}</span>
-                </select>
+                  <multiselect v-model="value" 
+                   track-by="name" 
+                   label="name" 
+                   placeholder="Elije uno" 
+                   :options="productList" 
+                   @select="getObject(value.product_id)"
+                   >
+                  </multiselect>
+
+             
               </div>
             </div>
           </div>
@@ -580,12 +572,14 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { Mensaje } from "../../tools/Mensaje";
 import TipoArchivos from '../../constantes/TipoArchivos';
+import Multiselect from 'vue-multiselect';
 
 
 export default {
   components: {
     Loading,
     SinResultado,
+    Multiselect,
   },
   setup() {
     let maxDate = moment().format("YYYY-MM-DD");
@@ -739,7 +733,7 @@ export default {
     const getObject = async (id) => {
        try {
         product.value = productList.value.find(x=>x.product_id == id);
-        console.log(product.value);
+         search.value.product_id = product.value.product_id;
       } catch (error) {
         console.log(error);
       }
@@ -1086,6 +1080,8 @@ export default {
       getUnits();
     });
 
+    let value = ref(null);
+
     return {
       formatDate,
       Search,
@@ -1128,3 +1124,6 @@ export default {
   },
 };
 </script>
+
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

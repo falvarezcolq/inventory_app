@@ -67,7 +67,6 @@
 
                   <div>
                    <multiselect v-model="value" 
-                 
                    track-by="name" 
                    label="name" 
                    placeholder="Elije uno" 

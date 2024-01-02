@@ -158,6 +158,81 @@ router.post("/out",[validarJWT], async (req, res) => {
     res.status(500).json({ code: 0, message: "Error en consulta", content: error.message });
   }
 });
+
+router.post("/out_cancel",[validarJWT], async (req, res) => {
+  try {
+    const { order_id, userauth } = req.body; 
+    const type_movement_id = 5; // out sale
+    
+    const order = await Order.findOne({ where: { order_id: order_id, type_movement_id:type_movement_id} });
+    
+    const result = await sequelize.transaction(async (t) => {
+   
+    const newOrder = await Order.create({
+      supplier_id,
+      nit: supplier.nit,
+      razon_social: supplier.razon_social,
+      order_date,
+      type_movement_id,
+      movement_type: "Out",
+      total_amount: total,
+      user_id: userauth.user_id,
+      total_items: items.length,
+    },{ transaction: t });
+
+    for(let i = 0; i < items.length; i++){
+      const {  product_id,  quantity, purchase_price, price, lote, expiration_date, unit_id, stock_quantity,subtotal} = items[i];
+     
+      const product = await Product.findOne({ where: { product_id: product_id } });
+      const newInventoryMovement = await InventoryMovement.create({
+        product_id,
+        quantity,
+        balance: product.stock_quantity - quantity,
+        type_movement_id,
+        movement_type: "Out",
+        user_id: userauth.user_id,
+        supplier_id: supplier_id,
+        
+      }, { transaction: t });
+      const stock = sequelize.literal(`stock_quantity - ${quantity}`);
+      const product_updated =  await Product.update(
+        { stock_quantity: stock },
+        {
+          where: {
+            product_id: product_id
+          },
+          transaction: t 
+        });
+      const newOrderItem = await OrderItem.create({
+        order_id: newOrder.order_id,
+        product_id,
+        quantity,
+        price,
+        lote,
+        expiration_date,
+        unit_id,
+        type_movement_id,
+        movement_type: "Out",
+        subtotal,
+        movement_id: newInventoryMovement.movement_id
+      },{ transaction: t });
+  }
+
+   
+    return { newOrder };
+  });
+   
+    res.status(201).json({ 
+      code: 1, 
+      message: "Inventory movement created successfully", 
+      content: result,
+    });
+
+  } catch (error) {
+   
+    res.status(500).json({ code: 0, message: "Error en consulta", content: error.message });
+  }
+});
 // GET all inventory movements
 router.get("/inventory_movements", async (req, res) => {
   try {
