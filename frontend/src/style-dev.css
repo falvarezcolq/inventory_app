@@ -284,6 +284,15 @@ h3{
   font-weight: 600;
 }
 
+.canceled{
+  background-color: rgb(168, 0, 0);
+  color: #f6f6f6;
+  font-size: 0.7rem !important;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 1px;
+}
+
 /*Formularios*/
 label{
   font-size: 12px;
@@ -704,6 +713,12 @@ textarea.error{
 }
 
 
+
+.type_movement_name {
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #484848;
+}
 
 /*Mobil*/
 @media only screen and (max-width: 600px){

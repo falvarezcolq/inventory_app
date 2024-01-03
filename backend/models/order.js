@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config_sequelize');
 const User = require('./user');
-const OrderItem = require('./order_item');
+
 const TypeMovement = require('./type_movement');
 
 
@@ -68,7 +68,32 @@ Order.init({
     },
     updated_by: {
         type: DataTypes.INTEGER
-    }
+    },
+    canceled: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    canceled_order_id: { 
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    canceled_text: {
+        type: DataTypes.STRING(1024),
+        allowNull: true,
+    },
+    canceled_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    canceled_by: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    supplier_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 }, {
     // Other model options go here
     sequelize, // We need to pass the connection instance
@@ -77,8 +102,8 @@ Order.init({
     updatedAt: 'updated_at',
 });
 
-
 // In your Product model definition
-Order.hasMany(OrderItem, { foreignKey: 'order_id' });
+Order.belongsTo(TypeMovement, { foreignKey: 'type_movement_id' });
+
 
 module.exports = Order;

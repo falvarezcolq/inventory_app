@@ -7,6 +7,7 @@ const InventoryMovement = require('./inventory_movement');
 
 class OrderItem extends Model {}
 
+
 OrderItem.init({
     // Model attributes are defined here
     order_item_id: {
@@ -100,8 +101,12 @@ OrderItem.init({
 // Define associations
 OrderItem.belongsTo(Product, { foreignKey: 'product_id' });
 OrderItem.belongsTo(Unit, { foreignKey: 'unit_id' });
+OrderItem.belongsTo(Order, { foreignKey: 'order_id' });
+OrderItem.hasOne(InventoryMovement, { foreignKey: 'movement_id' });
 
 // In your Product model definition
 Product.hasMany(OrderItem, { foreignKey: 'product_id' });
+Order.hasMany(OrderItem, { foreignKey: 'order_id' });
+
 
 module.exports = OrderItem;

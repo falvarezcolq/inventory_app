@@ -76,14 +76,41 @@
             v-for="(item, index) in objectList"
             :key="index"
             :class="{
-              'table-primary': item.movement_type=='In',
-              'table-success': item.movement_type=='Out',
+              'table-primary': item.movement_type=='In' && item.type_movement_id===1,
+              'table-success': item.movement_type=='Out' && item.type_movement_id===5,
+              
+              'table-secondary': item.type_movement_id===3,
+              'table-secondary': item.type_movement_id===6,
             }"
           >
             <td class="text-center">{{ item.order_id }}</td>
             <td>{{ item.nit}} </td>
             <td>{{ item.razon_social }} </td>
-            <td>{{ item.type_movement_id }} {{ item.movement_type}} </td>
+            <td>
+              <div
+               
+              >
+                <i v-if="item.movement_type=='In'"
+                  class="fa fa-arrow-down text-success"/>
+                <i v-if="item.movement_type=='Out'"
+                  class="fa fa-arrow-up text-danger"/>
+
+                <span
+                  :class="{
+                    'orange': item.type_movement_id===3,
+                    'orange': item.type_movement_id===6,
+                  }"
+                  class="type_movement_name"
+                >
+                   {{ item.type_movement.name }} 
+                </span>
+
+                <span v-if="item.canceled" class="canceled">
+                  ANULADO
+                </span>
+              </div>
+              
+            </td>
             <td>{{ item.total_items}} </td>
             <td>{{ item.total_amount}} </td>
             <td class="text-center">{{ formatDate(item.created_at) }}</td>

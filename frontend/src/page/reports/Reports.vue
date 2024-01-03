@@ -15,18 +15,19 @@
           </div>
       
       </div>
-       <div class="col-md-4">
+      <div class="col-md-4">
         <div class="card-body">
         <h5 class="card-title">Total de ventas por dia</h5>
         <p class="card-text">Muestra el total de ventas por dia</p>
         <button  class="btn btn-primary" @click="report_sales" >Ver Reporte </button>
       </div>
+
       </div>
        <div class="col-md-4">
         <div class="card-body">
         <h5 class="card-title">Balance ventas</h5>
         <p class="card-text">Muestra la diferencia del total invertido y total vendido.</p>
-        <a href="#" class="btn btn-primary" >Ver Reporte </a>
+        <button href="#" class="btn btn-primary"  @click="report_balance" >Ver Reporte </button>
       </div>
       </div>
     </div>
@@ -301,6 +302,12 @@ export default {
       })
     }
 
+    const report_balance = ()=>{
+      router.push({
+        path:'report_balance'
+      })
+    }
+
     return {
       formatDate,
       Search,
@@ -323,6 +330,7 @@ export default {
       roleList,
       report_purchase,
       report_sales,
+      report_balance,
     };
   },
 };

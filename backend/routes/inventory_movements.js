@@ -9,6 +9,8 @@ const Product = require("../models/product.js");
 const { validarJWT } = require("../middlewares/validar_jwt.js");
 const conexionPG = require("../config/config_pg.js");
 const Supplier = require("../models/supplier.js");
+const OrderItems = require("../models/order_item.js");
+const Unit = require("../models/unit.js");
 
 
 // CREATE a new inventory movement
@@ -159,42 +161,64 @@ router.post("/out",[validarJWT], async (req, res) => {
   }
 });
 
-router.post("/out_cancel",[validarJWT], async (req, res) => {
+router.post("/out_canceled",[validarJWT], async (req, res) => {
   try {
-    const { order_id, userauth } = req.body; 
+    const { order_id, text ,userauth } = req.body; 
     const type_movement_id = 5; // out sale
+    const type_movement_id_in = 3; //  RETURN OF GOODS FROM CUSTOMER
     
-    const order = await Order.findOne({ where: { order_id: order_id, type_movement_id:type_movement_id} });
+    const order = await Order.findOne(
+      { where: { 
+              order_id: order_id, 
+              type_movement_id:type_movement_id,
+              canceled: false,
+            },
+        include: [{
+          model: OrderItems,
+          // attributes: ['order_item_id', 'order_id', 'product_id', 'unit_id', 'quantity', 'price', 'subtotal'],
+          include: [{
+              model: Product,
+              attributes: ['product_id', 'name']
+          },
+          {
+              model: Unit,
+              attributes: ['unit_id', 'abbreviation',]
+          }]
+      }]
+       }
+    );
     
-    const result = await sequelize.transaction(async (t) => {
-   
+  if(order){
+
+  const result = await sequelize.transaction(async (t) => {
+    
     const newOrder = await Order.create({
-      supplier_id,
-      nit: supplier.nit,
-      razon_social: supplier.razon_social,
-      order_date,
-      type_movement_id,
-      movement_type: "Out",
-      total_amount: total,
+      supplier_id:order.supplier_id,
+      nit: order.nit,
+      razon_social: order.razon_social,
+      order_date: order.order_date,
+      type_movement_id:type_movement_id_in,
+      movement_type: "In",
+      total_amount: order.total_amount,
       user_id: userauth.user_id,
-      total_items: items.length,
+      total_items: order.order_items.length,
     },{ transaction: t });
 
-    for(let i = 0; i < items.length; i++){
-      const {  product_id,  quantity, purchase_price, price, lote, expiration_date, unit_id, stock_quantity,subtotal} = items[i];
+    for(let i = 0; i < order.order_items.length; i++){
+      const {  product_id,  quantity,  price, lote, expiration_date, unit_id,subtotal} = order.order_items[i];
      
       const product = await Product.findOne({ where: { product_id: product_id } });
       const newInventoryMovement = await InventoryMovement.create({
         product_id,
         quantity,
-        balance: product.stock_quantity - quantity,
-        type_movement_id,
-        movement_type: "Out",
+        balance: product.stock_quantity + quantity,
+        type_movement_id:type_movement_id_in,
+        movement_type: "In",
         user_id: userauth.user_id,
-        supplier_id: supplier_id,
+        supplier_id: order.supplier_id,
         
       }, { transaction: t });
-      const stock = sequelize.literal(`stock_quantity - ${quantity}`);
+      const stock = sequelize.literal(`stock_quantity + ${quantity}`);
       const product_updated =  await Product.update(
         { stock_quantity: stock },
         {
@@ -211,21 +235,40 @@ router.post("/out_cancel",[validarJWT], async (req, res) => {
         lote,
         expiration_date,
         unit_id,
-        type_movement_id,
-        movement_type: "Out",
+        type_movement_id:type_movement_id_in,
+        movement_type: "In",
         subtotal,
         movement_id: newInventoryMovement.movement_id
       },{ transaction: t });
   }
 
+  const order_updated =  await Order.update(
+    { canceled: true,
+      canceled_text: text,
+      canceled_order_id: newOrder.order_id,
+      canceled_at: new Date(),
+      canceled_by: userauth.user_id,
+    },
+    {
+      where: {
+        order_id: order_id
+      },
+      transaction: t 
+    });
+  
    
     return { newOrder };
   });
+  }
+
+    
+    
+  
    
     res.status(201).json({ 
       code: 1, 
-      message: "Inventory movement created successfully", 
-      content: result,
+      message: "out canceled successfully", 
+      content: order,
     });
 
   } catch (error) {

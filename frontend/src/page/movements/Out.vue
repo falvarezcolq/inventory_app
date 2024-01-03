@@ -67,6 +67,7 @@
 
                   <div>
                    <multiselect v-model="value" 
+                 
                    track-by="name" 
                    label="name" 
                    placeholder="Elije uno" 
@@ -597,11 +598,11 @@ export default {
     };
 
     let Clear = () => {
-      // search.value = {
-      //   barcode: "",
-      //   product_id:null,
-      //   quantity:1,
-      // };
+      search.value = {
+        barcode: "",
+        product_id:null,
+        quantity:1,
+      };
       objectList.value = [];
     };
 
@@ -895,7 +896,7 @@ export default {
     const saveOut = async ()=>{
       try {
         if( await validateIn()){
-          Mensaje.Confirmar("¿Esta seguro de registrar la salida?",async ()=>{
+          Mensaje.Confirmar("Esta suguro de registrar la salida?",async ()=>{
            
              isLoading.value = true;
             let data = {
@@ -905,7 +906,7 @@ export default {
               total:tot.value,
             }
             await api.post('/out',data).then((response)=>{
-              Mensaje.success("Registrado correctamente");
+              Mensaje.success("Registrado");
               objectList.value.map((item)=>{
                   item.stock_quantity_init = item.stock_quantity;
               });

@@ -128,7 +128,12 @@ const routes = [
     name:'report_sales',
     component: ()=> import('@/page/reports/ReportsSales.vue'),
     meta: {layout: 'default', requiresAuth:true }
-
+  },
+  {
+    path:'/report_balance',
+    name:'report_balance',
+    component: ()=> import('@/page/reports/ReportsBalance.vue'),
+    meta: {layout: 'default', requiresAuth:true }
   },
   {
     path: '/datosadicionales',

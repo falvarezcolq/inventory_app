@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config_sequelize');
 
+
 class TypeMovement extends Model {}
 
 TypeMovement.init({
@@ -44,5 +45,6 @@ TypeMovement.init({
     createdAt: 'created_at',
     updatedAt: 'updated_at',
 });
+
 
 module.exports = TypeMovement;

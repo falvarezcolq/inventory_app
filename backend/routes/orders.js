@@ -9,6 +9,7 @@ const Orders = require("../models/order.js");
 const OrderItems = require("../models/order_item.js");
 const Product = require("../models/product.js");
 const Unit = require("../models/unit.js");
+const TypeMovement = require("../models/type_movement.js");
 
 // GET all orders
 router.get("/orders", async (req, res) => {
@@ -32,13 +33,17 @@ router.get("/orders", async (req, res) => {
             limit: parseInt(limit),
             offset: parseInt(offset),
             order: [["order_id", "DESC"]],
-            // order: [["order_date", "ASC"]]
+            include: {
+               model: TypeMovement,
+               attributes: ['type_movement_id', 'movement_type','name']
+            },
+
             
         });
         const serializedOrders = orders.rows.map(order => serialize(order));
         res.status(200).json({ code: 1, message: "OK", content: serializedOrders, total: orders.count });
     } catch (error) {
-        res.status(500).json({ code: 0, message: "Error en consulta", content: "" });
+        res.status(500).json({ code: 0, message: "Error en consulta", content: error.message });
     }
 });
 
@@ -54,6 +59,8 @@ function serialize(order) {
         type_movement_id: order.type_movement_id,
         movement_type: order.movement_type,
         total_items: order.total_items,
+        type_movement: order.type_movement,
+        canceled: order.canceled,
        
     };
 }
